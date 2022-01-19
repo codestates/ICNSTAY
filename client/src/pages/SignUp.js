@@ -59,6 +59,7 @@ const SignUp = () => {
     };
     try {
       const response = await axios.post('/signup', { userInformation });
+      console.log(response)
       if (response.message === 'sign-up ok') {
         history.push('/signin');
       } else if (response.message === 'email exist') {
