@@ -20,6 +20,9 @@ module.exports = {
       checkOutDate: {
         type: Sequelize.STRING
       },
+      biddingPrice: {
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
