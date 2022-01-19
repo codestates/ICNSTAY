@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+
 import logo from '../data/logo.png';
 
-// CSS
 const HeaderContainer = styled.header`
   height: 50px;
   width: 100%;
@@ -43,7 +43,7 @@ const Header = ({ isLoggedIn }) => {
       <ButtonContainer>
         {isLoggedIn ? (
           <>
-            <StyledLink to="/mypage/userInfo">
+            <StyledLink to="/userInfo">
               <Button>MY PAGE</Button>
             </StyledLink>
             <StyledLink to="/signout">
