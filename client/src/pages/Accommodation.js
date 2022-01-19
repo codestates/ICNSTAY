@@ -1,13 +1,42 @@
 import styled from 'styled-components';
-import { AccommodationImage, AccomodationInfo, AccommodationDesc } from '../components'
+import AccommodationDesc from '../components/AccomodationDesc';
+import AccommodationImage from '../components/AccomodationImage';
+import AccommodationInfo from '../components/AccomodationInfo';
 
+const MainContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  flex: 1 0 0;
+`;
+
+const UpperContainer = styled.div`
+  border-bottom: 1px solid;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  margin-bottom: 0.5rem;
+  align-items: center;
+`;
+
+const LowerContainer = styled.div`
+  border-bottom: 1px solid;
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: center;
+`;
 
 const Accommodation = () => {
   return (
     <MainContainer>
-      <AccommodationImage></AccommodationImage>
-      <AccomodationInfo></AccomodationInfo>
-      <AccommodationDesc></AccommodationDesc>
+      <UpperContainer>
+        <AccommodationImage />
+        <AccommodationDesc />
+      </UpperContainer>
+      <LowerContainer>
+        <AccommodationInfo />
+      </LowerContainer>
     </MainContainer>
   );
 };
