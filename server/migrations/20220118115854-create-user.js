@@ -20,6 +20,10 @@ module.exports = {
       mobile: {
         type: Sequelize.STRING
       },
+      social: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

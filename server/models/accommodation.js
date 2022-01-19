@@ -15,9 +15,9 @@ module.exports = (sequelize, DataTypes) => {
   }
   accommodation.init({
     name: DataTypes.STRING,
-    loaction: DataTypes.STRING,
+    location: DataTypes.STRING,
     description: DataTypes.STRING,
-    price: DataTypes.STRING
+    minPrice: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'accommodation',

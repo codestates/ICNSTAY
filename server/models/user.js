@@ -19,9 +19,9 @@ module.exports = (sequelize, DataTypes) => {
     password: DataTypes.STRING,
     mobile: DataTypes.STRING,
     social: {
-      DataTypes: STRING,
+      type: DataTypes.STRING,
       allowNull: true
-    }
+    },
   }, {
     sequelize,
     modelName: 'user',

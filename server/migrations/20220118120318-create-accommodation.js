@@ -11,13 +11,13 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
-      loaction: {
+      location: {
         type: Sequelize.STRING
       },
       description: {
         type: Sequelize.STRING
       },
-      price: {
+      minPrice: {
         type: Sequelize.STRING
       },
       createdAt: {
