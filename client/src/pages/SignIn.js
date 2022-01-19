@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
 import logo from '../data/logo.png';
 import kakaoIcon from '../data/kakaoIcon.png';
 import { sha256 } from 'js-sha256';
-
+import axios from 'axios'
 const KakaoIcon = styled.img.attrs({
   src: `${kakaoIcon}`,
 })`
@@ -97,16 +97,15 @@ const ErrorMessageBox = styled.div`
 axios.defaults.withCredentials = true;
 
 const SignIn = () => {
-  const [isLogin, setIslogin] = useState(false);
+  const navigate = useNavigate();
   const [loginInfo, setLoginInfo] = useState({
     email: '',
     password: '',
   });
   const [errorMessage, setErrorMessage] = useState('');
   const { email, password } = loginInfo;
-  // if (!email || !password) {
-  //   setErrorMessage('이메일과 비밀번호를 입력하세요');
-  // }
+  const [isLogin, setIslogin] = useState(false)
+
   const handleInputValue = (key) => (e) => {
     setLoginInfo({ ...loginInfo, [key]: e.target.value });
   };
@@ -131,7 +130,8 @@ const SignIn = () => {
     });
     if (signInRequest) {
       setIslogin(true);
-      console.log(signInRequest)
+      navigate('/')
+      console.log(signInRequest);
     }
   };
 
