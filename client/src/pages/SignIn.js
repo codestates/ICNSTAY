@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import styled, { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle } from 'styled-components';
 import logo from '../data/logo.png';
 import kakaoIcon from '../data/kakaoIcon.png';
 
@@ -20,7 +20,7 @@ const LayOut = styled.div`
   height: 100vh;
   width: 100vw;
   border: 1px dotted red;
-  position: relative
+  position: relative;
 `;
 
 const LoginContainer = styled.div`
@@ -43,8 +43,8 @@ const LoginIdInput = styled.input`
   border-radius: 5px;
 `;
 
-const LoginPasswordInput = styled.input.attrs(props => ({
-  type: 'password'
+const LoginPasswordInput = styled.input.attrs((props) => ({
+  type: 'password',
 }))`
   width: 400px;
   font-size: 1.1rem;
@@ -99,7 +99,7 @@ const SignIn = () => {
   const [isLogin, setIslogin] = useState(false);
   const [loginInfo, setLoginInfo] = useState({
     email: '',
-    password: ''
+    password: '',
   });
   const [errorMessage, setErrorMessage] = useState('');
   const { email, password } = loginInfo;
@@ -111,65 +111,62 @@ const SignIn = () => {
   };
 
   const handleLoginButton = async () => {
-    console.log('login button clicked')
-    let regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
+    console.log('login button clicked');
+    let regEmail =
+      /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
     if (!regEmail.test(email)) {
       // alert('유효하지 않은 이메일 형식입니다. 올바른 이메일을 입력해주십시오')
-      setErrorMessage('올바른 이메일 형식이 아닙니다!')
+      setErrorMessage('올바른 이메일 형식이 아닙니다!');
     } else {
-      setErrorMessage('')
+      setErrorMessage('');
     }
     if (!email || !password) {
-      setErrorMessage('이메일과 비밀번호를 입력하세요!')
+      setErrorMessage('이메일과 비밀번호를 입력하세요!');
     }
-    const signInRequest = await axios.post(
-      'https://localhost:4000/signin',
-      {
-        email, 
-        password
-      });
+    console.log(email, password);
+    const signInRequest = await axios.post('/signin', {
+      email,
+      password,
+    });
     if (signInRequest) {
       setIslogin(true);
     }
-  }
+  };
 
   const handleSocialLoginButton = () => {
-    console.log('social login button clicked')
-  }
+    console.log('social login button clicked');
+  };
 
   return (
     <div>
       <LayOut>
         <LoginContainer>
           <Logo src={logo} />
-          <br/>
-          <LoginIdInput 
-            placeholder="email" 
-            onChange={handleInputValue('email')} 
-            color={errorMessage !== '올바른 이메일 형식이 아닙니다!'? 'black': 'red'} 
-            thickness={errorMessage !== '올바른 이메일 형식이 아닙니다!'? '1px': '3px'}
+          <br />
+          <LoginIdInput
+            placeholder="email"
+            onChange={handleInputValue('email')}
+            color={errorMessage !== '올바른 이메일 형식이 아닙니다!' ? 'black' : 'red'}
+            thickness={errorMessage !== '올바른 이메일 형식이 아닙니다!' ? '1px' : '3px'}
           />
-          <br/>
+          <br />
           <LoginPasswordInput placeholder="password" onChange={handleInputValue('password')} />
-          <br/>
-          <LoginButton onClick={handleLoginButton}>
-          sign in
-          </LoginButton>
-          <br/>
+          <br />
+          <LoginButton onClick={handleLoginButton}>sign in</LoginButton>
+          <br />
 
-          {errorMessage !== ''? <ErrorMessageBox>{errorMessage}</ErrorMessageBox> : null}
+          {errorMessage !== '' ? <ErrorMessageBox>{errorMessage}</ErrorMessageBox> : null}
           <SignUpLink>
-          <Link to='/signup'>sign up</Link>
+            <Link to="/signup">sign up</Link>
           </SignUpLink>
           <SocialLoginButton onClick={handleSocialLoginButton}>
             <KakaoIcon />
-            &nbsp;&nbsp;&nbsp;sign in with kakao 
+            &nbsp;&nbsp;&nbsp;sign in with kakao
           </SocialLoginButton>
         </LoginContainer>
       </LayOut>
     </div>
-  )
-
+  );
 };
 
 export default SignIn;
