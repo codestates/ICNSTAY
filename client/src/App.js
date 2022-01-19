@@ -4,6 +4,8 @@ import Home from './pages/Home';
 import Mypage from './pages/Mypage';
 import SignUp from './pages/SignUp';
 import SignIn from './pages/SignIn';
+import Accommodation from './pages/Accommodation';
+
 
 function App() {
   return (
@@ -14,6 +16,7 @@ function App() {
         <Route path="/userinfo" element={<Mypage />}></Route>
         <Route path="/signup" element={<SignUp />}></Route>
         <Route exact path="/signin" element={<SignIn />}></Route>
+        <Route path="/:id" element={<Accommodation />}></Route>
       </Routes>
     </BrowserRouter>
   );
