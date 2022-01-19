@@ -32,7 +32,7 @@ const SignUp = () => {
   // Event handlers
   const handleChangeEmail = (event) => {
     setEmail(event.target.value);
-    isValidEmailFromat(event.target.value) ? setIsValidEmail(true) : setIsValidEmail(false);
+    isValidEmailFormat(event.target.value) ? setIsValidEmail(true) : setIsValidEmail(false);
   };
   const handleChangeName = (event) => {
     setName(event.target.value);
@@ -46,7 +46,7 @@ const SignUp = () => {
   };
   const handleChangeMobile = (event) => {
     setMobile(event.target.value);
-    isValidMobileFromat(event.target.value) ? setIsValidMobile(true) : setIsValidMobile(false);
+    isValidMobileFormat(event.target.value) ? setIsValidMobile(true) : setIsValidMobile(false);
   };
   const handleSignupSubmit = async () => {
     const userInformation = {
@@ -69,11 +69,11 @@ const SignUp = () => {
     };
   };
   // Validation check
-  const isValidEmailFromat = (string) => {
+  const isValidEmailFormat = (string) => {
     let format = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$');
     return format.test(string); 
   };
-  const isValidMobileFromat = (string) => {
+  const isValidMobileFormat = (string) => {
     let format = new RegExp('^01([0|1|6|7|8|9])-([0-9]{4})-([0-9]{4})$');
     return format.test(string); 
   };
