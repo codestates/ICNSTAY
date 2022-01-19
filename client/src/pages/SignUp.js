@@ -14,6 +14,7 @@ const SignUpContainer = styled.div`
   transform: translate(-50%, -50%);
   padding: 0.8rem;
   z-index: 2;
+
   .inValidInput {
     border-color: red;
   }
