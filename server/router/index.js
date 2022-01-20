@@ -15,3 +15,7 @@ rounter.get( '/:id', accommodation.detail );
 rounter.post( '/:id', accommodation.book );
 
 module.exports = rounter;
+
+
+
+
