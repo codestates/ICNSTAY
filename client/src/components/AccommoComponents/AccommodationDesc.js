@@ -47,6 +47,7 @@ const AccommodationDesc = () => {
       <div>Price :</div>
       <div>Bidding ends at :</div>
       <div>Minimum Price :</div>
+      <div>Highest Bidding :</div>
       <div>
       <div>Bidding Price :</div>
       <input 
@@ -55,7 +56,7 @@ const AccommodationDesc = () => {
         onChange={handleChangeBiddingPrice}
       />
       </div>
-      <div><button onClick={openCalendarModule}>Check-in/ Check-out</button></div>
+      <div><button onClick={openCalendarModule}>{checkOutDate? `Check-in : ${checkInDate} Check-out : ${checkOutDate}`: 'Check-in/ Check-out'}</button></div>
       {openModal ?
         <CalendarModule 
           handleCheckInDate={handleCheckInDate} 

@@ -48,7 +48,7 @@ const CalendarModule = ({ handleCheckInDate, handleCheckOutDate, checkInDate, ch
   <ModalBackground>
     <ModalContainer>
       <ModalContent>
-        Choose Date
+        Choose Dates
         <span><FontAwesomeIcon icon={faTimes} onClick={openCalendarModule}/></span>      
       </ModalContent>
       <CalendarContainer>
