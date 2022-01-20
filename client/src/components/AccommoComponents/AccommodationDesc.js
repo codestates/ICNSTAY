@@ -1,11 +1,9 @@
 import styled from 'styled-components';
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
+import CalendarModule from '../CalendarModule';
 
 const MainContainer = styled.div`
   padding: 1rem;
 `;
-
 
 const AccommodationDesc = () => {
   return (
@@ -16,10 +14,7 @@ const AccommodationDesc = () => {
       <div>Minimum Bidding :</div>
       <div>
       <div>Date :</div>
-      <Calendar
-        onChange=''
-        value=''
-      />
+      <CalendarModule />
       </div>
       <button>Place a bid</button>
     </MainContainer>

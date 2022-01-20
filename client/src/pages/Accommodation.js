@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import AccommodationDesc from '../components/AccommoComponents/AccomodationDesc';
-import AccommodationImage from '../components/AccommoComponents/AccomodationImage';
-import AccommodationInfo from '../components/AccommoComponents/AccomodationInfo';
+import AccommodationDesc from '../components/AccommoComponents/AccommodationDesc';
+import AccommodationImage from '../components/AccommoComponents/AccommodationImage';
+import AccommodationInfo from '../components/AccommoComponents/AccommodationInfo';
 
 const MainContainer = styled.div`
   display: flex;
