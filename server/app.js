@@ -13,7 +13,7 @@ const clientUrl = process.env.CLIENT_URL || 'https://loacalhost:3000';
 app.use( express.json() );
 app.use( express.urlencoded({ extended: false }) );
 app.use( cors({
-  origin: clientUrl,
+  origin: clientUrl, 
   credentials: true,
   methods: '*'
 }) );
