@@ -1,8 +1,9 @@
 import { sha256 } from 'js-sha256';
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import SuccessModal from '../components/SuccessModal';
 
 const SignUpContainer = styled.div`
   border: 1px solid gray;
@@ -50,24 +51,27 @@ const SignUp = () => {
     setMobile(event.target.value);
     isValidMobileFormat(event.target.value) ? setIsValidMobile(true) : setIsValidMobile(false);
   };
+  const handleSuccessModal = () => {
+    history('/signin');
+  }
   const handleSignupSubmit = async () => {
     const userInformation = {
       email: email,
-      name: name,
+      username: name,
       password: sha256(password),
       mobile: mobile,
     };
     try {
-      const response = await axios.post('/signup', { userInformation });
-      if (response.message === 'sign-up ok') {
-        history.push('/signin');
-      } else if (response.message === 'email exist') {
-        setIsValidName(false);
-      } else if (response.message === 'name exist') {
-        setIsValidName(false);
+      const response = await axios.post('/signup', userInformation);
+      if (response.status === 201) {
+        setOpenSuccessModal(true);
       }
     } catch (err) {
-      console.log(err);
+      if (err.response.status === 409) {
+        setIsUniqueEmail(false);
+      } else if (err.response.status === 422) {
+        console.log('Insufficient parameters')
+      }
     }
   };
   // Validation check
@@ -85,9 +89,9 @@ const SignUp = () => {
   const [isValidEmail, setIsValidEmail] = useState(true);
   const [isValidMobile, setIsValidMobile] = useState(true);
   const [isValidPassword, setIsValidPassword] = useState(true);
-  const [isValidName, setIsValidName] = useState(true);
   const [isUniqueEmail, setIsUniqueEmail] = useState(true);
   const [isReady, setIsReady] = useState(true);
+  const [openSuccessModal, setOpenSuccessModal] = useState(false);
 
   useEffect(() => {
     if (
@@ -156,11 +160,11 @@ const SignUp = () => {
           Submit
         </button>
       </p>
-      {isValidName ? '' : <div>다른 사용자가 이용중인 이름입니다.</div>}
       {isUniqueEmail ? '' : <div>이미 등록된 Email입니다.</div>}
       <p>
         Already have an account? <a href="/">Sign in</a>.
       </p>
+      {openSuccessModal ? <SuccessModal handleSuccessModal={handleSuccessModal}/>: ''}
     </SignUpContainer>
   );
 };
