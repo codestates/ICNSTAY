@@ -1,10 +1,24 @@
 const jwt = require('jsonwebtoken');
-const { user } = require('../../models');
+const { user } = require('../../models')
 
 module.exports = {
-  get: (req, res) => {
-    res.status(200).json('userInfo get');
+  get: async ( req, res ) => {
+    if ( req.cookies.accessToken ) {
+      const tokenDecoder = jwt.verify(req.cookies.accessToken, process.env.ACCESS_SECRET)
+      const { createdAt, updatedAt, iat, exp, ...userInfo} = tokenDecoder;
+      const userFinder = await user.findOne({
+        where: { id : userInfo.id }
+      })
+      if ( !userFinder ) {
+        res.status(404).json({ message: 'email not exist', data: null })
+      }else {
+        res.status(200).json(userInfo);
+      }
+    } else {
+      res.status(401).json({ message: 'invaild access token' })
+    }
   },
+
   post: async (req, res) => {
     if( req.body.password || req.body.mobile || req.body.username ) {
       const tokenDecoder = jwt.verify(req.cookies.accessToken, process.env.ACCESS_SECRET);
@@ -39,7 +53,7 @@ module.exports = {
       res.status(422).json({ message: 'insufficient parameters supplied' })
     }
   },
-  delete: (req, res) => {
+  delete: ( req, res ) => {
     res.status(200).json('userInfo delete');
   }
 }
