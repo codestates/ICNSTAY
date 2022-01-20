@@ -17,7 +17,8 @@ module.exports = (sequelize, DataTypes) => {
     userId: DataTypes.INTEGER,
     accommodationId: DataTypes.INTEGER,
     checkInDate: DataTypes.STRING,
-    checkOutDate: DataTypes.STRING
+    checkOutDate: DataTypes.STRING,
+    biddingPrice: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'user_accommodation',

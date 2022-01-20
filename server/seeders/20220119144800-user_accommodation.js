@@ -11,78 +11,78 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    await queryInterface.bulkInsert( 'users', [
+    await queryInterface.bulkInsert('user_accommodations', [
       {
         id: 1,
-        username: 'tia',
-        email: 'tia@code.com',
-        password: '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4',
-        mobile: '010-0000-0000',
-        social: null,
+        userId: 1,
+        accommodationId: 1,
+        checkInDate: '1월 19일(수)',
+        checkOutDate: '1월 21일(금)',
+        biddingPrice: '200,000원',
         createdAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
         updatedAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
       },
       {
         id: 2,
-        username: 'jin',
-        email: 'jin@code.com',
-        password: '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4',
-        mobile: '010-0000-0000',
-        social: null,
+        userId: 1,
+        accommodationId: 2,
+        checkInDate: '1월 17일(월)',
+        checkOutDate: '1월 21일(금)',
+        biddingPrice: '400,000원',
         createdAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
         updatedAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
       },
       {
         id: 3,
-        username: 'sean',
-        email: 'sean@code.com',
-        password: '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4',
-        mobile: '010-0000-0000',
-        social: null,
+        userId: 2,
+        accommodationId: 2,
+        checkInDate: '1월 20일(목)',
+        checkOutDate: '1월 23일(일)',
+        biddingPrice: '450,000원',
         createdAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
         updatedAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
       },
       {
         id: 4,
-        username: 'ho',
-        email: 'ho@code.com',
-        password: '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4',
-        mobile: '010-0000-0000',
-        social: null,
+        userId: 1,
+        accommodationId: 9,
+        checkInDate: '1월 19일(수)',
+        checkOutDate: '1월 21일(금)',
+        biddingPrice: '150,000원',
         createdAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
         updatedAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
       },
       {
         id: 5,
-        username: 'min',
-        email: 'min@code.com',
-        password: '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4',
-        mobile: '010-0000-0000',
-        social: null,
+        userId: 3,
+        accommodationId: 5,
+        checkInDate: '1월 20일(목)',
+        checkOutDate: '1월 23일(일)',
+        biddingPrice: '450,000원',
         createdAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
         updatedAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
       },
       {
         id: 6,
-        username: 'dubu',
-        email: 'dubu@kakao.com',
-        password: '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4',
-        mobile: '010-0000-0000',
-        social: 'kakao',
+        userId: 3,
+        accommodationId: 2,
+        checkInDate: '1월 20일(목)',
+        checkOutDate: '1월 23일(일)',
+        biddingPrice: '500,000원',
         createdAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
         updatedAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
       },
       {
         id: 7,
-        username: 'louis',
-        email: 'louis@kakao.com',
-        password: '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4',
-        mobile: '010-0000-0000',
-        social: 'kakao',
+        userId: 2,
+        accommodationId: 2,
+        checkInDate: '1월 20일(목)',
+        checkOutDate: '1월 23일(일)',
+        biddingPrice: '550,000원',
         createdAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
         updatedAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
       }
-    ], {})
+    ], {});
   },
 
   async down (queryInterface, Sequelize) {
@@ -92,6 +92,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete('user', null, {})
+    await queryInterface.bulkDelete('user_accommodations', null, {});
   }
 };

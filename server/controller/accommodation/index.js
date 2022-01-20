@@ -1,5 +1,5 @@
 module.exports = {
-  book: require( './bid' ),
+  bid: require( './bid' ),
   detail: require( './detail' ),
   list: require( './list' )
 }

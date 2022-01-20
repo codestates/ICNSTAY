@@ -1,3 +1,6 @@
 module.exports = (req, res) => {
-  res.status(200).json('get list')
+  res.status(200).json('get list');
 }
+
+
+// 

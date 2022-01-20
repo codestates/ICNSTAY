@@ -33,7 +33,11 @@ const Sidebar = () => {
         <Item>MY PAGE</Item>
       </StyledLink>
       <StyledLink to="/biddinglist">
+<<<<<<< HEAD
         <Item>BOOKING LIST</Item>
+=======
+        <Item>BDIDING LIST</Item>
+>>>>>>> 7f4a1a99de00dcdc9296fab0dd2d5729b9674389
       </StyledLink>
     </ItemContainer>
   );
