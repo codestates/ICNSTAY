@@ -8,7 +8,7 @@ dotenv.config();
 const app = express();
 const router = require('./router');
 
-const clientUrl = process.env.CLIENT_URL || 'https://loacalhost:3000';
+const clientUrl = process.env.CLIENT_URL || 'https://localhost:3000';
 
 app.use( express.json() );
 app.use( express.urlencoded({ extended: false }) );
