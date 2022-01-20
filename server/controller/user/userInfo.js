@@ -4,14 +4,13 @@ const { user } = require('../../models')
 module.exports = {
   get: async ( req, res ) => {
     if ( req.cookies.accessToken ) {
-      const { id } = jwt.verify(req.cookies.accessToken, process.env.ACCESS_SECRET)
+      const userInfo = jwt.verify(req.cookies.accessToken, process.env.ACCESS_SECRET)
       const userFinder = await user.findOne({
-        where: { id }
+        where: { id : userInfo.id }
       })
       if ( !userFinder ) {
         res.status(404).json({ message: 'email not exist', data: null })
       }else {
-        const { password, createdAt, updatedAt, ...userInfo } = userFinder.dataValues;
         res.status(200).json(userInfo);
       }
     } else {
