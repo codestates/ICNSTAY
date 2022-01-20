@@ -12,6 +12,6 @@ rounter.get( '/biddingList', user.biddingList );
 
 rounter.get( '/', accommodation.list );
 rounter.get( '/:id', accommodation.detail );
-rounter.post( '/:id', accommodation.book );
+rounter.post( '/:id', accommodation.bid );
 
 module.exports = rounter;
