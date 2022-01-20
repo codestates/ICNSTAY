@@ -12,6 +12,7 @@ rounter.get( '/biddingList', user.biddingList );
 
 rounter.get( '/', accommodation.list );
 rounter.get( '/:id', accommodation.detail );
+rounter.post( '/:id', accommodation.bid );
 rounter.post( '/:id', accommodation.book ); // 추후 수정 필요: 코딩 위치가 user.router 위로 올라가면 경로 꼬임
 
 module.exports = rounter;
