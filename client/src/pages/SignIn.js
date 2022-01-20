@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
-import styled, { createGlobalStyle } from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 import logo from '../data/logo.png';
 import kakaoIcon from '../data/kakaoIcon.png';
-
+import { sha256 } from 'js-sha256';
+import axios from 'axios'
 const KakaoIcon = styled.img.attrs({
   src: `${kakaoIcon}`,
 })`
@@ -96,16 +97,15 @@ const ErrorMessageBox = styled.div`
 axios.defaults.withCredentials = true;
 
 const SignIn = () => {
-  const [isLogin, setIslogin] = useState(false);
+  const navigate = useNavigate();
   const [loginInfo, setLoginInfo] = useState({
     email: '',
     password: '',
   });
   const [errorMessage, setErrorMessage] = useState('');
   const { email, password } = loginInfo;
-  // if (!email || !password) {
-  //   setErrorMessage('이메일과 비밀번호를 입력하세요');
-  // }
+  const [isLogin, setIslogin] = useState(false) // 나중에 리덕스 패턴 적용하면 없앨 거지만 일단 임시로 로그인 스테이트를 추가함
+
   const handleInputValue = (key) => (e) => {
     setLoginInfo({ ...loginInfo, [key]: e.target.value });
   };
@@ -126,10 +126,13 @@ const SignIn = () => {
     console.log(email, password);
     const signInRequest = await axios.post('/signin', {
       email,
-      password,
+      password: sha256(password),
     });
-    if (signInRequest) {
+   
+    if (signInRequest.status === 200) { // 로그인에 성공했을 때 
+      console.log(signInRequest) //포스트 요청 바디가 제대로 들어갔는지 확인
       setIslogin(true);
+      navigate('/');
     }
   };
 
