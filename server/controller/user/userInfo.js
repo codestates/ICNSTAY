@@ -4,7 +4,8 @@ const { user } = require('../../models')
 module.exports = {
   get: async ( req, res ) => {
     if ( req.cookies.accessToken ) {
-      const userInfo = jwt.verify(req.cookies.accessToken, process.env.ACCESS_SECRET)
+      const tokenDecoder = jwt.verify(req.cookies.accessToken, process.env.ACCESS_SECRET)
+      const { createdAt, updatedAt, iat, exp, ...userInfo} = tokenDecoder;
       const userFinder = await user.findOne({
         where: { id : userInfo.id }
       })
