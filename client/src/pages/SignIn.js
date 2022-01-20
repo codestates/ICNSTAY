@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import styled, { createGlobalStyle } from 'styled-components';
+import styled from 'styled-components';
 import logo from '../data/logo.png';
 import kakaoIcon from '../data/kakaoIcon.png';
 import { sha256 } from 'js-sha256';
@@ -104,7 +104,7 @@ const SignIn = () => {
   });
   const [errorMessage, setErrorMessage] = useState('');
   const { email, password } = loginInfo;
-  const [isLogin, setIslogin] = useState(false)
+  const [isLogin, setIslogin] = useState(false) // 나중에 리덕스 패턴 적용하면 없앨 거지만 일단 임시로 로그인 스테이트를 추가함
 
   const handleInputValue = (key) => (e) => {
     setLoginInfo({ ...loginInfo, [key]: e.target.value });
@@ -128,10 +128,11 @@ const SignIn = () => {
       email,
       password: sha256(password),
     });
-    if (signInRequest) {
+   
+    if (signInRequest.status === 200) { // 로그인에 성공했을 때 
+      console.log(signInRequest) //포스트 요청 바디가 제대로 들어갔는지 확인
       setIslogin(true);
-      navigate('/')
-      console.log(signInRequest);
+      navigate('/');
     }
   };
 
