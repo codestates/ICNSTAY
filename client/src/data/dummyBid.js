@@ -1,6 +1,7 @@
 const dummyBid = [
   {
     id: 1,
+    userId: 1,
     username: 'tia',
     name: 'hotel deluna',
     checkInDate: '1월 19일(수)',
@@ -11,6 +12,7 @@ const dummyBid = [
   },
   {
     id: 2,
+    userId: 1,
     username: 'tia',
     name: 'hyri minbak',
     checkInDate: '1월 17일(월)',
@@ -21,6 +23,7 @@ const dummyBid = [
   },
   {
     id: 4,
+    userId: 1,
     username: 'tia',
     name: 'ssanbang',
     checkInDate: '1월 19일(수)',
