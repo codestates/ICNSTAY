@@ -6,10 +6,12 @@ import SignUp from './pages/SignUp';
 import SignIn from './pages/SignIn';
 import Accommodation from './pages/Accommodation';
 import BiddingList from './pages/BiddingList';
+import GlobalStyle from './styles/GlobalStyle';
 
 function App() {
   return (
     <BrowserRouter>
+      <GlobalStyle />
       <Header isLoggedIn={true} />
       <Routes>
         <Route exact path="/" element={<Home />}></Route>
