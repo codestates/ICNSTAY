@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import axios from 'axios';
 import Sidebar from '../components/Sidebar';
 import List from '../components/List';
 import dummyBid from '../data/dummyBid';
@@ -24,9 +25,22 @@ const Message = styled.div`
 `;
 
 // TODO: 더미데이터 사용 후 추후 수정
-const bids = dummyBid.filter((el) => el.username === 'tia');
+const bids = dummyBid.filter((el) => el.userId === 1);
+
+// const getBiddingList = async () => {
+//   try {
+//     const response = await axios.get(`/biddinglist`);
+//     const { dummyBid } = response.data.data;
+//     console.log(dummyBid);
+//     if (response.status === 200) {
+//     }
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
 
 const BiddingList = () => {
+  // const data = getBiddingList();
   return (
     <Container>
       <SidebarContainer>
