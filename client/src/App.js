@@ -6,10 +6,12 @@ import SignUp from './pages/SignUp';
 import SignIn from './pages/SignIn';
 import Accommodation from './pages/Accommodation';
 import BiddingList from './pages/BiddingList';
+import GlobalStyle from './styles/GlobalStyle';
 
 function App() {
   return (
     <BrowserRouter>
+      <GlobalStyle />
       <Header isLoggedIn={true} />
       <Routes>
         <Route exact path="/" element={<Home />}></Route>
@@ -17,7 +19,7 @@ function App() {
         <Route path="/biddinglist" element={<BiddingList />}></Route>
         <Route path="/signup" element={<SignUp />}></Route>
         <Route exact path="/signin" element={<SignIn />}></Route>
-        <Route path="/:id" element={<Accommodation />}></Route>
+        <Route path="/accommodation/:id" element={<Accommodation />}></Route>
       </Routes>
     </BrowserRouter>
   );
