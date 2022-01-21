@@ -3,10 +3,12 @@ const { user } = require('../../models')
 module.exports = async (req, res) => {
   // res.status(200).json( 'signup' );
   if ( req.body.username && req.body.email && req.body.password) { // mobile
+    let mobile
+    // console.log(req.body)
     if ( req.body.mobile ) {
-      const mobile = req.body;
+      mobile = req.body.mobile;
     }else {
-      const mobile = null;
+      mobile = null;
     }
     const { username, email, password } = req.body;
     const social = null;
