@@ -33,21 +33,21 @@ const StyledLink = styled(Link)`
   all: unset;
 `;
 
-const Header = ({ isLoggedIn }) => {
+const Header = ({ isLogIn, handleSignOut }) => {
+  console.log('현재 로그인 상태:', isLogIn);
   return (
     <HeaderContainer>
       <StyledLink to="/">
         <Logo src={logo} />
       </StyledLink>
-
       <ButtonContainer>
-        {isLoggedIn ? (
+        {isLogIn ? (
           <>
-            <StyledLink to="/userInfo">
+            <StyledLink to="/userinfo">
               <Button>MY PAGE</Button>
             </StyledLink>
-            <StyledLink to="/signout">
-              <Button>LOG OUT</Button>
+            <StyledLink to="/">
+              <Button onClick={handleSignOut}>LOG OUT</Button>
             </StyledLink>
           </>
         ) : (

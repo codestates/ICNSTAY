@@ -1,3 +1,6 @@
+import axios from 'axios';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import AccommodationDesc from '../components/AccommoComponents/AccommodationDesc';
 import AccommodationImage from '../components/AccommoComponents/AccommodationImage';
@@ -28,14 +31,23 @@ const LowerContainer = styled.div`
 `;
 
 const Accommodation = () => {
+  // Get accommodation information from server
+  const { id } = useParams();
+  const [accommodationDetail, setAccommodationDetail] = useState();
+
+  useEffect( async () => {
+    const response = await axios.get(`https://localhost:4000/accommodation/${id}`);
+    setAccommodationDetail(response.data);
+  });
+
   return (
     <MainContainer>
       <UpperContainer>
         <AccommodationImage />
-        <AccommodationDesc />
+        <AccommodationDesc source={accommodationDetail}/>
       </UpperContainer>
       <LowerContainer>
-        <AccommodationInfo />
+        <AccommodationInfo source={accommodationDetail}/>
       </LowerContainer>
     </MainContainer>
   );
