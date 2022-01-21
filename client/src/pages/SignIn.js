@@ -35,7 +35,7 @@ const ErrorMessageBox = styled.div`
 
 axios.defaults.withCredentials = true;
 
-const SignIn = () => {
+const SignIn = ({ handleResponseSuccess }) => {
   const navigate = useNavigate();
   const [loginInfo, setLoginInfo] = useState({
     email: '',
@@ -43,18 +43,16 @@ const SignIn = () => {
   });
   const [errorMessage, setErrorMessage] = useState('');
   const { email, password } = loginInfo;
-  const [isLogin, setIslogin] = useState(false); // 나중에 리덕스 패턴 적용하면 없앨 거지만 일단 임시로 로그인 스테이트를 추가함
 
   const handleInputValue = (key) => (e) => {
     setLoginInfo({ ...loginInfo, [key]: e.target.value });
   };
 
   const handleLoginButton = async () => {
-    console.log('login button clicked');
+    // console.log('login button clicked');
     let regEmail =
       /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
     if (!regEmail.test(email)) {
-      // alert('유효하지 않은 이메일 형식입니다. 올바른 이메일을 입력해주십시오')
       setErrorMessage('올바른 이메일 형식이 아닙니다');
     } else {
       setErrorMessage('');
@@ -62,17 +60,20 @@ const SignIn = () => {
     if (!email || !password) {
       setErrorMessage('이메일과 비밀번호를 입력하세요');
     }
-    console.log(email, password);
-    const signInRequest = await axios.post('/signin', {
-      email,
-      password: sha256(password),
-    });
+    // console.log(email, password);
+    try {
+      const signInRequest = await axios.post('https://localhost:4000/signin', {
+        email,
+        password: sha256(password),
+      });
 
-    if (signInRequest.status === 200) {
-      // 로그인에 성공했을 때
-      console.log(signInRequest); //포스트 요청 바디가 제대로 들어갔는지 확인
-      setIslogin(true);
-      navigate('/');
+      if (signInRequest) {
+        handleResponseSuccess();
+        navigate('/');
+      }
+    } catch (e) {
+      console.log(e);
+      setErrorMessage('가입되지 않은 이메일이거나 잘못된 비밀번호 입니다');
     }
   };
 
