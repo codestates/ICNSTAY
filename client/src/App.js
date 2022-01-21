@@ -121,10 +121,11 @@ function App() {
         ></Route>
         <Route path="/signup" element={<SignUp />}></Route> 
 
-        <Route path="/accommodation/:id" element={<Accommodation />}></Route> 
 
         <Route path="/userinfo" element={<Mypage />}></Route>
         <Route path="/biddinglist" element={<BiddingList />}></Route>
+
+        <Route path="/accommodation/:id" element={<Accommodation />}></Route>
         <Route path="/signout" element={<Home />}></Route>
       </Routes>
     </BrowserRouter>

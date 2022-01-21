@@ -16,7 +16,7 @@ app.use(
   cors({
     origin: clientUrl,
     credentials: true,
-    methods: '*',
+    methods: ["PUT","GET","POST","DELETE"],
   })
 );
 app.use(cookieParser());
