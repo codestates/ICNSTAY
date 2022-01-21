@@ -1,23 +1,53 @@
-import { sha256 } from 'js-sha256';
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { sha256 } from 'js-sha256';
 import axios from 'axios';
 import styled from 'styled-components';
+import SuccessModal from '../components/SuccessModal';
+import { Container } from '../styles/Container';
+import { Input } from '../styles/Input';
+import { Button } from '../styles/Button';
 
 const SignUpContainer = styled.div`
-  border: 1px solid gray;
-  border-radius: 5px;
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 0.8rem;
-  z-index: 2;
+  width: 500px;
+  height: 550px;
+  border: 1px solid black;
+  text-align: center;
+  padding: 1em;
+  margin: 1em;
+`;
 
-  .inValidInput {
-    border-color: red;
-  }
+const SignUpHeader = styled.div`
+  font-size: 18px;
+  margin-bottom: 1em;
+`;
+
+const SignUpBox = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const BoxLabel = styled.div`
+  width: 15%;
+`;
+
+const BoxInput = styled.div`
+  width: 85%;
+  position: relative;
+`;
+
+const ErrorMessage = styled.div`
+  font-size: 12px;
+  color: #ff0000;
+  position: absolute;
+  bottom: -5px;
+  left: 40px;
+`;
+
+const ButtonBox = styled.div`
+  margin-top: 0.8em;
 `;
 
 const SignUp = () => {
@@ -50,24 +80,27 @@ const SignUp = () => {
     setMobile(event.target.value);
     isValidMobileFormat(event.target.value) ? setIsValidMobile(true) : setIsValidMobile(false);
   };
+  const handleSuccessModal = () => {
+    history('/signin');
+  }
   const handleSignupSubmit = async () => {
     const userInformation = {
       email: email,
-      name: name,
+      username: name,
       password: sha256(password),
       mobile: mobile,
     };
     try {
-      const response = await axios.post('/signup', { userInformation });
-      if (response.message === 'sign-up ok') {
-        history.push('/signin');
-      } else if (response.message === 'email exist') {
-        setIsValidName(false);
-      } else if (response.message === 'name exist') {
-        setIsValidName(false);
+      const response = await axios.post('https://localhost:4000/signup', userInformation);
+      if (response.status === 201) {
+        setOpenSuccessModal(true);
       }
     } catch (err) {
-      console.log(err);
+      if (err.response.status === 409) {
+        setIsUniqueEmail(false);
+      } else if (err.response.status === 422) {
+        console.log('Insufficient parameters')
+      }
     }
   };
   // Validation check
@@ -85,9 +118,9 @@ const SignUp = () => {
   const [isValidEmail, setIsValidEmail] = useState(true);
   const [isValidMobile, setIsValidMobile] = useState(true);
   const [isValidPassword, setIsValidPassword] = useState(true);
-  const [isValidName, setIsValidName] = useState(true);
   const [isUniqueEmail, setIsUniqueEmail] = useState(true);
   const [isReady, setIsReady] = useState(true);
+  const [openSuccessModal, setOpenSuccessModal] = useState(false);
 
   useEffect(() => {
     if (
@@ -104,64 +137,81 @@ const SignUp = () => {
   });
 
   return (
-    <SignUpContainer>
-      <section>
-        <h1>Registration</h1>
-      </section>
-      <section>Email*</section>
-      <input
-        type="text"
-        placeholder="Enter Email"
-        onChange={handleChangeEmail}
-        className={isValidEmail ? '' : 'inValidInput'}
-        required
-      />
-      {isValidEmail ? '' : <div>올바른 이메일 형식이 아닙니다</div>}
-      <section>Name*</section>
-      <input
-        type="text"
-        placeholder="이름을 8자 이내로 입력해주세요"
-        onChange={handleChangeName}
-        maxLength="8"
-        required
-      />
-      <section>Password*</section>
-      <input
-        type="password"
-        placeholder="Enter Password"
-        onChange={handleChangePassword}
-        className={isValidPassword ? '' : 'inValidInput'}
-        required
-      />
-      <section>Password Check*</section>
-      <input
-        type="password"
-        placeholder="Enter Email"
-        onChange={handleChangePasswordCheck}
-        className={isValidPassword ? '' : 'inValidInput'}
-        required
-      />
-      {isValidPassword ? '' : <div>비밀번호가 일치하지 않습니다</div>}
-      <section>Mobile</section>
-      <input
-        type="text"
-        placeholder="010-0000-0000"
-        onChange={handleChangeMobile}
-        maxLength="13"
-        className={isValidMobile ? '' : 'inValidInput'}
-      />
-      {isValidMobile ? '' : <div>올바른 전화번호 형식이 아닙니다</div>}
-      <p>
-        <button onClick={() => handleSignupSubmit()} disabled={isReady}>
-          Submit
-        </button>
-      </p>
-      {isValidName ? '' : <div>다른 사용자가 이용중인 이름입니다.</div>}
-      {isUniqueEmail ? '' : <div>이미 등록된 Email입니다.</div>}
-      <p>
-        Already have an account? <a href="/">Sign in</a>.
-      </p>
-    </SignUpContainer>
+    <Container>
+      <SignUpContainer>
+        <SignUpHeader>REGISTRATION</SignUpHeader>
+        <SignUpBox>
+          <BoxLabel>Email</BoxLabel>
+          <BoxInput>
+            <Input type="text" placeholder="Enter Email" onChange={handleChangeEmail} required />
+            {isValidEmail ? '' : <ErrorMessage>올바른 이메일 형식이 아닙니다</ErrorMessage>}
+          </BoxInput>
+        </SignUpBox>
+        <SignUpBox>
+          <BoxLabel>Name</BoxLabel>
+          <BoxInput>
+            <Input
+              type="text"
+              placeholder="이름을 8자 이내로 입력해주세요"
+              onChange={handleChangeName}
+              maxLength="8"
+              required
+            />
+          </BoxInput>
+        </SignUpBox>
+        <SignUpBox>
+          <BoxLabel>Password</BoxLabel>
+          <BoxInput>
+            <Input
+              type="password"
+              placeholder="Enter Password"
+              onChange={handleChangePassword}
+              required
+            />
+          </BoxInput>
+        </SignUpBox>
+        <SignUpBox>
+          <BoxLabel>Password Check</BoxLabel>
+          <BoxInput>
+            <Input
+              type="password"
+              placeholder="Enter Email"
+              onChange={handleChangePasswordCheck}
+              className={isValidPassword ? '' : 'inValidInput'}
+              required
+            />
+            {isValidPassword ? '' : <ErrorMessage>비밀번호가 일치하지 않습니다</ErrorMessage>}
+          </BoxInput>
+        </SignUpBox>
+        <SignUpBox>
+          <BoxLabel>Mobile</BoxLabel>
+          <BoxInput>
+            {' '}
+            <Input
+              type="text"
+              placeholder="010-0000-0000"
+              onChange={handleChangeMobile}
+              maxLength="13"
+            />
+            {isValidMobile ? '' : <ErrorMessage>올바른 전화번호 형식이 아닙니다</ErrorMessage>}
+          </BoxInput>
+        </SignUpBox>
+
+        <ButtonBox>
+          <Button onClick={() => handleSignupSubmit()} disabled={isReady}>
+            {isReady ? '모든 항목을 입력해주세요' : 'Submit'}
+          </Button>
+          {isUniqueEmail ? '' : <div>이미 등록된 Email입니다.</div>}
+          <p>
+            Already have an account?
+            <Link to="/signin">
+              <Button>SIGN IN</Button>
+            </Link>
+          </p>
+        </ButtonBox>
+        {openSuccessModal ? <SuccessModal handleSuccessModal={handleSuccessModal}/>: ''}
+      </SignUpContainer>
+    </Container>
   );
 };
 

@@ -64,9 +64,9 @@ module.exports = {
       },
       {
         id: 6,
-        name: 'fake hotel',
+        name: 'fack hotel',
         location: 'Jeju',
-        description: 'It is fake hotel',
+        description: 'It is fack hotel',
         minPrice: '0원', 
         due: new Date(),
         createdAt: new Date(),

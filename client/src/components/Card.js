@@ -15,22 +15,30 @@ const CardContainer = styled.div`
 
 const FILL_ME_IN = 'FILL_ME_IN';
 
-const Card = ({src, name, location, id}) => {
+const Card = ({ src, name, location, id, setVisitedPage }) => {
+
   const navigate = useNavigate();
+
   const handleCardClick = async () => {
-    navigate('/signin') // 우선 임시로 로그인한 페이지로 가게끔 설정, 숙소 상세 페이지 path가 지정되면 거기로 수정할 예정;
-    const requestAccomodationInfo = await axios.get(`/${id}`);
-    console.log(requestAccomodationInfo)
+    navigate(`/accommodation/${id}`);
+    try {
+      const requestAccomodationInfo = await axios.get(`https://localhost:4000/accommodation/${id}`); // api가 완성되면 다시 작업할 예정!
+      const redirectPath =  window.location.href.slice(22); // 여기서 지정한 상수를 스택 구조안 전역 state인 siteVisited에 넣어둘 예정!
+      setVisitedPage(redirectPath); // 최근 방문한 사이트 저장
+    } catch(err) {
+      console.log(err);
+    }
   };
 
   return (
     <CardContainer>
       <CardImg src={src} onClick={handleCardClick} /> 
       <br/>
-      name: {name || FILL_ME_IN}
+      {name || FILL_ME_IN}
       <br/>
-      location: {location || FILL_ME_IN}
+      {location || FILL_ME_IN}
     </CardContainer>
   );
 }
+
 export default Card;

@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { Button } from '../styles/Button';
 
 const ModalBackground = styled.div`
   position: fixed;
@@ -23,35 +22,31 @@ const ModalContainer = styled.div`
 
 const ModalContent = styled.div`
   padding: 0.8em;
+  font-weight: bold;
 `;
 
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
+const ModalButton = styled.button`
+  all: unset;
+  padding: 0.8em;
+  cursor: pointer;
+  color: pink;
+  border: 1px pink;
+  margin-left: 5px;
 `;
-
-const Modal = ({ isOpen, setIsOpen, text, handleYesButton }) => {
-  const handleModal = () => {
-    setIsOpen(!isOpen);
-  };
+const SuccessModal = ({ handleSuccessModal }) => {
 
   return (
     <>
-      {isOpen ? (
         <ModalBackground>
           <ModalContainer>
-            <ModalContent>{text}</ModalContent>
-            <ButtonContainer>
-              <Button type={'YES'} onClick={handleYesButton}>
-                YES
-              </Button>
-              <Button onClick={handleModal}>NO</Button>
-            </ButtonContainer>
+            <ModalContent>Thank you for Registration!</ModalContent>
+            <ModalButton onClick={handleSuccessModal}>
+              Go to Sign-In
+            </ModalButton>
           </ModalContainer>
         </ModalBackground>
-      ) : null}
     </>
   );
 };
 
-export default Modal;
+export default SuccessModal;
