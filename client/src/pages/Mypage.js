@@ -61,9 +61,11 @@ const Info = styled.span`
 
 const Mypage = ({ setIsLogIn, userInfo }) => {
   const navigate = useNavigate();
+
   const [isOpen, setIsOpen] = useState(false);
   const [edit, setEdit] = useState(false);
   const [username, setUsername] = useState(userInfo.username);
+
   const [mobile, setMobile] = useState(userInfo.mobile);
   const [password, setPassword] = useState(null);
   const [passwordCheck, setPasswordCheck] = useState();

@@ -84,17 +84,15 @@ const dummyData = // 아직 서버랑 합치지 않았으므로 클라이언트�
     }
   ]
 
-const Home = () => {
+const Home = ({ setVisitedPage }) => {
   const [accomodationList, setAccomodationList] = useState(dummyData);
+  //나중에 서버 'https://locahost:4000/accommodation'에서 데이터 가져오는 데에 성공하면 더미데이터 말고 서버측 데이터 사용할 예정
 
-  // 랜딩페이지에 접속하자마자 서버로부터 바로 숙소리스트 데이터를 받아오게끔 만든다. 
-  // useEffect(() => {
-  //   axios.get('/')
-  //   .then(res => {
-  //     console.log(res.data);
-  //     setAccomodationList(res.data)
-  //   }); 
+  // useEffect(async () => {
+    // const getAccommodationList = await axios.get('https://localhost:4000/accommodation');
+    // setAccomodationList(getAccommodationList);
   // }, [])
+  // 랜딩페이지 구성하자마자 상기 url로 데이터 받아와서 클라이언트에 전달할 예정 
 
   return (
     <div>
@@ -105,7 +103,14 @@ const Home = () => {
       </BannerContainer>
       <CardBox>
         {accomodationList.map((el, idx) => {
-          return <Card src={sampleImg1} name={el.name} location={el.location} key= {idx} id={el.id} />
+          return <Card 
+            src={sampleImg1} 
+            name={el.name} 
+            location={el.location} 
+            key= {idx} 
+            id={el.id} 
+            setVisitedPage={setVisitedPage}
+             />
         })}
       </CardBox>
     </div>
