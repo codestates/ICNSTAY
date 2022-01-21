@@ -11,9 +11,9 @@ const MainContainer = styled.div`
 
 const AccommodationDesc = ({source}) => {
   // Input data variances
-  const [checkInDate, setCheckInDate] = useState('');
-  const [checkOutDate, setCheckOutDate] = useState('');
-  const [biddingPrice, setBiddingPrice] = useState('');
+  const [checkInDate, setCheckInDate] = useState();
+  const [checkOutDate, setCheckOutDate] = useState();
+  const [biddingPrice, setBiddingPrice] = useState();
   const [openModal, setOpenModal] = useState(false);
   // Event handlers
   const openCalendarModule = () => {
@@ -59,7 +59,17 @@ const AccommodationDesc = ({source}) => {
         onChange={handleChangeBiddingPrice}
       />
       </div>
-      <div><Button onClick={openCalendarModule}>{checkOutDate? `Check-in : ${checkInDate} Check-out : ${checkOutDate}`: 'Check-in/ Check-out'}</Button></div>
+      <div>
+        <Button onClick={openCalendarModule}>
+          {checkOutDate? 
+            `Check-in : ${checkInDate.getFullYear()}년 - ${checkInDate.getMonth() + 1}월 - ${checkInDate.getDate()}일`
+          : 'Check-in/ Check-out'}
+          <br></br>
+          {checkOutDate? 
+            `Check-out : ${checkOutDate.getFullYear()}년 - ${checkOutDate.getMonth() + 1}월 - ${checkOutDate.getDate()}일`
+          : ''}
+        </Button>
+      </div>
       {openModal ?
         <CalendarModule 
           handleCheckInDate={handleCheckInDate} 
