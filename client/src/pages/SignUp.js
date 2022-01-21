@@ -82,12 +82,12 @@ const SignUp = () => {
   const handleSignupSubmit = async () => {
     const userInformation = {
       email: email,
-      name: name,
+      username: name,
       password: sha256(password),
       mobile: mobile,
     };
     try {
-      const response = await axios.post('/signup', { userInformation });
+      const response = await axios.post('https://localhost:4000/signup', userInformation );
       if (response.message === 'sign-up ok') {
         history.push('/signin');
       } else if (response.message === 'email exist') {
