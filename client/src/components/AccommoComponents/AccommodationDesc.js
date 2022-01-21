@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 import CalendarModule from '../CalendarModule';
 import { useState } from 'react';
+import { Button } from '../../styles/Button';
+import { Input } from '../../styles/Input';
+
 
 const MainContainer = styled.div`
   padding: 1rem;
@@ -8,9 +11,9 @@ const MainContainer = styled.div`
 
 const AccommodationDesc = ({source}) => {
   // Input data variances
-  const [checkInDate, setCheckInDate] = useState('');
-  const [checkOutDate, setCheckOutDate] = useState('');
-  const [biddingPrice, setBiddingPrice] = useState('');
+  const [checkInDate, setCheckInDate] = useState();
+  const [checkOutDate, setCheckOutDate] = useState();
+  const [biddingPrice, setBiddingPrice] = useState();
   const [openModal, setOpenModal] = useState(false);
   // Event handlers
   const openCalendarModule = () => {
@@ -50,13 +53,23 @@ const AccommodationDesc = ({source}) => {
       <div>Highest Bidding : {source}</div>
       <div>
       <div>Bidding Price : {source}</div>
-      <input 
+      <Input 
         type="number"
         placeholder="원"
         onChange={handleChangeBiddingPrice}
       />
       </div>
-      <div><button onClick={openCalendarModule}>{checkOutDate? `Check-in : ${checkInDate} Check-out : ${checkOutDate}`: 'Check-in/ Check-out'}</button></div>
+      <div>
+        <Button onClick={openCalendarModule}>
+          {checkOutDate? 
+            `Check-in : ${checkInDate.getFullYear()}년 - ${checkInDate.getMonth() + 1}월 - ${checkInDate.getDate()}일`
+          : 'Check-in/ Check-out'}
+          <br></br>
+          {checkOutDate? 
+            `Check-out : ${checkOutDate.getFullYear()}년 - ${checkOutDate.getMonth() + 1}월 - ${checkOutDate.getDate()}일`
+          : ''}
+        </Button>
+      </div>
       {openModal ?
         <CalendarModule 
           handleCheckInDate={handleCheckInDate} 
@@ -66,7 +79,7 @@ const AccommodationDesc = ({source}) => {
           openCalendarModule={openCalendarModule}/>
         : ''
       }
-      <button onClick={() => handlePlacingBid()}>Place a bid</button>
+      <Button onClick={() => handlePlacingBid()}>Place a bid</Button>
     </MainContainer>
   );
 };
