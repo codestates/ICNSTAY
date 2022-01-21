@@ -18,8 +18,9 @@ module.exports = {
         location: 'Soeul',
         description: 'It is hotel deluna',
         minPrice: '20000원',
-        createdAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
-        updatedAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
+        due: new Date(),
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 2,
@@ -27,8 +28,9 @@ module.exports = {
         location: 'Seogwipo',
         description: 'It is hyri minbak',
         minPrice: '90000원',
-        createdAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
-        updatedAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
+        due: new Date(),
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 3,
@@ -36,8 +38,9 @@ module.exports = {
         location: 'Busan',
         description: 'It is sinla hotel',
         minPrice: '10000원',
-        createdAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
-        updatedAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
+        due: new Date(),
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 4,
@@ -45,8 +48,9 @@ module.exports = {
         location: 'Here',
         description: 'It is oasis',
         minPrice: '60000원',
-        createdAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
-        updatedAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
+        due: new Date(),
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 5,
@@ -54,8 +58,9 @@ module.exports = {
         location: 'There',
         description: 'It is oken sauna',
         minPrice: '70000원',
-        createdAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
-        updatedAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
+        due: new Date(),
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 6,
@@ -63,8 +68,9 @@ module.exports = {
         location: 'Jeju',
         description: 'It is fake hotel',
         minPrice: '0원', 
-        createdAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
-        updatedAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
+        due: new Date(),
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 7,
@@ -72,8 +78,9 @@ module.exports = {
         location: 'Ulsan',
         description: 'It is kenzip',
         minPrice: '50000원',
-        createdAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
-        updatedAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
+        due: new Date(),
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 8,
@@ -81,8 +88,9 @@ module.exports = {
         location: 'Changwon',
         description: 'It is neorbunbang',
         minPrice: '0원',
-        createdAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
-        updatedAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
+        due: new Date(),
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 9,
@@ -90,8 +98,9 @@ module.exports = {
         location: 'Incheon',
         description: 'It is ssanbang',
         minPrice: '0원',
-        createdAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
-        updatedAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
+        due: new Date(),
+        createdAt: new Date(),
+        updatedAt: new Date()
       }
     ], {})
   },
