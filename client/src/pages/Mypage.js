@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { sha256 } from 'js-sha256';
 import axios from 'axios';
 import styled from 'styled-components';
@@ -58,9 +59,9 @@ const Info = styled.span`
   padding: 0.8em;
 `;
 
-const Mypage = ({ userInfo }) => {
+const Mypage = ({ setIsLogIn, userInfo }) => {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
-  const [text, setText] = useState('Edit');
   const [edit, setEdit] = useState(false);
   const [username, setUsername] = useState(userInfo.username);
   const [mobile, setMobile] = useState(userInfo.mobile);
@@ -115,10 +116,21 @@ const Mypage = ({ userInfo }) => {
       });
       if (response.status === 200) {
         setEdit(false);
-        setText('Edit');
         setIsOpen(false);
         setUsername(username);
         setMobile(mobile);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleDeleteSubmit = async () => {
+    try {
+      const response = await axios.delete(`https://localhost:4000/userinfo/${userInfo.id}`);
+      if (response) {
+        setIsLogIn(false);
+        navigate('/');
       }
     } catch (err) {
       console.log(err);
@@ -188,12 +200,20 @@ const Mypage = ({ userInfo }) => {
           </UserBox>
         </UserContainer>
       </Container>
-      {isOpen ? (
+      {isOpen & edit ? (
         <Modal
           isOpen={isOpen}
           setIsOpen={setIsOpen}
           text={'이대로 수정 하시겠습니까?'}
           handleYesButton={handleEditSubmit}
+        />
+      ) : null}
+      {isOpen && !edit ? (
+        <Modal
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          text={'정말 탈퇴하시겠습니까?'}
+          handleYesButton={handleDeleteSubmit}
         />
       ) : null}
     </>
