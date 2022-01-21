@@ -4,7 +4,7 @@ const MainContainer = styled.div`
   padding: 1rem;
 `;
 
-const AccommodationInfo = () => {
+const AccommodationInfo = ({ source }) => {
   return (
     <MainContainer>
       <h1>Information Section</h1>
@@ -16,6 +16,7 @@ const AccommodationInfo = () => {
          sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like 
          Aldus PageMaker including versions of Lorem Ipsum.
         </div>
+        <div>{source}</div>
     </MainContainer>
   );
 };
