@@ -4,7 +4,7 @@ import axios from 'axios';
 import styled from 'styled-components';
 import Sidebar from '../components/Sidebar';
 import Modal from '../components/Modal';
-import pencilIcon from '../data/pencil.png';
+import { Button } from '../styles/Button';
 
 const Container = styled.div`
   display: flex;
@@ -34,33 +34,13 @@ const IconContainer = styled.div`
   cursor: pointer;
 `;
 
-const Icon = styled.img`
-  src: ${(props) => props.src};
-  width: 20px;
-  height: 20px;
-`;
-
 const Input = styled.input`
   all: unset;
   border: 1px solid black;
   padding: 0.1em;
 
-  &.inValidInput {
+  .inValidInput {
     border: 1px solid red;
-  }
-`;
-
-const Button = styled.button`
-  all: unset;
-  cursor: pointer;
-  padding: 0.8em;
-  border: 1px solid black;
-  width: 80%;
-  text-align: center;
-  &:hover {
-    background: black;
-    color: white;
-    transition: 0.7s;
   }
 `;
 
@@ -87,15 +67,9 @@ const Mypage = ({ userInfo }) => {
   const [password, setPassword] = useState(null);
   const [passwordCheck, setPasswordCheck] = useState();
 
-  const handleEdit = () => {
-    if (edit) {
-      setEdit(false);
-      setText('Edit');
-    } else {
-      setEdit(true);
-      setText('에딧 취소');
-    }
-  };
+  const goBack = () => setEdit(false);
+
+  const handleEdit = () => setEdit(!edit);
 
   const handleChangeName = (e) => {
     setUsername(e.target.value);
@@ -132,7 +106,7 @@ const Mypage = ({ userInfo }) => {
     setIsOpen(!isOpen);
   };
 
-  const handleSubmit = async () => {
+  const handleEditSubmit = async () => {
     try {
       const response = await axios.put(`https://localhost:4000/userinfo/${userInfo.id}`, {
         username,
@@ -159,12 +133,10 @@ const Mypage = ({ userInfo }) => {
         </SidebarContainer>
         <UserContainer>
           <UserBox>
-            <IconContainer onClick={handleEdit}>
-              {text} <Icon src={pencilIcon} />
-            </IconContainer>
-            <User>
-              {edit ? (
-                <>
+            {edit ? (
+              <>
+                <IconContainer onClick={goBack}> 뒤로가기 </IconContainer>
+                <User>
                   <Info>
                     USERNAME :{' '}
                     <Input
@@ -202,15 +174,17 @@ const Mypage = ({ userInfo }) => {
                     {isValidPassword ? '' : <div>비밀번호가 일치하지 않습니다</div>}
                   </Info>
                   <Button onClick={handleModal}>Edit My Info</Button>
-                </>
-              ) : (
-                <>
-                  <Info>EMAIL : {userInfo.email}</Info>
-                  <Info>USERNAME : {username}</Info>
-                  <Info>MOBILE : {mobile}</Info>
-                </>
-              )}
-            </User>
+                </User>
+              </>
+            ) : (
+              <User>
+                <Info>EMAIL : {userInfo.email}</Info>
+                <Info>USERNAME : {username}</Info>
+                <Info>MOBILE : {mobile}</Info>
+                <Button onClick={handleEdit}>Edit My Info</Button>
+                <Button onClick={handleModal}>Delete My Account</Button>
+              </User>
+            )}
           </UserBox>
         </UserContainer>
       </Container>
@@ -219,7 +193,7 @@ const Mypage = ({ userInfo }) => {
           isOpen={isOpen}
           setIsOpen={setIsOpen}
           text={'이대로 수정 하시겠습니까?'}
-          handleYesButton={handleSubmit}
+          handleYesButton={handleEditSubmit}
         />
       ) : null}
     </>
