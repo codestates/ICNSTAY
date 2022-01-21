@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 import CalendarModule from '../CalendarModule';
 import { useState } from 'react';
+import { Button } from '../../styles/Button';
+import { Input } from '../../styles/Input';
+
 
 const MainContainer = styled.div`
   padding: 1rem;
@@ -50,13 +53,13 @@ const AccommodationDesc = ({source}) => {
       <div>Highest Bidding : {source}</div>
       <div>
       <div>Bidding Price : {source}</div>
-      <input 
+      <Input 
         type="number"
         placeholder="원"
         onChange={handleChangeBiddingPrice}
       />
       </div>
-      <div><button onClick={openCalendarModule}>{checkOutDate? `Check-in : ${checkInDate} Check-out : ${checkOutDate}`: 'Check-in/ Check-out'}</button></div>
+      <div><Button onClick={openCalendarModule}>{checkOutDate? `Check-in : ${checkInDate} Check-out : ${checkOutDate}`: 'Check-in/ Check-out'}</Button></div>
       {openModal ?
         <CalendarModule 
           handleCheckInDate={handleCheckInDate} 
@@ -66,7 +69,7 @@ const AccommodationDesc = ({source}) => {
           openCalendarModule={openCalendarModule}/>
         : ''
       }
-      <button onClick={() => handlePlacingBid()}>Place a bid</button>
+      <Button onClick={() => handlePlacingBid()}>Place a bid</Button>
     </MainContainer>
   );
 };
