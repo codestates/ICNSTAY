@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Button } from '../styles/Button';
 
 const ModalBackground = styled.div`
   position: fixed;
@@ -24,14 +25,11 @@ const ModalContent = styled.div`
   padding: 0.8em;
 `;
 
-const ModalButton = styled.button`
-  all: unset;
-  padding: 0.8em;
-  cursor: pointer;
-  color: ${(props) => (props.type === 'YES' ? 'pink' : 'blue')};
-  border: 1px solid ${(props) => (props.type === 'YES' ? 'pink' : 'blue')};
-  margin-left: 5px;
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
+
 const Modal = ({ isOpen, setIsOpen, text, handleYesButton }) => {
   const handleModal = () => {
     setIsOpen(!isOpen);
@@ -43,10 +41,12 @@ const Modal = ({ isOpen, setIsOpen, text, handleYesButton }) => {
         <ModalBackground>
           <ModalContainer>
             <ModalContent>{text}</ModalContent>
-            <ModalButton type={'YES'} onClick={handleYesButton}>
-              YES
-            </ModalButton>
-            <ModalButton onClick={handleModal}>NO</ModalButton>
+            <ButtonContainer>
+              <Button type={'YES'} onClick={handleYesButton}>
+                YES
+              </Button>
+              <Button onClick={handleModal}>NO</Button>
+            </ButtonContainer>
           </ModalContainer>
         </ModalBackground>
       ) : null}

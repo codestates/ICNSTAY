@@ -34,7 +34,7 @@ const StyledLink = styled(Link)`
 `;
 
 const Header = ({ isLogIn, handleSignOut }) => {
-  console.log(isLogIn);
+  console.log('현재 로그인 상태:', isLogIn);
   return (
     <HeaderContainer>
       <StyledLink to="/">
