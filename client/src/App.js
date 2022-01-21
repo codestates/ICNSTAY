@@ -53,7 +53,7 @@ function App() {
 
         <Route path="/accomotation/:id" element={<Accommodation />}></Route>
 
-        <Route path="/userinfo" element={<Mypage />}></Route>
+        <Route path="/userinfo" element={<Mypage userInfo={user} />}></Route>
         <Route path="/biddinglist" element={<BiddingList />}></Route>
         <Route path="/signout" element={<Home />}></Route>
       </Routes>
