@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Button } from '../../styles/Button';
 import { Input } from '../../styles/Input';
 import axios from 'axios';
-
+import { useNavigate } from 'react-router-dom';
 
 const MainContainer = styled.div`
   padding: 1rem;
@@ -14,6 +14,8 @@ const MainContainer = styled.div`
 `;
 
 const AccommodationDesc = ({ source }) => {
+  // Setup variances
+  const history = useNavigate();
   // Input data variances
   const [checkInDate, setCheckInDate] = useState('');
   const [checkOutDate, setCheckOutDate] = useState('');
@@ -41,8 +43,16 @@ const AccommodationDesc = ({ source }) => {
       checkOutDate: checkOutDate.toISOString().slice(0, 10),
       biddingPrice: biddingPrice
     };
-    const response = await axios.post(`https://localhost:4000/accommodation/${source.id}`, bidInformation);
-    console.log(response)
+    try {
+      const response = await axios.post(`https://localhost:4000/accommodation/${source.id}`, bidInformation);
+      if (response.status === 201) {
+        history('/');
+      };
+    } catch (err) {
+      if (err.response.status === 422) {
+        console.log('Insufficient parameters')
+      } 
+    };
   };
   // Button readiness check
   useEffect(() => {
