@@ -46,7 +46,7 @@ const AccommodationDesc = ({ source }) => {
     try {
       const response = await axios.post(`https://localhost:4000/accommodation/${source.id}`, bidInformation);
       if (response.status === 201) {
-        history('/');
+        history('/biddinglist');
       };
     } catch (err) {
       if (err.response.status === 422) {
