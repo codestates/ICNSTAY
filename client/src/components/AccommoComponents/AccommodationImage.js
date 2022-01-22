@@ -61,7 +61,7 @@ const AccommodationImage = ({ source }) => {
         <span>{index.current === source.image.length-1 ? <FontAwesomeIcon icon={faAngleRight} size='4x' className='gray'/> : <FontAwesomeIcon icon={faAngleRight} size='4x' onClick={moveRight} />}</span>
       </Wrapper>
       <section>
-        {source.image.map((item, idx) => <span><FontAwesomeIcon key={idx} icon={faCircle} onClick={()=> changeImage(idx)} size='1x' className={index.current === idx ? '' : 'gray'}/></span>)}
+        {source.image.map((item, idx) => <span key={idx}><FontAwesomeIcon icon={faCircle} onClick={()=> changeImage(idx)} size='1x' className={index.current === idx ? '' : 'gray'}/></span>)}
       </section>
     </MainContainer>
   );
