@@ -5,6 +5,7 @@ import { Button } from '../../styles/Button';
 import { Input } from '../../styles/Input';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Modal } from '../Modal';
 
 const MainContainer = styled.div`
   padding: 1rem;
@@ -22,6 +23,7 @@ const AccommodationDesc = ({ source }) => {
   const [biddingPrice, setBiddingPrice] = useState();
   const [openModal, setOpenModal] = useState(false);
   const [isReady, setIsReady] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   // Event handlers
   const openCalendarModule = () => {
     setOpenModal(!openModal);
@@ -35,6 +37,9 @@ const AccommodationDesc = ({ source }) => {
   const handleCheckOutDate = (date) => {
     setCheckOutDate(date);
   }
+  const goSigninPage = () => {
+    history('/signin');
+  }
   const handlePlacingBid = async () => {
     const bidInformation = {
       id: source.id,
@@ -43,16 +48,18 @@ const AccommodationDesc = ({ source }) => {
       checkOutDate: checkOutDate.toISOString().slice(0, 10),
       biddingPrice: biddingPrice
     };
-    try {
-      const response = await axios.post(`https://localhost:4000/accommodation/${source.id}`, bidInformation);
-      if (response.status === 201) {
-        history('/biddinglist');
-      };
-    } catch (err) {
-      if (err.response.status === 422) {
-        console.log('Insufficient parameters')
-      } 
-    };
+    // SignIn status checking part --> need to discuss with team memebers
+    setIsOpen(true);
+    // try {
+    //   const response = await axios.post(`https://localhost:4000/accommodation/${source.id}`, bidInformation);
+    //   if (response.status === 201) {
+    //     history('/biddinglist');
+    //   };
+    // } catch (err) {
+    //   if (err.response.status === 422) {
+    //     console.log('Insufficient parameters')
+    //   } 
+    // };
   };
   // Button readiness check
   useEffect(() => {
@@ -104,6 +111,13 @@ const AccommodationDesc = ({ source }) => {
         : ''
       }
       <Button onClick={() => handlePlacingBid()} disabled={isReady}>Place a bid</Button>
+      {isOpen ? 
+        <Modal 
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        text={'You need to Signin'}
+        handleYesButton={goSigninPage} /> 
+        : null}
       </section>
     </MainContainer>
   );

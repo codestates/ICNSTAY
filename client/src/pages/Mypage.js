@@ -4,7 +4,7 @@ import { sha256 } from 'js-sha256';
 import axios from 'axios';
 import styled from 'styled-components';
 import Sidebar from '../components/Sidebar';
-import Modal from '../components/Modal';
+import { Modal } from '../components/Modal';
 import { Button } from '../styles/Button';
 
 const Container = styled.div`
