@@ -39,7 +39,7 @@ const Accommodation = () => {
     const response = await axios.get(`https://localhost:4000/accommodation/${id}`);
     setAccommodationDetail(response.data);
   });
-
+  
   return (
     <MainContainer>
       <UpperContainer>
