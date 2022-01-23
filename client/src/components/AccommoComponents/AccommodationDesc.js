@@ -1,20 +1,29 @@
 import styled from 'styled-components';
 import CalendarModule from '../CalendarModule';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '../../styles/Button';
 import { Input } from '../../styles/Input';
-
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { Modal } from '../Modal';
 
 const MainContainer = styled.div`
   padding: 1rem;
+  > .desc {
+    margin-bottom: 4rem;
+  }
 `;
 
-const AccommodationDesc = ({source}) => {
+const AccommodationDesc = ({ source }) => {
+  // Setup variances
+  const history = useNavigate();
   // Input data variances
-  const [checkInDate, setCheckInDate] = useState();
-  const [checkOutDate, setCheckOutDate] = useState();
+  const [checkInDate, setCheckInDate] = useState('');
+  const [checkOutDate, setCheckOutDate] = useState('');
   const [biddingPrice, setBiddingPrice] = useState();
   const [openModal, setOpenModal] = useState(false);
+  const [isReady, setIsReady] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   // Event handlers
   const openCalendarModule = () => {
     setOpenModal(!openModal);
@@ -28,58 +37,88 @@ const AccommodationDesc = ({source}) => {
   const handleCheckOutDate = (date) => {
     setCheckOutDate(date);
   }
+  const goSigninPage = () => {
+    history('/signin');
+  }
   const handlePlacingBid = async () => {
     const bidInformation = {
-      id: 1,
-      userId: 1,
-      username: 'tia',
-      name: 'hotel deluna',
-      checkInDate: checkInDate,
-      checkOutDate: checkOutDate,
-      biddingPrice: biddingPrice,
-      createdAt: '2022-01-19 15:33:47',
-      updatedAt: '2022-01-19 15:33:47',
+      id: source.id,
+      name: source.name,
+      checkInDate: checkInDate.toISOString().slice(0, 10),
+      checkOutDate: checkOutDate.toISOString().slice(0, 10),
+      biddingPrice: biddingPrice
     };
-    console.log(bidInformation)
+    // SignIn status checking part --> need to discuss with team memebers
+    setIsOpen(true);
+    // try {
+    //   const response = await axios.post(`https://localhost:4000/accommodation/${source.id}`, bidInformation);
+    //   if (response.status === 201) {
+    //     history('/biddinglist');
+    //   };
+    // } catch (err) {
+    //   if (err.response.status === 422) {
+    //     console.log('Insufficient parameters')
+    //   } 
+    // };
   };
+  // Button readiness check
+  useEffect(() => {
+    if (
+      checkInDate &&
+      checkOutDate &&
+      biddingPrice
+    ) {
+      setIsReady(false);
+    }
+  });
 
   return (
     <MainContainer>
-      <h1>Description Section</h1>
-      <div>Location : {source} </div>
-      <div>Price : {source} </div>
-      <div>Bidding ends at : {source}</div>
-      <div>Minimum Price : {source}</div>
-      <div>Highest Bidding : {source}</div>
+      <section className='desc'>
+       <h1>{source.name}</h1>
+       <div>Location : {source.location} </div>
+       <div>Bidding ends at : {source.due.slice(0, 10)}</div>
+       <div>Minimum Price : {`${source.minPrice.slice(0, -4)},${source.minPrice.slice(-4)}`}</div>
+       <div>Highest Bidding : ????????????????????????????????????????</div>
+      </section>
+      <section>
       <div>
-      <div>Bidding Price : {source}</div>
-      <Input 
-        type="number"
-        placeholder="원"
-        onChange={handleChangeBiddingPrice}
-      />
+        {biddingPrice ? <div>My Bidding Price : {biddingPrice}</div> : null}
+        <Input
+          type="number"
+          placeholder="원"
+          onChange={handleChangeBiddingPrice}
+        />
       </div>
       <div>
         <Button onClick={openCalendarModule}>
-          {checkOutDate? 
+          {checkOutDate ?
             `Check-in : ${checkInDate.getFullYear()}년 - ${checkInDate.getMonth() + 1}월 - ${checkInDate.getDate()}일`
-          : 'Check-in/ Check-out'}
+            : 'Check-in/ Check-out'}
           <br></br>
-          {checkOutDate? 
+          {checkOutDate ?
             `Check-out : ${checkOutDate.getFullYear()}년 - ${checkOutDate.getMonth() + 1}월 - ${checkOutDate.getDate()}일`
-          : ''}
+            : ''}
         </Button>
       </div>
       {openModal ?
-        <CalendarModule 
-          handleCheckInDate={handleCheckInDate} 
-          handleCheckOutDate={handleCheckOutDate} 
-          checkInDate={checkInDate} 
+        <CalendarModule
+          handleCheckInDate={handleCheckInDate}
+          handleCheckOutDate={handleCheckOutDate}
+          checkInDate={checkInDate}
           checkOutDate={checkOutDate}
-          openCalendarModule={openCalendarModule}/>
+          openCalendarModule={openCalendarModule} />
         : ''
       }
-      <Button onClick={() => handlePlacingBid()}>Place a bid</Button>
+      <Button onClick={() => handlePlacingBid()} disabled={isReady}>Place a bid</Button>
+      {isOpen ? 
+        <Modal 
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        text={'You need to Signin'}
+        handleYesButton={goSigninPage} /> 
+        : null}
+      </section>
     </MainContainer>
   );
 };

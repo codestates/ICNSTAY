@@ -8,19 +8,23 @@ import AccommodationInfo from '../components/AccommoComponents/AccommodationInfo
 
 const MainContainer = styled.div`
   display: flex;
+  flex-wrap: wrap;
   flex-direction: column;
   justify-content: center;
   align-content: center;
-  flex: 1 0 0;
 `;
 
 const UpperContainer = styled.div`
   border-bottom: 1px solid;
   display: flex;
-  justify-content: center;
-  align-content: center;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
   margin-bottom: 0.5rem;
   align-items: center;
+  > .desc {
+    flex-shrink: 0;
+    width: 300px;
+  }
 `;
 
 const LowerContainer = styled.div`
@@ -30,24 +34,25 @@ const LowerContainer = styled.div`
   justify-content: center;
 `;
 
-const Accommodation = () => {
+const Accommodation = ({ isLogin }) => {
   // Get accommodation information from server
   const { id } = useParams();
   const [accommodationDetail, setAccommodationDetail] = useState();
+  console.log('accommodation', isLogin)
 
   useEffect( async () => {
     const response = await axios.get(`https://localhost:4000/accommodation/${id}`);
     setAccommodationDetail(response.data);
-  });
+  },[]);
 
   return (
     <MainContainer>
       <UpperContainer>
-        <AccommodationImage />
-        <AccommodationDesc source={accommodationDetail}/>
+        <span className='image'>{accommodationDetail ? <AccommodationImage source={accommodationDetail} /> : null}</span>
+        <span className='desc'>{accommodationDetail ? <AccommodationDesc source={accommodationDetail} /> : null}</span>
       </UpperContainer>
       <LowerContainer>
-        <AccommodationInfo source={accommodationDetail}/>
+        {accommodationDetail ? <AccommodationInfo source={accommodationDetail}/> : null}
       </LowerContainer>
     </MainContainer>
   );
