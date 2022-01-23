@@ -4,6 +4,7 @@ import Card from '../components/Card';
 import sampleImg1 from '../data/logo.png'
 import sampleImg2 from '../data/roomImgSample.jpg'
 import axios from 'axios';
+import Banner from '../components/Banner';
 
 const BannerContainer = styled.div`
   text-align: center;
@@ -97,9 +98,7 @@ const Home = ({ setVisitedPage }) => {
   return (
     <div>
       <BannerContainer>
-        <h1>
-          SEE & STAY!
-        </h1>
+        <Banner />
       </BannerContainer>
       <CardBox>
         {accomodationList.map((el, idx) => {
