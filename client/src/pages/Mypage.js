@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { sha256 } from 'js-sha256';
 import axios from 'axios';
@@ -59,27 +59,16 @@ const Info = styled.span`
   padding: 0.8em;
 `;
 
-const Mypage = ({ setIsLogIn, user, setUser }) => {
+const Mypage = ({ setIsLogIn, userInfo }) => {
   const navigate = useNavigate();
-
-  console.log('Mypage: ', user);
 
   const [isOpen, setIsOpen] = useState(false);
   const [edit, setEdit] = useState(false);
-  const [username, setUsername] = useState(user.username);
-  const [mobile, setMobile] = useState(user.mobile);
+  const [username, setUsername] = useState(userInfo.username);
+
+  const [mobile, setMobile] = useState(userInfo.mobile);
   const [password, setPassword] = useState(null);
   const [passwordCheck, setPasswordCheck] = useState();
-
-  // useEffect(() => {
-  //   const stored = sessionStorage.getItem('userInfo');
-  //   if (!stored) return user;
-  //   else {
-  //     const data = JSON.parse(stored);
-  //     console.log(data);
-  //     return setUser(data);
-  //   }
-  // }, []);
 
   const goBack = () => setEdit(false);
 
@@ -122,7 +111,7 @@ const Mypage = ({ setIsLogIn, user, setUser }) => {
 
   const handleEditSubmit = async () => {
     try {
-      const response = await axios.put(`https://localhost:4000/userinfo/${user.id}`, {
+      const response = await axios.put(`https://localhost:4000/userinfo/${userInfo.id}`, {
         username,
         password: password === null ? password : sha256(password),
         mobile,
@@ -140,7 +129,7 @@ const Mypage = ({ setIsLogIn, user, setUser }) => {
 
   const handleDeleteSubmit = async () => {
     try {
-      const response = await axios.delete(`https://localhost:4000/userinfo/${user.id}`);
+      const response = await axios.delete(`https://localhost:4000/userinfo/${userInfo.id}`);
       if (response) {
         setIsLogIn(false);
         navigate('/');
@@ -203,9 +192,9 @@ const Mypage = ({ setIsLogIn, user, setUser }) => {
               </>
             ) : (
               <User>
-                <Info>EMAIL : {user.email}</Info>
-                <Info>USERNAME : {user.username}</Info>
-                <Info>MOBILE : {user.mobile}</Info>
+                <Info>EMAIL : {userInfo.email}</Info>
+                <Info>USERNAME : {username}</Info>
+                <Info>MOBILE : {mobile}</Info>
                 <Button onClick={handleEdit}>Edit My Info</Button>
                 <Button onClick={handleModal}>Delete My Account</Button>
               </User>
