@@ -12,6 +12,8 @@ import BiddingList from './pages/BiddingList';
 import GlobalStyle from './styles/GlobalStyle';
 import Preloader from './components/Preloader';
 
+axios.defaults.withCredentials = true;
+
 function App() {
   const [isLogIn, setIsLogIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);

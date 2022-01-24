@@ -3,5 +3,6 @@ module.exports = {
   signout: require( './signout' ),
   signup: require( './signup' ),
   userinfo: require( './userInfo' ),
-  biddingList: require( './biddingList' )
+  biddingList: require( './biddingList' ),
+  oauth: require('./oauth')
 }
