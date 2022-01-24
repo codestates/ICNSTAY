@@ -32,8 +32,8 @@ function App() {
     }
   };
 
-  // console.log('App.js : ', user);
 
+  // console.log('App.js : ', user);
   const isAuthenticated = async () => {
     getUser();
   };
@@ -58,6 +58,8 @@ function App() {
 
   useEffect(() => {
     console.log('최근 방문한 페이지:', visitedPage);
+    const loggedInUser = localStorage.getItem("user");
+    console.log(loggedInUser)
   }, [visitedPage]);
 
   useEffect(() => {
@@ -99,8 +101,7 @@ function App() {
         ></Route>
 
         <Route path="/biddinglist" element={<BiddingList />}></Route>
-
-        <Route path="/accommodation/:id" element={<Accommodation />}></Route>
+        <Route path="/accommodation/:id" element={<Accommodation isLogIn={isLogIn}/>}></Route>
         <Route path="/signout" element={<Home />}></Route>
       </Routes>
     </BrowserRouter>

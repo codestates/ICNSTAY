@@ -1,6 +1,15 @@
 import styled from 'styled-components';
 import { Button } from '../styles/Button';
 
+const ModalButton = styled.button`
+  all: unset;
+  padding: 0.8em;
+  cursor: pointer;
+  color: pink;
+  border: 1px pink;
+  margin-left: 5px;
+`;
+
 const ModalBackground = styled.div`
   position: fixed;
   left: 0;
@@ -23,6 +32,7 @@ const ModalContainer = styled.div`
 
 const ModalContent = styled.div`
   padding: 0.8em;
+  font-weight: bold;
 `;
 
 const ButtonContainer = styled.div`
@@ -54,4 +64,19 @@ const Modal = ({ isOpen, setIsOpen, text, handleYesButton }) => {
   );
 };
 
-export default Modal;
+const SignupModal = ({ handleSuccessModal }) => {
+  return (
+    <>
+        <ModalBackground>
+          <ModalContainer>
+            <ModalContent>Thank you for Registration!</ModalContent>
+            <ModalButton onClick={handleSuccessModal}>
+              Go to Sign-In
+            </ModalButton>
+          </ModalContainer>
+        </ModalBackground>
+    </>
+  );
+};
+
+export {Modal, SignupModal};

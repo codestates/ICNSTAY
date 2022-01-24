@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { sha256 } from 'js-sha256';
 import axios from 'axios';
 import styled from 'styled-components';
 import Sidebar from '../components/Sidebar';
-import Modal from '../components/Modal';
+import { Modal } from '../components/Modal';
 import { Button } from '../styles/Button';
 
 const Container = styled.div`
@@ -69,6 +69,16 @@ const Mypage = ({ setIsLogIn, user, setUser }) => {
   const [mobile, setMobile] = useState(user.mobile);
   const [password, setPassword] = useState(null);
   const [passwordCheck, setPasswordCheck] = useState();
+
+  // useEffect(() => {
+  //   const stored = sessionStorage.getItem('userInfo');
+  //   if (!stored) return user;
+  //   else {
+  //     const data = JSON.parse(stored);
+  //     console.log(data);
+  //     return setUser(data);
+  //   }
+  // }, []);
 
   const goBack = () => setEdit(false);
 
