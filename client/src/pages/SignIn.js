@@ -35,7 +35,7 @@ const ErrorMessageBox = styled.div`
 
 axios.defaults.withCredentials = true;
 
-const SignIn = ({ handleResponseSuccess, visitedPage }) => {
+const SignIn = ({ handleResponseSuccess }) => {
   const navigate = useNavigate();
   const [loginInfo, setLoginInfo] = useState({
     email: '',
@@ -69,24 +69,16 @@ const SignIn = ({ handleResponseSuccess, visitedPage }) => {
 
       if (signInRequest) {
         handleResponseSuccess();
-        navigate(visitedPage);
+        navigate('/');
       }
-    } catch (err) {
-      console.log(err);
+    } catch (e) {
+      console.log(e);
       setErrorMessage('가입되지 않은 이메일이거나 잘못된 비밀번호 입니다');
     }
   };
 
-  const handleSocialLoginButton = async () => {  
-    const REST_API_KEY = '8c7f2d24ac16c0f2a4d3dc987439ddbb'; //나중에 환경변수로 등록할 것! 
-    try {
-      await window.location.assign(`https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=https://localhost:3000&response_type=code`)
-    // const url = await new URL(window.location.href);
-    // const authorizationCode = url.searchParams.get('code');
-    // await axios.post("https://localhost:4000/auth", {authorizationCode}); // 나중에 auth 관련 api가 완성되면 보내기!
-    } catch (err) {
-      console.log(err);
-    }
+  const handleSocialLoginButton = () => {
+    console.log('social login button clicked');
   };
 
   return (
