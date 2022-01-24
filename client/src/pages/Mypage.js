@@ -71,6 +71,16 @@ const Mypage = ({ setIsLogIn, user, setUser }) => {
   const [password, setPassword] = useState(null);
   const [passwordCheck, setPasswordCheck] = useState();
 
+  // useEffect(() => {
+  //   const stored = sessionStorage.getItem('userInfo');
+  //   if (!stored) return user;
+  //   else {
+  //     const data = JSON.parse(stored);
+  //     console.log(data);
+  //     return setUser(data);
+  //   }
+  // }, []);
+
   const goBack = () => setEdit(false);
 
   const handleEdit = () => setEdit(!edit);

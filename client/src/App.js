@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-// import { useCookies } from 'react-cookie';
+import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import Header from './components/Header';
 import Home from './pages/Home';
@@ -13,9 +13,9 @@ import GlobalStyle from './styles/GlobalStyle';
 
 function App() {
   const [isLogIn, setIsLogIn] = useState(false);
-  const [user, setUser] = useState(() => JSON.parse(localStorage.getItem('user')) || null);
+  const [user, setUser] = useState();
   const [visitedPage, setVisitedPage] = useState('/'); // 방문한 페이지 저장하는 스택
-  // const [token, setToken, removeToken] = useCookies(['signInToken']);
+  const [token, setToken, removeToken] = useCookies(['signInToken']);
 
   const getUser = async () => {
     try {
@@ -32,8 +32,6 @@ function App() {
     }
   };
 
-  // console.log('App.js : ', user);
-
   const isAuthenticated = async () => {
     getUser();
   };
@@ -41,8 +39,7 @@ function App() {
   const handleResponseSuccess = (accessToken) => {
     isAuthenticated();
     setIsLogIn(true);
-    localStorage.setItem('token', accessToken);
-    // setToken('signInToken', accessToken);
+    setToken('signInToken', accessToken);
   };
 
   const handleSignOut = async () => {
@@ -50,31 +47,26 @@ function App() {
     if (signOutRequest.status === 205) {
       setUser(null);
       setIsLogIn(false);
-      localStorage.clear();
-      // removeToken('signInToken');
+      removeToken('signInToken');
       // sessionStorage.removeItem('userInfo');
     }
   };
+
+  console.log(user);
 
   useEffect(() => {
     console.log('최근 방문한 페이지:', visitedPage);
   }, [visitedPage]);
 
   useEffect(() => {
-    if (localStorage.getItem('token')) {
+    if (token.signInToken) {
       setIsLogIn(true);
-      setUser(user);
     } else {
       setIsLogIn(false);
     }
   }, []);
 
-  useEffect(
-    () => isLogIn && localStorage.setItem('isLoggedIn', JSON.stringify(isLogIn)),
-    [isLogIn]
-  );
-
-  useEffect(() => user && localStorage.setItem('user', JSON.stringify(user)), [user]);
+  // useEffect(() => sessionStorage.setItem('userInfo', JSON.stringify(user)), [user]);
 
   return (
     <BrowserRouter>
