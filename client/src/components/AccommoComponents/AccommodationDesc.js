@@ -14,7 +14,7 @@ const MainContainer = styled.div`
   }
 `;
 
-const AccommodationDesc = ({ source }) => {
+const AccommodationDesc = ({ source, isLogIn }) => {
   // Setup variances
   const history = useNavigate();
   // Input data variances
@@ -48,18 +48,21 @@ const AccommodationDesc = ({ source }) => {
       checkOutDate: checkOutDate.toISOString().slice(0, 10),
       biddingPrice: biddingPrice
     };
-    // SignIn status checking part --> need to discuss with team memebers
-    setIsOpen(true);
-    // try {
-    //   const response = await axios.post(`https://localhost:4000/accommodation/${source.id}`, bidInformation);
-    //   if (response.status === 201) {
-    //     history('/biddinglist');
-    //   };
-    // } catch (err) {
-    //   if (err.response.status === 422) {
-    //     console.log('Insufficient parameters')
-    //   } 
-    // };
+    // SignIn status checking part
+    if (isLogIn) {
+      try {
+        const response = await axios.post(`https://localhost:4000/accommodation/${source.id}`, bidInformation);
+        if (response.status === 201) {
+          history('/biddinglist');
+        };
+      } catch (err) {
+        if (err.response.status === 422) {
+          console.log('Insufficient parameters')
+        } 
+      };
+    } else {
+      setIsOpen(true);
+    };
   };
   // Button readiness check
   useEffect(() => {

@@ -34,11 +34,10 @@ const LowerContainer = styled.div`
   justify-content: center;
 `;
 
-const Accommodation = ({ isLogin }) => {
+const Accommodation = ({ isLogIn }) => {
   // Get accommodation information from server
   const { id } = useParams();
   const [accommodationDetail, setAccommodationDetail] = useState();
-  console.log('accommodation', isLogin)
 
   useEffect( async () => {
     const response = await axios.get(`https://localhost:4000/accommodation/${id}`);
@@ -49,7 +48,7 @@ const Accommodation = ({ isLogin }) => {
     <MainContainer>
       <UpperContainer>
         <span className='image'>{accommodationDetail ? <AccommodationImage source={accommodationDetail} /> : null}</span>
-        <span className='desc'>{accommodationDetail ? <AccommodationDesc source={accommodationDetail} /> : null}</span>
+        <span className='desc'>{accommodationDetail ? <AccommodationDesc source={accommodationDetail} isLogIn={isLogIn} /> : null}</span>
       </UpperContainer>
       <LowerContainer>
         {accommodationDetail ? <AccommodationInfo source={accommodationDetail}/> : null}
