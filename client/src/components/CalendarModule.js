@@ -37,6 +37,8 @@ const ModalContent = styled.div`
 const CalendarContainer = styled.div`
   padding: 0.8em;
   display:flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
   > span {
     margin: 2em;
   }

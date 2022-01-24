@@ -35,13 +35,14 @@ const ErrorMessageBox = styled.div`
 
 axios.defaults.withCredentials = true;
 
-const SignIn = ({ handleResponseSuccess, visitedPage }) => {
+const SignIn = ({ handleResponseSuccess, visitedPage, setIsLoading }) => {
   const navigate = useNavigate();
   const [loginInfo, setLoginInfo] = useState({
     email: '',
     password: '',
   });
   const [errorMessage, setErrorMessage] = useState('');
+
   const { email, password } = loginInfo;
 
   const handleInputValue = (key) => (e) => {
@@ -66,9 +67,10 @@ const SignIn = ({ handleResponseSuccess, visitedPage }) => {
         email,
         password: sha256(password),
       });
-
+      setIsLoading(false);
       if (signInRequest) {
-        handleResponseSuccess();
+        const accessToken = signInRequest.data.accessToken;
+        handleResponseSuccess(accessToken);
         navigate(visitedPage);
       }
     } catch (err) {
@@ -77,13 +79,13 @@ const SignIn = ({ handleResponseSuccess, visitedPage }) => {
     }
   };
 
-  const handleSocialLoginButton = async () => {  
-    const REST_API_KEY = '8c7f2d24ac16c0f2a4d3dc987439ddbb'; //나중에 환경변수로 등록할 것! 
+  const handleSocialLoginButton = async () => {
+    const REST_API_KEY = '8c7f2d24ac16c0f2a4d3dc987439ddbb'; //나중에 환경변수로 등록할 것!
     try {
-      await window.location.assign(`https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=https://localhost:3000&response_type=code`)
-    // const url = await new URL(window.location.href);
-    // const authorizationCode = url.searchParams.get('code');
-    // await axios.post("https://localhost:4000/auth", {authorizationCode}); // 나중에 auth 관련 api가 완성되면 보내기!
+      await window.location.assign(
+        `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=https://localhost:3000&response_type=code`
+      );
+      setIsLoading(false);
     } catch (err) {
       console.log(err);
     }

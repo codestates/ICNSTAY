@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { sha256 } from 'js-sha256';
 import axios from 'axios';
 import styled from 'styled-components';
-import SuccessModal from '../components/SuccessModal';
+import { SignupModal } from '../components/Modal';
 import { Container } from '../styles/Container';
 import { Input } from '../styles/Input';
 import { Button } from '../styles/Button';
@@ -50,7 +50,7 @@ const ButtonBox = styled.div`
   margin-top: 0.8em;
 `;
 
-const SignUp = () => {
+const SignUp = ({setIsLoading}) => {
   // Setup variances
   const history = useNavigate();
   // Input data variances
@@ -92,6 +92,7 @@ const SignUp = () => {
     };
     try {
       const response = await axios.post('https://localhost:4000/signup', userInformation);
+      setIsLoading(false);
       if (response.status === 201) {
         setOpenSuccessModal(true);
       }
@@ -209,7 +210,7 @@ const SignUp = () => {
             </Link>
           </p>
         </ButtonBox>
-        {openSuccessModal ? <SuccessModal handleSuccessModal={handleSuccessModal}/>: ''}
+        {openSuccessModal ? <SignupModal handleSuccessModal={handleSuccessModal}/>: ''}
       </SignUpContainer>
     </Container>
   );

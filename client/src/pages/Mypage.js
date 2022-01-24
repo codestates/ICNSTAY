@@ -4,7 +4,7 @@ import { sha256 } from 'js-sha256';
 import axios from 'axios';
 import styled from 'styled-components';
 import Sidebar from '../components/Sidebar';
-import Modal from '../components/Modal';
+import { Modal } from '../components/Modal';
 import { Button } from '../styles/Button';
 
 const Container = styled.div`
@@ -30,8 +30,6 @@ const UserBox = styled.div`
 `;
 
 const IconContainer = styled.div`
-  /* width: 38%;
-  align-self: flex-end; */
   cursor: pointer;
 `;
 
@@ -39,7 +37,6 @@ const Input = styled.input`
   all: unset;
   border: 1px solid black;
   padding: 0.1em;
-
   .inValidInput {
     border: 1px solid red;
   }
@@ -59,14 +56,13 @@ const Info = styled.span`
   padding: 0.8em;
 `;
 
-const Mypage = ({ setIsLogIn, userInfo }) => {
+const Mypage = ({ setIsLogIn, user, setUser, setIsLoading }) => {
   const navigate = useNavigate();
 
   const [isOpen, setIsOpen] = useState(false);
   const [edit, setEdit] = useState(false);
-  const [username, setUsername] = useState(userInfo.username);
-
-  const [mobile, setMobile] = useState(userInfo.mobile);
+  const [username, setUsername] = useState(user.username);
+  const [mobile, setMobile] = useState(user.mobile);
   const [password, setPassword] = useState(null);
   const [passwordCheck, setPasswordCheck] = useState();
 
@@ -111,16 +107,19 @@ const Mypage = ({ setIsLogIn, userInfo }) => {
 
   const handleEditSubmit = async () => {
     try {
-      const response = await axios.put(`https://localhost:4000/userinfo/${userInfo.id}`, {
+      const response = await axios.put(`https://localhost:4000/userinfo/${user.id}`, {
         username,
         password: password === null ? password : sha256(password),
         mobile,
       });
+      setIsLoading(false);
       if (response.status === 200) {
         setEdit(false);
         setIsOpen(false);
         setUsername(username);
         setMobile(mobile);
+        const userInfo = { id: user.id, email: user.email, username, mobile };
+        setUser(userInfo);
       }
     } catch (err) {
       console.log(err);
@@ -129,7 +128,8 @@ const Mypage = ({ setIsLogIn, userInfo }) => {
 
   const handleDeleteSubmit = async () => {
     try {
-      const response = await axios.delete(`https://localhost:4000/userinfo/${userInfo.id}`);
+      const response = await axios.delete(`https://localhost:4000/userinfo/${user.id}`);
+      setIsLoading(false);
       if (response) {
         setIsLogIn(false);
         navigate('/');
@@ -192,9 +192,9 @@ const Mypage = ({ setIsLogIn, userInfo }) => {
               </>
             ) : (
               <User>
-                <Info>EMAIL : {userInfo.email}</Info>
-                <Info>USERNAME : {username}</Info>
-                <Info>MOBILE : {mobile}</Info>
+                <Info>EMAIL : {user.email}</Info>
+                <Info>USERNAME : {user.username}</Info>
+                <Info>MOBILE : {user.mobile}</Info>
                 <Button onClick={handleEdit}>Edit My Info</Button>
                 <Button onClick={handleModal}>Delete My Account</Button>
               </User>
