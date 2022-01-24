@@ -172,6 +172,9 @@ const Mypage = ({ setIsLogIn, user, setUser, setIsLoading }) => {
   };
 
   useEffect(() => {
+    if (username || mobile) {
+      setIsReady(true);
+    }
     if (isValidPassword && password && passwordCheck) {
       setIsReady(true);
     }
