@@ -28,6 +28,7 @@ const StyledLink = styled(Link)`
 `;
 
 const List = ({ list }) => {
+  console.log(list);
   return (
     <Table>
       <TableRow>
@@ -36,18 +37,22 @@ const List = ({ list }) => {
         <TableColumn>체크아웃</TableColumn>
         <TableColumn>입찰가격</TableColumn>
       </TableRow>
-      {list.map(({ accommodationId, checkInDate, checkOutDate, biddingPrice, accommodation }) => {
-        return (
-          <TableRow key={accommodationId}>
-            <TableColumn>
-              <StyledLink to={`/accommodation/${accommodationId}`}>{accommodation.name}</StyledLink>
-            </TableColumn>
-            <TableColumn>{checkInDate}</TableColumn>
-            <TableColumn>{checkOutDate}</TableColumn>
-            <TableColumn>{biddingPrice}</TableColumn>
-          </TableRow>
-        );
-      })}
+      {list.map(
+        ({ accommodationId, checkInDate, checkOutDate, biddingPrice, accommodation }, index) => {
+          return (
+            <TableRow key={index}>
+              <TableColumn>
+                <StyledLink to={`/accommodation/${accommodationId}`}>
+                  {accommodation.name}
+                </StyledLink>
+              </TableColumn>
+              <TableColumn>{checkInDate}</TableColumn>
+              <TableColumn>{checkOutDate}</TableColumn>
+              <TableColumn>{biddingPrice}원</TableColumn>
+            </TableRow>
+          );
+        }
+      )}
     </Table>
   );
 };
