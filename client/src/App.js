@@ -12,6 +12,8 @@ import BiddingList from './pages/BiddingList';
 import GlobalStyle from './styles/GlobalStyle';
 import Preloader from './components/Preloader';
 
+axios.defaults.withCredentials = true;
+
 function App() {
   const [isLogIn, setIsLogIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -47,9 +49,7 @@ function App() {
   };
 
   const handleSignOut = async () => {
-    setIsLoading(true);
     const signOutRequest = await axios.post('https://localhost:4000/signout');
-    setIsLoading(false);
     if (signOutRequest.status === 205) {
       setUser(null);
       setIsLogIn(false);
@@ -134,7 +134,7 @@ function App() {
             path="/accommodation/:id"
             element={<Accommodation isLogIn={isLogIn} setIsLoading={setIsLoading} />}
           ></Route>
-          <Route path="/signout" element={<Home setIsLoading={setIsLoading} />}></Route>
+          <Route path="/signout" element={<Navigate to="/" />}></Route>
           <Route path="/preloader" element={<Preloader />}></Route>
           {/* 잘못된 주소 입력시 "/"로 강제 이동 */}
           <Route path="*" element={<Navigate to="/" />}></Route>
