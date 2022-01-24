@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { sha256 } from 'js-sha256';
 import axios from 'axios';
 import styled from 'styled-components';
-import SuccessModal from '../components/SuccessModal';
 import { Container } from '../styles/Container';
 import { Input } from '../styles/Input';
 import { Button } from '../styles/Button';
@@ -80,27 +79,24 @@ const SignUp = () => {
     setMobile(event.target.value);
     isValidMobileFormat(event.target.value) ? setIsValidMobile(true) : setIsValidMobile(false);
   };
-  const handleSuccessModal = () => {
-    history('/signin');
-  }
   const handleSignupSubmit = async () => {
     const userInformation = {
       email: email,
-      username: name,
+      name: name,
       password: sha256(password),
       mobile: mobile,
     };
     try {
-      const response = await axios.post('https://localhost:4000/signup', userInformation);
-      if (response.status === 201) {
-        setOpenSuccessModal(true);
+      const response = await axios.post('/signup', { userInformation });
+      if (response.message === 'sign-up ok') {
+        history.push('/signin');
+      } else if (response.message === 'email exist') {
+        setIsValidName(false);
+      } else if (response.message === 'name exist') {
+        setIsValidName(false);
       }
     } catch (err) {
-      if (err.response.status === 409) {
-        setIsUniqueEmail(false);
-      } else if (err.response.status === 422) {
-        console.log('Insufficient parameters')
-      }
+      console.log(err);
     }
   };
   // Validation check
@@ -118,9 +114,9 @@ const SignUp = () => {
   const [isValidEmail, setIsValidEmail] = useState(true);
   const [isValidMobile, setIsValidMobile] = useState(true);
   const [isValidPassword, setIsValidPassword] = useState(true);
+  const [isValidName, setIsValidName] = useState(true);
   const [isUniqueEmail, setIsUniqueEmail] = useState(true);
   const [isReady, setIsReady] = useState(true);
-  const [openSuccessModal, setOpenSuccessModal] = useState(false);
 
   useEffect(() => {
     if (
@@ -209,7 +205,6 @@ const SignUp = () => {
             </Link>
           </p>
         </ButtonBox>
-        {openSuccessModal ? <SuccessModal handleSuccessModal={handleSuccessModal}/>: ''}
       </SignUpContainer>
     </Container>
   );

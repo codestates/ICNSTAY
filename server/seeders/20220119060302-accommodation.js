@@ -59,9 +59,9 @@ module.exports = {
       },
       {
         id: 6,
-        name: 'fack hotel',
+        name: 'fake hotel',
         location: 'Jeju',
-        description: 'It is fack hotel',
+        description: 'It is fake hotel',
         minPrice: '0원', 
         createdAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
         updatedAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')

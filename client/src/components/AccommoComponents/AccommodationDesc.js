@@ -6,7 +6,7 @@ const MainContainer = styled.div`
   padding: 1rem;
 `;
 
-const AccommodationDesc = ({source}) => {
+const AccommodationDesc = () => {
   // Input data variances
   const [checkInDate, setCheckInDate] = useState('');
   const [checkOutDate, setCheckOutDate] = useState('');
@@ -43,13 +43,13 @@ const AccommodationDesc = ({source}) => {
   return (
     <MainContainer>
       <h1>Description Section</h1>
-      <div>Location : {source} </div>
-      <div>Price : {source} </div>
-      <div>Bidding ends at : {source}</div>
-      <div>Minimum Price : {source}</div>
-      <div>Highest Bidding : {source}</div>
+      <div>Location :</div>
+      <div>Price :</div>
+      <div>Bidding ends at :</div>
+      <div>Minimum Price :</div>
+      <div>Highest Bidding :</div>
       <div>
-      <div>Bidding Price : {source}</div>
+      <div>Bidding Price :</div>
       <input 
         type="number"
         placeholder="원"
