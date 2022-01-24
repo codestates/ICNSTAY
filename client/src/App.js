@@ -35,8 +35,6 @@ function App() {
     }
   };
 
-
-  // console.log('App.js : ', user);
   const isAuthenticated = async () => {
     getUser();
   };
@@ -57,14 +55,11 @@ function App() {
       setIsLogIn(false);
       localStorage.clear();
       // removeToken('signInToken');
-      // sessionStorage.removeItem('userInfo');
     }
   };
 
   useEffect(() => {
     console.log('최근 방문한 페이지:', visitedPage);
-    const loggedInUser = localStorage.getItem("user");
-    console.log(loggedInUser)
   }, [visitedPage]);
 
   useEffect(() => {
@@ -76,42 +71,57 @@ function App() {
     }
   }, []);
 
-  // useEffect(
-  //   () => isLogIn && localStorage.setItem('isLoggedIn', JSON.stringify(isLogIn)),
-  //   [isLogIn]
-  // );
-
   useEffect(() => user && localStorage.setItem('user', JSON.stringify(user)), [user]);
 
   return (
     <BrowserRouter>
       <GlobalStyle />
       <Header isLogIn={isLogIn} handleSignOut={handleSignOut} />
-      {isLoading ? <Preloader /> :
-      <Routes>
-        <Route exact path="/" element={<Home setVisitedPage={setVisitedPage} setIsLoading={setIsLoading} />}></Route>
-        <Route
-          exact
-          path="/signin"
-          element={
-            <SignIn handleResponseSuccess={handleResponseSuccess} visitedPage={visitedPage} setIsLoading={setIsLoading} />
-          }
-        ></Route>
-        <Route path="/signup" element={<SignUp setIsLoading={setIsLoading}/>}></Route>
-
-        <Route
-          path="/userinfo"
-          element={
-            <Mypage setIsLogIn={setIsLogIn} user={user} setUser={setUser} getUser={getUser} setIsLoading={setIsLoading}/>
-          }
-        ></Route>
-
-        <Route path="/biddinglist" element={<BiddingList setIsLoading={setIsLoading}/>}></Route>
-        <Route path="/accommodation/:id" element={<Accommodation isLogIn={isLogIn} setIsLoading={setIsLoading}/>}></Route>
-        <Route path="/signout" element={<Home setIsLoading={setIsLoading} />}></Route>
-        <Route path="/preloader" element={<Preloader />}></Route>
-      </Routes>
-      }
+      {isLoading ? (
+        <Preloader />
+      ) : (
+        <Routes>
+          <Route
+            exact
+            path="/"
+            element={<Home setVisitedPage={setVisitedPage} setIsLoading={setIsLoading} />}
+          ></Route>
+          <Route
+            exact
+            path="/signin"
+            element={
+              <SignIn
+                handleResponseSuccess={handleResponseSuccess}
+                visitedPage={visitedPage}
+                setIsLoading={setIsLoading}
+              />
+            }
+          ></Route>
+          <Route path="/signup" element={<SignUp setIsLoading={setIsLoading} />}></Route>
+          <Route
+            path="/userinfo"
+            element={
+              <Mypage
+                setIsLogIn={setIsLogIn}
+                user={user}
+                setUser={setUser}
+                getUser={getUser}
+                setIsLoading={setIsLoading}
+              />
+            }
+          ></Route>
+          <Route
+            path="/biddinglist"
+            element={<BiddingList setIsLoading={setIsLoading} user={user} />}
+          ></Route>
+          <Route
+            path="/accommodation/:id"
+            element={<Accommodation isLogIn={isLogIn} setIsLoading={setIsLoading} />}
+          ></Route>
+          <Route path="/signout" element={<Home setIsLoading={setIsLoading} />}></Route>
+          <Route path="/preloader" element={<Preloader />}></Route>
+        </Routes>
+      )}
     </BrowserRouter>
   );
 }
