@@ -35,7 +35,7 @@ const ErrorMessageBox = styled.div`
 
 axios.defaults.withCredentials = true;
 
-const SignIn = ({ handleResponseSuccess, visitedPage }) => {
+const SignIn = ({ handleResponseSuccess, visitedPage, setIsLoading }) => {
   const navigate = useNavigate();
   const [loginInfo, setLoginInfo] = useState({
     email: '',
@@ -67,7 +67,7 @@ const SignIn = ({ handleResponseSuccess, visitedPage }) => {
         email,
         password: sha256(password),
       });
-
+      setIsLoading(false);
       if (signInRequest) {
         const accessToken = signInRequest.data.accessToken;
         handleResponseSuccess(accessToken);
@@ -85,6 +85,7 @@ const SignIn = ({ handleResponseSuccess, visitedPage }) => {
       await window.location.assign(
         `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=https://localhost:3000&response_type=code`
       );
+      setIsLoading(false);
       // const url = await new URL(window.location.href);
       // const authorizationCode = url.searchParams.get('code');
       // await axios.post("https://localhost:4000/auth", {authorizationCode}); // 나중에 auth 관련 api가 완성되면 보내기!

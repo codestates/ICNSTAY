@@ -34,7 +34,7 @@ const LowerContainer = styled.div`
   justify-content: center;
 `;
 
-const Accommodation = ({ isLogIn }) => {
+const Accommodation = ({ isLogIn, setIsLoading }) => {
   // Get accommodation information from server
   const { id } = useParams();
   const [accommodationDetail, setAccommodationDetail] = useState();
@@ -42,6 +42,7 @@ const Accommodation = ({ isLogIn }) => {
   useEffect( async () => {
     const response = await axios.get(`https://localhost:4000/accommodation/${id}`);
     setAccommodationDetail(response.data);
+    setIsLoading(false);
   },[]);
 
   return (
