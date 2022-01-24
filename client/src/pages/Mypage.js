@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import Sidebar from '../components/Sidebar';
 import Modal from '../components/Modal';
 import pencilIcon from '../data/pencil.png';
+import dummyUsers from '../data/dummyUsers';
 
 const Container = styled.div`
   display: flex;
@@ -78,14 +79,18 @@ const Info = styled.span`
   padding: 0.8em;
 `;
 
-const Mypage = ({ userInfo }) => {
+// 우선 더미데이터 이용. 추후 데이터 베이스에서 해당 user 조회 기능으로 수정할 예정
+// 임의로 user의 id를 1로 해서 해당 유저 정보 조회
+const user = dummyUsers.filter((el) => el.id === 1);
+
+const Mypage = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [text, setText] = useState('Edit');
   const [edit, setEdit] = useState(false);
-  const [email, setEmail] = useState(userInfo.email);
-  const [name, setName] = useState(userInfo.username);
-  const [mobile, setMobile] = useState(userInfo.mobile);
-  const [password, setPassword] = useState(null);
+  const [email, setEmail] = useState(user[0].email);
+  const [name, setName] = useState(user[0].username);
+  const [mobile, setMobile] = useState(user[0].mobile);
+  const [password, setPassword] = useState(user[0].password);
   const [passwordCheck, setPasswordCheck] = useState();
 
   const handleEdit = () => {
@@ -153,7 +158,7 @@ const Mypage = ({ userInfo }) => {
     };
     console.log(userInformation);
     try {
-      const response = await axios.put(`/userinfo/${userInfo.id}`, {
+      const response = await axios.put(`/userinfo/${user.id}`, {
         userInformation,
       });
       if (response.status === 200) {
