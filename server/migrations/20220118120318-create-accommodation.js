@@ -24,6 +24,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
+      maxPrice: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
       due: {
         allowNull: false,
         type: Sequelize.DATE

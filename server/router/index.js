@@ -12,8 +12,8 @@ router.get( '/biddinglist', user.biddingList );
 router.post( '/oauth/signin', user.oauth.signin );
 router.post( '/oauth/signout', user.oauth.signout );
 
-router.get( '/accommodation', accommodation.list );
-router.get( '/accommodation/:id', accommodation.detail );
-router.post( '/accommodation/:id', accommodation.bid );
+router.get('/accommodation', accommodation.list);
+router.get('/accommodation/:id', accommodation.detail);
+router.post('/accommodation/:id', accommodation.bid);
 
 module.exports = router;

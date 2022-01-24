@@ -1,16 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { sha256 } from 'js-sha256';
 import axios from 'axios';
 import styled from 'styled-components';
 import Sidebar from '../components/Sidebar';
-import Modal from '../components/Modal';
+import { Modal } from '../components/Modal';
 import { Button } from '../styles/Button';
-
-const Container = styled.div`
-  display: flex;
-  height: 100vh;
-`;
+import { Container } from '../styles/Container';
+import { Input } from '../styles/Input';
 
 const SidebarContainer = styled.div`
   width: 15%;
@@ -27,48 +24,78 @@ const UserBox = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  text-align: center;
 `;
 
 const IconContainer = styled.div`
-  /* width: 38%;
-  align-self: flex-end; */
   cursor: pointer;
+  margin-bottom: 1em;
+  font-weight: 500;
 `;
 
-const Input = styled.input`
-  all: unset;
-  border: 1px solid black;
-  padding: 0.1em;
-
-  .inValidInput {
-    border: 1px solid red;
-  }
-`;
+// const Input = styled.input`
+//   all: unset;
+//   border: 1px solid black;
+//   padding: 0.1em;
+//   .inValidInput {
+//     border: 1px solid red;
+//   }
+// `;
 
 const User = styled.div`
-  width: 500px;
-  height: 500px;
+  width: 450px;
+  height: 450px;
   border: 1px solid black;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  /* padding: 1em;
+  margin: 1em; */
 `;
 
-const Info = styled.span`
+const EditBox = styled.div`
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const BoxLabel = styled.div`
+  margin-left: 1em;
+  width: 25%;
+`;
+
+const BoxInput = styled.div`
+  /* margin-right: 1em; */
+  width: 75%;
+  position: relative;
+`;
+
+const Info = styled.div`
   padding: 0.8em;
 `;
 
-const Mypage = ({ setIsLogIn, userInfo }) => {
+const ErrorMessage = styled.div`
+  font-size: 12px;
+  color: #ff0000;
+  position: absolute;
+  bottom: -5px;
+  left: 40px;
+`;
+
+const Mypage = ({ setIsLogIn, user, setUser, setIsLoading }) => {
   const navigate = useNavigate();
 
   const [isOpen, setIsOpen] = useState(false);
   const [edit, setEdit] = useState(false);
-  const [username, setUsername] = useState(userInfo.username);
-
-  const [mobile, setMobile] = useState(userInfo.mobile);
+  const [username, setUsername] = useState(user.username);
+  const [mobile, setMobile] = useState(user.mobile);
   const [password, setPassword] = useState(null);
   const [passwordCheck, setPasswordCheck] = useState();
+  const [isReady, setIsReady] = useState(false);
 
   const goBack = () => setEdit(false);
 
@@ -111,16 +138,19 @@ const Mypage = ({ setIsLogIn, userInfo }) => {
 
   const handleEditSubmit = async () => {
     try {
-      const response = await axios.put(`https://localhost:4000/userinfo/${userInfo.id}`, {
+      const response = await axios.put(`https://localhost:4000/userinfo/${user.id}`, {
         username,
         password: password === null ? password : sha256(password),
         mobile,
       });
+      setIsLoading(false);
       if (response.status === 200) {
         setEdit(false);
         setIsOpen(false);
         setUsername(username);
         setMobile(mobile);
+        const userInfo = { id: user.id, email: user.email, username, mobile };
+        setUser(userInfo);
       }
     } catch (err) {
       console.log(err);
@@ -129,15 +159,26 @@ const Mypage = ({ setIsLogIn, userInfo }) => {
 
   const handleDeleteSubmit = async () => {
     try {
-      const response = await axios.delete(`https://localhost:4000/userinfo/${userInfo.id}`);
+      const response = await axios.delete(`https://localhost:4000/userinfo/${user.id}`);
+      setIsLoading(false);
       if (response) {
         setIsLogIn(false);
+        localStorage.clear();
         navigate('/');
       }
     } catch (err) {
       console.log(err);
     }
   };
+
+  useEffect(() => {
+    if (username || mobile) {
+      setIsReady(true);
+    }
+    if (isValidPassword && password && passwordCheck) {
+      setIsReady(true);
+    }
+  });
 
   return (
     <>
@@ -151,50 +192,65 @@ const Mypage = ({ setIsLogIn, userInfo }) => {
               <>
                 <IconContainer onClick={goBack}> 뒤로가기 </IconContainer>
                 <User>
-                  <Info>
-                    USERNAME :{' '}
-                    <Input
-                      type="text"
-                      placeholder={username}
-                      maxLength="8"
-                      onChange={handleChangeName}
-                    />
-                  </Info>
-                  <Info>
-                    MOBILE :{' '}
-                    <Input
-                      type="text"
-                      placeholder={mobile}
-                      onChange={handleChangeMobile}
-                      maxLength="13"
-                      className={isValidMobile ? '' : 'inValidInput'}
-                    />
-                  </Info>
-                  <Info>
-                    PASSWORD :{' '}
-                    <Input
-                      type="password"
-                      onChange={handleChangePassword}
-                      className={isValidPassword ? '' : 'inValidInput'}
-                    />
-                  </Info>
-                  <Info>
-                    PASSWORD CHECK :{' '}
-                    <Input
-                      type="password"
-                      onChange={handleChangePasswordCheck}
-                      className={isValidPassword ? '' : 'inValidInput'}
-                    />
-                    {isValidPassword ? '' : <div>비밀번호가 일치하지 않습니다</div>}
-                  </Info>
-                  <Button onClick={handleModal}>Edit My Info</Button>
+                  <EditBox>
+                    <BoxLabel>Username</BoxLabel>
+                    <BoxInput>
+                      <Input
+                        type="text"
+                        placeholder={username}
+                        maxLength="8"
+                        onChange={handleChangeName}
+                      />
+                    </BoxInput>
+                  </EditBox>
+                  <EditBox>
+                    <BoxLabel>Mobile</BoxLabel>
+                    <BoxInput>
+                      <Input
+                        type="text"
+                        placeholder={mobile}
+                        onChange={handleChangeMobile}
+                        maxLength="13"
+                        className={isValidMobile ? '' : 'inValidInput'}
+                      />
+                    </BoxInput>
+                  </EditBox>
+                  <EditBox>
+                    <BoxLabel>Password</BoxLabel>
+                    <BoxInput>
+                      <Input
+                        type="password"
+                        onChange={handleChangePassword}
+                        className={isValidPassword ? '' : 'inValidInput'}
+                      />
+                    </BoxInput>
+                  </EditBox>
+                  <EditBox>
+                    <BoxLabel>Password Check</BoxLabel>
+                    <BoxInput>
+                      <Input
+                        type="password"
+                        onChange={handleChangePasswordCheck}
+                        className={isValidPassword ? '' : 'inValidInput'}
+                      />
+                      {isValidPassword ? (
+                        ''
+                      ) : (
+                        <ErrorMessage>비밀번호가 일치하지 않습니다</ErrorMessage>
+                      )}
+                    </BoxInput>
+                  </EditBox>
+
+                  <Button onClick={isReady ? handleModal : null} style={{ marginTop: '1.5em' }}>
+                    Edit My Info
+                  </Button>
                 </User>
               </>
             ) : (
               <User>
-                <Info>EMAIL : {userInfo.email}</Info>
-                <Info>USERNAME : {username}</Info>
-                <Info>MOBILE : {mobile}</Info>
+                <Info>EMAIL : {user.email}</Info>
+                <Info>USERNAME : {user.username}</Info>
+                <Info>MOBILE : {user.mobile}</Info>
                 <Button onClick={handleEdit}>Edit My Info</Button>
                 <Button onClick={handleModal}>Delete My Account</Button>
               </User>

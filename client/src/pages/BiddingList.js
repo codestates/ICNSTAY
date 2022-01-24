@@ -1,13 +1,9 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import Sidebar from '../components/Sidebar';
 import List from '../components/List';
-import dummyBid from '../data/dummyBid';
-
-const Container = styled.div`
-  display: flex;
-  height: 100vh;
-`;
+import { Container } from '../styles/Container';
 
 const SidebarContainer = styled.div`
   width: 15%;
@@ -18,44 +14,55 @@ const ListContainer = styled.div`
   height: 100%;
 `;
 
+const ListBox = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
 const Message = styled.div`
+  text-align: center;
   width: 800px;
-  font-size: 20px;
+  font-size: 2em;
   font-weight: 800;
 `;
 
-// TODO: 더미데이터 사용 후 추후 수정
-const bids = dummyBid.filter((el) => el.userId === 1);
+const BiddingList = ({ user }) => {
+  const { id, username } = user;
+  const [list, setList] = useState([]);
 
-// const getBiddingList = async () => {
-//   try {
-//     const response = await axios.get(`/biddinglist`);
-//     const { dummyBid } = response.data.data;
-//     console.log(dummyBid);
-//     if (response.status === 200) {
-//     }
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
+  const getBiddingList = async () => {
+    try {
+      const response = await axios.get(`https://localhost:4000/biddinglist/${id}`);
+      console.log(response.data);
+      if (response.status === 200) {
+        setList(response.data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-const BiddingList = () => {
-  // const data = getBiddingList();
+  useEffect(() => getBiddingList(), []);
+
   return (
     <Container>
       <SidebarContainer>
         <Sidebar />
       </SidebarContainer>
       <ListContainer>
-        {bids.length !== 0 ? (
-          <>
-            <Message>{bids[0].username}님의 비딩 내역😃</Message>
-            <List list={bids} />
-          </>
-        ) : (
-          // TODO: 로그인한 유저 이름 추가 -> ex) tia님의 비딩 내역이 없습니다
-          <Message>비딩 내역이 없네요🥲</Message>
-        )}
+        <ListBox>
+          {list.length !== 0 ? (
+            <>
+              <Message>{username}님의 비딩 내역😃</Message>
+              <List list={list} />
+            </>
+          ) : (
+            <Message>{username}님의 비딩 내역이 없네요🥲</Message>
+          )}
+        </ListBox>
       </ListContainer>
     </Container>
   );

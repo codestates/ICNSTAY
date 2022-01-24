@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Card from '../components/Card';
 import axios from 'axios';
+import Banner from '../components/Banner';
 
 const BannerContainer = styled.div`
   text-align: center;
@@ -24,24 +25,20 @@ const Home = ({ setVisitedPage }) => {
   }, [])
 
   useEffect(async () => {
-    // const REST_API_KEY = '8c7f2d24ac16c0f2a4d3dc987439ddbb'; //나중에 환경변수로 등록할 것! 
-    // const redirect_uri = 'https://localhost:3000'
     const url = new URL(window.location.href);
     const authorizationCode = url.searchParams.get('code');
     if (authorizationCode === null) {
       console.log("no authorizationCode");
     } else {
       console.log(authorizationCode)
-      await axios.post('https://localhost:4000/callback', { authorizationCode });
+      await axios.post('https://localhost:4000/oauth', { authorizationCode });
     }
   }, [window.location.href])
 
   return (
     <div>
       <BannerContainer>
-        <h1>
-          SEE & STAY!
-        </h1>
+        <Banner />
       </BannerContainer>
       <CardBox>
         {accommodationList.map((el, idx) => {
