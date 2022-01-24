@@ -72,7 +72,7 @@ function App() {
   }, []);
 
   useEffect(() => user && localStorage.setItem('user', JSON.stringify(user)), [user]);
-
+  console.log('App.js:', user);
   return (
     <BrowserRouter>
       <GlobalStyle />
@@ -97,25 +97,37 @@ function App() {
               />
             }
           ></Route>
-         {/* 로그인 상태에서 "/signup" 페이지 이동시, "/"로 강제 이동 */}
-          <Route path="/signup" element={isLogIn ?  <Navigate to="/" /> : <SignUp setIsLoading={setIsLoading} />}></Route>
-        {/* 로그인한 상태에서만 이용가능한 페이지: userinfo, biddinglist */}
-        {/* 로그인 하지 않은 상태에서 위의 페이지들로 이동시, "/signin" 페이지로 강제 이동 */}
+          {/* 로그인 상태에서 "/signup" 페이지 이동시, "/"로 강제 이동 */}
+          <Route
+            path="/signup"
+            element={isLogIn ? <Navigate to="/" /> : <SignUp setIsLoading={setIsLoading} />}
+          ></Route>
+          {/* 로그인한 상태에서만 이용가능한 페이지: userinfo, biddinglist */}
+          {/* 로그인 하지 않은 상태에서 위의 페이지들로 이동시, "/signin" 페이지로 강제 이동 */}
           <Route
             path="/userinfo"
             element={
-              isLogIn ? 
-              <Mypage
-                setIsLogIn={setIsLogIn}
-                user={user}
-                setUser={setUser}
-                setIsLoading={setIsLoading}
-              /> : <Navigate to="/signin" />
+              !user ? (
+                <Navigate to="/signin" />
+              ) : (
+                <Mypage
+                  setIsLogIn={setIsLogIn}
+                  user={user}
+                  setUser={setUser}
+                  setIsLoading={setIsLoading}
+                />
+              )
             }
           ></Route>
           <Route
             path="/biddinglist"
-            element={isLogIn ? <BiddingList setIsLoading={setIsLoading} user={user} /> : <Navigate to="/signin" />}
+            element={
+              !user ? (
+                <Navigate to="/signin" />
+              ) : (
+                <BiddingList setIsLoading={setIsLoading} user={user} />
+              )
+            }
           ></Route>
           <Route
             path="/accommodation/:id"
