@@ -10,10 +10,13 @@ import Accommodation from './pages/Accommodation';
 import BiddingList from './pages/BiddingList';
 import GlobalStyle from './styles/GlobalStyle';
 
+axios.defaults.withCredentials = true;
+
 function App() {
   const [isLogIn, setIsLogIn] = useState(false);
   const [user, setUser] = useState(null);
   const [visitedPage, setVisitedPage] = useState('/'); // 방문한 페이지 저장하는 스택
+
   const isAuthenticated = async () => {
     const res = await axios.get('https://localhost:4000/userinfo');
     console.log(res);
@@ -38,6 +41,7 @@ function App() {
       setIsLogIn(false);
     }
   };
+
   useEffect(() => {
     console.log('최근 방문한 페이지:', visitedPage);
   }, [visitedPage]);
@@ -49,7 +53,6 @@ function App() {
       <Routes>
         <Route exact path="/" element={<Home setVisitedPage={setVisitedPage} />}></Route>
         <Route
-          exact
           path="/signin"
           element={<SignIn handleResponseSuccess={handleResponseSuccess} visitedPage={visitedPage} />}
         ></Route>
