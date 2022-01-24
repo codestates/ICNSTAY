@@ -69,10 +69,10 @@ function App() {
     }
   }, []);
 
-  useEffect(
-    () => isLogIn && localStorage.setItem('isLoggedIn', JSON.stringify(isLogIn)),
-    [isLogIn]
-  );
+  // useEffect(
+  //   () => isLogIn && localStorage.setItem('isLoggedIn', JSON.stringify(isLogIn)),
+  //   [isLogIn]
+  // );
 
   useEffect(() => user && localStorage.setItem('user', JSON.stringify(user)), [user]);
 
