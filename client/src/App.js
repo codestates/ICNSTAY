@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 // import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import Header from './components/Header';
@@ -91,16 +91,15 @@ function App() {
         ></Route>
         <Route path="/accommodation/:id" element={<Accommodation />}></Route>
         <Route path="/signout" element={<Home />}></Route>
-
-        {/* 로그인한 유저가 회원가입 페이지로 이동하려고 할때에는, "/" 페이지로 강제 이동 */}
-        {/* 로그인하지 않았을때는, signup 페이지로 정상 이동 */}
+        {/* 로그인 상태에서 "/signup" 페이지 이동시, "/"로 강제 이동 */}
         <Route path="/signup" element={isLogIn ? <Navigate to="/" /> : <SignUp />}></Route>
-        {/* 로그인하지 않은 유저가, 로그인해야 이용가능한 페이지에 접근시, "/signin" 페이지로 강제 이동*/}
+        {/* 로그인한 상태에서만 이용가능한 페이지: userinfo, biddinglist */}
+        {/* 로그인 하지 않은 상태에서 위의 페이지들로 이동시, "/signin" 페이지로 강제 이동 */}
         <Route
           path="/userinfo"
           element={
             isLogIn ? (
-              <Mypage setIsLogIn={setIsLogIn} user={user} setUser={setUser} />
+              <Mypage setIsLogIn={setIsLogIn} user={user} setUser={setUser} getUser={getUser} />
             ) : (
               <Navigate to="/signin" />
             )
@@ -110,8 +109,7 @@ function App() {
           path="/biddinglist"
           element={isLogIn ? <BiddingList /> : <Navigate to="/signin" />}
         ></Route>
-
-        {/* 잘못된 주소 입력시 "/" 주소로 강제 이동 */}
+        {/* 잘못된 주소 입력시 "/"로 강제 이동 */}
         <Route path="*" element={<Navigate to="/" />}></Route>
       </Routes>
     </BrowserRouter>
