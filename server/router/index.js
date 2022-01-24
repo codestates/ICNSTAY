@@ -10,8 +10,8 @@ router.put( '/userinfo/:id', user.userinfo.put );
 router.delete( '/userinfo/:id', user.userinfo.delete );
 router.get( '/biddingList', user.biddingList );
 
-router.get( '/accommodation', accommodation.list );
-router.get( '/accommodation/:id', accommodation.detail );
-router.post( '/accommodation/:id', accommodation.bid );
+router.get('/accommodation', accommodation.list);
+router.get('/accommodation/:id', accommodation.detail);
+router.post('/accommodation/:id', accommodation.bid); // 추후 수정 필요: 코딩 위치가 user.router 위로 올라가면 경로 꼬임
 
 module.exports = router;
