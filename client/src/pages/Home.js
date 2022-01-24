@@ -31,7 +31,7 @@ const Home = ({ setVisitedPage }) => {
       console.log("no authorizationCode");
     } else {
       console.log(authorizationCode)
-      await axios.post('https://localhost:4000/oauth', { authorizationCode });
+      await axios.post('https://localhost:4000/oauth/signin', { authorizationCode });
     }
   }, [window.location.href])
 

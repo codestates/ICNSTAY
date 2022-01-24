@@ -94,6 +94,7 @@ function App() {
                 handleResponseSuccess={handleResponseSuccess}
                 visitedPage={visitedPage}
                 setIsLoading={setIsLoading}
+                setIsLogIn={setIsLogIn}
               />
             }
           ></Route>
