@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { sha256 } from 'js-sha256';
 import axios from 'axios';
@@ -30,8 +30,6 @@ const UserBox = styled.div`
 `;
 
 const IconContainer = styled.div`
-  /* width: 38%;
-  align-self: flex-end; */
   cursor: pointer;
 `;
 
@@ -61,24 +59,12 @@ const Info = styled.span`
 const Mypage = ({ setIsLogIn, user, setUser, setIsLoading }) => {
   const navigate = useNavigate();
 
-  console.log('Mypage: ', user);
-
   const [isOpen, setIsOpen] = useState(false);
   const [edit, setEdit] = useState(false);
   const [username, setUsername] = useState(user.username);
   const [mobile, setMobile] = useState(user.mobile);
   const [password, setPassword] = useState(null);
   const [passwordCheck, setPasswordCheck] = useState();
-
-  // useEffect(() => {
-  //   const stored = sessionStorage.getItem('userInfo');
-  //   if (!stored) return user;
-  //   else {
-  //     const data = JSON.parse(stored);
-  //     console.log(data);
-  //     return setUser(data);
-  //   }
-  // }, []);
 
   const goBack = () => setEdit(false);
 
