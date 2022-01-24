@@ -17,8 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     location: DataTypes.STRING,
     description: DataTypes.STRING,
-    minPrice: DataTypes.STRING,
-    due: DataTypes.DATE
+    minPrice: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'accommodation',

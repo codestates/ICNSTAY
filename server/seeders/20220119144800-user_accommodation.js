@@ -19,8 +19,8 @@ module.exports = {
         checkInDate: '1월 19일(수)',
         checkOutDate: '1월 21일(금)',
         biddingPrice: '200,000원',
-        createdAt: new Date(),
-        updatedAt: new Date()
+        createdAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
+        updatedAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
       },
       {
         id: 2,
@@ -29,8 +29,8 @@ module.exports = {
         checkInDate: '1월 17일(월)',
         checkOutDate: '1월 21일(금)',
         biddingPrice: '400,000원',
-        createdAt: new Date(),
-        updatedAt: new Date()
+        createdAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
+        updatedAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
       },
       {
         id: 3,
@@ -39,8 +39,8 @@ module.exports = {
         checkInDate: '1월 20일(목)',
         checkOutDate: '1월 23일(일)',
         biddingPrice: '450,000원',
-        createdAt: new Date(),
-        updatedAt: new Date()
+        createdAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
+        updatedAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
       },
       {
         id: 4,
@@ -49,8 +49,8 @@ module.exports = {
         checkInDate: '1월 19일(수)',
         checkOutDate: '1월 21일(금)',
         biddingPrice: '150,000원',
-        createdAt: new Date(),
-        updatedAt: new Date()
+        createdAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
+        updatedAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
       },
       {
         id: 5,
@@ -59,8 +59,8 @@ module.exports = {
         checkInDate: '1월 20일(목)',
         checkOutDate: '1월 23일(일)',
         biddingPrice: '450,000원',
-        createdAt: new Date(),
-        updatedAt: new Date()
+        createdAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
+        updatedAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
       },
       {
         id: 6,
@@ -69,8 +69,8 @@ module.exports = {
         checkInDate: '1월 20일(목)',
         checkOutDate: '1월 23일(일)',
         biddingPrice: '500,000원',
-        createdAt: new Date(),
-        updatedAt: new Date()
+        createdAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
+        updatedAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
       },
       {
         id: 7,
@@ -79,8 +79,8 @@ module.exports = {
         checkInDate: '1월 20일(목)',
         checkOutDate: '1월 23일(일)',
         biddingPrice: '550,000원',
-        createdAt: new Date(),
-        updatedAt: new Date()
+        createdAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
+        updatedAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
       }
     ], {});
   },
