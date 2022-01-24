@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { sha256 } from 'js-sha256';
 import axios from 'axios';
 import styled from 'styled-components';
 import Sidebar from '../components/Sidebar';
 import Modal from '../components/Modal';
-import { Button } from '../styles/Button';
+import pencilIcon from '../data/pencil.png';
 
 const Container = styled.div`
   display: flex;
@@ -35,13 +34,33 @@ const IconContainer = styled.div`
   cursor: pointer;
 `;
 
+const Icon = styled.img`
+  src: ${(props) => props.src};
+  width: 20px;
+  height: 20px;
+`;
+
 const Input = styled.input`
   all: unset;
   border: 1px solid black;
   padding: 0.1em;
 
-  .inValidInput {
+  &.inValidInput {
     border: 1px solid red;
+  }
+`;
+
+const Button = styled.button`
+  all: unset;
+  cursor: pointer;
+  padding: 0.8em;
+  border: 1px solid black;
+  width: 80%;
+  text-align: center;
+  &:hover {
+    background: black;
+    color: white;
+    transition: 0.7s;
   }
 `;
 
@@ -59,23 +78,33 @@ const Info = styled.span`
   padding: 0.8em;
 `;
 
-const Mypage = ({ setIsLogIn, userInfo }) => {
-  const navigate = useNavigate();
-
+const Mypage = ({ userInfo }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [text, setText] = useState('Edit');
   const [edit, setEdit] = useState(false);
-  const [username, setUsername] = useState(userInfo.username);
-
+  const [email, setEmail] = useState(userInfo.email);
+  const [name, setName] = useState(userInfo.username);
   const [mobile, setMobile] = useState(userInfo.mobile);
   const [password, setPassword] = useState(null);
   const [passwordCheck, setPasswordCheck] = useState();
 
-  const goBack = () => setEdit(false);
+  const handleEdit = () => {
+    if (edit) {
+      setEdit(false);
+      setText('Edit');
+    } else {
+      setEdit(true);
+      setText('에딧 취소');
+    }
+  };
 
-  const handleEdit = () => setEdit(!edit);
+  const handleChangeEmail = (e) => {
+    setEmail(e.target.value);
+    isValidEmailFormat(e.target.value) ? setIsValidEmail(true) : setIsValidEmail(false);
+  };
 
   const handleChangeName = (e) => {
-    setUsername(e.target.value);
+    setName(e.target.value);
   };
 
   const handleChangeMobile = (e) => {
@@ -93,46 +122,47 @@ const Mypage = ({ setIsLogIn, userInfo }) => {
   };
 
   // Validation check
+  const isValidEmailFormat = (string) => {
+    let format = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$');
+    return format.test(string);
+  };
   const isValidMobileFormat = (string) => {
     let format = new RegExp('^01([0|1|6|7|8|9])-([0-9]{4})-([0-9]{4})$');
     return format.test(string);
   };
-
   const isSamePassword = (originalPassword, doubleCheckPassword) => {
     return originalPassword === doubleCheckPassword;
   };
 
+  const [isValidEmail, setIsValidEmail] = useState(true);
   const [isValidMobile, setIsValidMobile] = useState(true);
   const [isValidPassword, setIsValidPassword] = useState(true);
+  const [isValidName, setIsValidName] = useState(true);
+  const [isUniqueEmail, setIsUniqueEmail] = useState(true);
 
   const handleModal = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleEditSubmit = async () => {
+  const handleSignupSubmit = async () => {
+    const userInformation = {
+      email,
+      name,
+      password: password === null ? null : sha256(password),
+      mobile,
+    };
+    console.log(userInformation);
     try {
-      const response = await axios.put(`https://localhost:4000/userinfo/${userInfo.id}`, {
-        username,
-        password: password === null ? password : sha256(password),
-        mobile,
+      const response = await axios.put(`/userinfo/${userInfo.id}`, {
+        userInformation,
       });
       if (response.status === 200) {
         setEdit(false);
+        setText('Edit');
         setIsOpen(false);
-        setUsername(username);
-        setMobile(mobile);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const handleDeleteSubmit = async () => {
-    try {
-      const response = await axios.delete(`https://localhost:4000/userinfo/${userInfo.id}`);
-      if (response) {
-        setIsLogIn(false);
-        navigate('/');
+        setEmail(userInformation.email);
+        setName(userInformation.name);
+        setMobile(userInformation.mobile);
       }
     } catch (err) {
       console.log(err);
@@ -147,15 +177,27 @@ const Mypage = ({ setIsLogIn, userInfo }) => {
         </SidebarContainer>
         <UserContainer>
           <UserBox>
-            {edit ? (
-              <>
-                <IconContainer onClick={goBack}> 뒤로가기 </IconContainer>
-                <User>
+            <IconContainer onClick={handleEdit}>
+              {text} <Icon src={pencilIcon} />
+            </IconContainer>
+            <User>
+              {edit ? (
+                <>
+                  <Info>
+                    Email :{' '}
+                    <Input
+                      type="text"
+                      placeholder={email}
+                      onChange={handleChangeEmail}
+                      className={isValidEmail ? '' : 'inValidInput'}
+                    />
+                    {isValidEmail ? '' : <div>올바른 이메일 형식이 아닙니다</div>}
+                  </Info>
                   <Info>
                     USERNAME :{' '}
                     <Input
                       type="text"
-                      placeholder={username}
+                      placeholder={name}
                       maxLength="8"
                       onChange={handleChangeName}
                     />
@@ -188,34 +230,37 @@ const Mypage = ({ setIsLogIn, userInfo }) => {
                     {isValidPassword ? '' : <div>비밀번호가 일치하지 않습니다</div>}
                   </Info>
                   <Button onClick={handleModal}>Edit My Info</Button>
-                </User>
-              </>
-            ) : (
-              <User>
-                <Info>EMAIL : {userInfo.email}</Info>
-                <Info>USERNAME : {username}</Info>
-                <Info>MOBILE : {mobile}</Info>
-                <Button onClick={handleEdit}>Edit My Info</Button>
-                <Button onClick={handleModal}>Delete My Account</Button>
-              </User>
-            )}
+                  {isValidName ? '' : <div>다른 사용자가 이용중인 이름입니다.</div>}
+                  {isUniqueEmail ? '' : <div>이미 등록된 Email입니다.</div>}
+                </>
+              ) : (
+                <>
+                  <Info>EMAIL : {email}</Info>
+                  <Info>USERNAME : {name}</Info>
+                  <Info>MOBILE : {mobile}</Info>
+                </>
+              )}
+            </User>
           </UserBox>
         </UserContainer>
       </Container>
-      {isOpen & edit ? (
+      {/* {isOpen ? (
+        <ModalBackground>
+          <ModalContainer>
+            <ModalContent>입력하신 정보로 수정하시겠습니까?</ModalContent>
+            <ModalButton type={'YES'} onClick={handleSignupSubmit}>
+              YES
+            </ModalButton>
+            <ModalButton onClick={handleModal}>NO</ModalButton>
+          </ModalContainer>
+        </ModalBackground>
+      ) : null} */}
+      {isOpen ? (
         <Modal
           isOpen={isOpen}
           setIsOpen={setIsOpen}
           text={'이대로 수정 하시겠습니까?'}
-          handleYesButton={handleEditSubmit}
-        />
-      ) : null}
-      {isOpen && !edit ? (
-        <Modal
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
-          text={'정말 탈퇴하시겠습니까?'}
-          handleYesButton={handleDeleteSubmit}
+          handleYesButton={handleSignupSubmit}
         />
       ) : null}
     </>

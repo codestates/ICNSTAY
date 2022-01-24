@@ -122,11 +122,7 @@ function App() {
         <Route path="/signup" element={<SignUp />}></Route> 
 
 
-        <Route
-          path="/userinfo"
-          element={<Mypage setIsLogIn={setIsLogIn} userInfo={user} />}
-        ></Route>
-
+        <Route path="/userinfo" element={<Mypage userInfo={user} />}></Route>
         <Route path="/biddinglist" element={<BiddingList />}></Route>
 
         <Route path="/accommodation/:id" element={<Accommodation />}></Route>
