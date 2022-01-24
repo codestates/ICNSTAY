@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { sha256 } from 'js-sha256';
 import axios from 'axios';
@@ -6,11 +6,8 @@ import styled from 'styled-components';
 import Sidebar from '../components/Sidebar';
 import { Modal } from '../components/Modal';
 import { Button } from '../styles/Button';
-
-const Container = styled.div`
-  display: flex;
-  height: 100vh;
-`;
+import { Container } from '../styles/Container';
+import { Input } from '../styles/Input';
 
 const SidebarContainer = styled.div`
   width: 15%;
@@ -27,41 +24,60 @@ const UserBox = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  text-align: center;
 `;
 
 const IconContainer = styled.div`
-  /* width: 38%;
-  align-self: flex-end; */
   cursor: pointer;
+  margin-bottom: 1em;
+  font-weight: 500;
 `;
 
-const Input = styled.input`
-  all: unset;
-  border: 1px solid black;
-  padding: 0.1em;
-  .inValidInput {
-    border: 1px solid red;
-  }
-`;
+// const Input = styled.input`
+//   all: unset;
+//   border: 1px solid black;
+//   padding: 0.1em;
+//   .inValidInput {
+//     border: 1px solid red;
+//   }
+// `;
 
 const User = styled.div`
-  width: 500px;
-  height: 500px;
+  width: 450px;
+  height: 450px;
   border: 1px solid black;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  /* padding: 1em;
+  margin: 1em; */
 `;
 
-const Info = styled.span`
+const EditBox = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const BoxLabel = styled.div`
+  margin-left: 1em;
+  width: 25%;
+`;
+
+const BoxInput = styled.div`
+  /* margin-right: 1em; */
+  width: 75%;
+`;
+
+const Info = styled.div`
   padding: 0.8em;
 `;
 
 const Mypage = ({ setIsLogIn, user, setUser, setIsLoading }) => {
   const navigate = useNavigate();
-
-  console.log('Mypage: ', user);
 
   const [isOpen, setIsOpen] = useState(false);
   const [edit, setEdit] = useState(false);
@@ -69,16 +85,6 @@ const Mypage = ({ setIsLogIn, user, setUser, setIsLoading }) => {
   const [mobile, setMobile] = useState(user.mobile);
   const [password, setPassword] = useState(null);
   const [passwordCheck, setPasswordCheck] = useState();
-
-  // useEffect(() => {
-  //   const stored = sessionStorage.getItem('userInfo');
-  //   if (!stored) return user;
-  //   else {
-  //     const data = JSON.parse(stored);
-  //     console.log(data);
-  //     return setUser(data);
-  //   }
-  // }, []);
 
   const goBack = () => setEdit(false);
 
@@ -165,43 +171,53 @@ const Mypage = ({ setIsLogIn, user, setUser, setIsLoading }) => {
               <>
                 <IconContainer onClick={goBack}> 뒤로가기 </IconContainer>
                 <User>
-                  <Info>
-                    USERNAME :{' '}
-                    <Input
-                      type="text"
-                      placeholder={username}
-                      maxLength="8"
-                      onChange={handleChangeName}
-                    />
-                  </Info>
-                  <Info>
-                    MOBILE :{' '}
-                    <Input
-                      type="text"
-                      placeholder={mobile}
-                      onChange={handleChangeMobile}
-                      maxLength="13"
-                      className={isValidMobile ? '' : 'inValidInput'}
-                    />
-                  </Info>
-                  <Info>
-                    PASSWORD :{' '}
-                    <Input
-                      type="password"
-                      onChange={handleChangePassword}
-                      className={isValidPassword ? '' : 'inValidInput'}
-                    />
-                  </Info>
-                  <Info>
-                    PASSWORD CHECK :{' '}
-                    <Input
-                      type="password"
-                      onChange={handleChangePasswordCheck}
-                      className={isValidPassword ? '' : 'inValidInput'}
-                    />
+                  <EditBox>
+                    <BoxLabel>Username</BoxLabel>
+                    <BoxInput>
+                      <Input
+                        type="text"
+                        placeholder={username}
+                        maxLength="8"
+                        onChange={handleChangeName}
+                      />
+                    </BoxInput>
+                  </EditBox>
+                  <EditBox>
+                    <BoxLabel>Mobile</BoxLabel>
+                    <BoxInput>
+                      <Input
+                        type="text"
+                        placeholder={mobile}
+                        onChange={handleChangeMobile}
+                        maxLength="13"
+                        className={isValidMobile ? '' : 'inValidInput'}
+                      />
+                    </BoxInput>
+                  </EditBox>
+                  <EditBox>
+                    <BoxLabel>Password</BoxLabel>
+                    <BoxInput>
+                      <Input
+                        type="password"
+                        onChange={handleChangePassword}
+                        className={isValidPassword ? '' : 'inValidInput'}
+                      />
+                    </BoxInput>
+                  </EditBox>
+                  <EditBox>
+                    <BoxLabel>Password Check</BoxLabel>
+                    <BoxInput>
+                      <Input
+                        type="password"
+                        onChange={handleChangePasswordCheck}
+                        className={isValidPassword ? '' : 'inValidInput'}
+                      />
+                    </BoxInput>
                     {isValidPassword ? '' : <div>비밀번호가 일치하지 않습니다</div>}
-                  </Info>
-                  <Button onClick={handleModal}>Edit My Info</Button>
+                  </EditBox>
+                  <Button onClick={handleModal} style={{ marginTop: '1em' }}>
+                    Edit My Info
+                  </Button>
                 </User>
               </>
             ) : (

@@ -86,9 +86,6 @@ const SignIn = ({ handleResponseSuccess, visitedPage, setIsLoading }) => {
         `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=https://localhost:3000&response_type=code`
       );
       setIsLoading(false);
-      // const url = await new URL(window.location.href);
-      // const authorizationCode = url.searchParams.get('code');
-      // await axios.post("https://localhost:4000/auth", {authorizationCode}); // 나중에 auth 관련 api가 완성되면 보내기!
     } catch (err) {
       console.log(err);
     }
