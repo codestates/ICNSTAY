@@ -13,5 +13,10 @@ module.exports = async (req, res) => {
     }
   });
   // console.log(finder.map(list => list.dataValues.accommodation.name)) => 숙박시설 name 조회
-  res.status(200).json('get user bidding list')
+  if (finder) {
+    const list = find.dataValues;
+    res.status(200).json(list)
+  }else {
+    res.status(404).json({ message: 'list not exist' });
+  }
 }
