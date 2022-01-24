@@ -1,13 +1,9 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import Sidebar from '../components/Sidebar';
 import List from '../components/List';
-import { useEffect, useState } from 'react';
-
-const Container = styled.div`
-  display: flex;
-  height: 100vh;
-`;
+import { Container } from '../styles/Container';
 
 const SidebarContainer = styled.div`
   width: 15%;
@@ -18,9 +14,18 @@ const ListContainer = styled.div`
   height: 100%;
 `;
 
+const ListBox = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
 const Message = styled.div`
+  text-align: center;
   width: 800px;
-  font-size: 20px;
+  font-size: 2em;
   font-weight: 800;
 `;
 
@@ -48,14 +53,16 @@ const BiddingList = ({ user }) => {
         <Sidebar />
       </SidebarContainer>
       <ListContainer>
-        {list.length !== 0 ? (
-          <>
-            <Message>{username}님의 비딩 내역😃</Message>
-            <List list={list} />
-          </>
-        ) : (
-          <Message>{username}님의 비딩 내역이 없네요🥲</Message>
-        )}
+        <ListBox>
+          {list.length !== 0 ? (
+            <>
+              <Message>{username}님의 비딩 내역😃</Message>
+              <List list={list} />
+            </>
+          ) : (
+            <Message>{username}님의 비딩 내역이 없네요🥲</Message>
+          )}
+        </ListBox>
       </ListContainer>
     </Container>
   );

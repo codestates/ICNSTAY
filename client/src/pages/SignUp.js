@@ -20,6 +20,7 @@ const SignUpContainer = styled.div`
 const SignUpHeader = styled.div`
   font-size: 18px;
   margin-bottom: 1em;
+  font-weight: 500;
 `;
 
 const SignUpBox = styled.div`
@@ -50,7 +51,7 @@ const ButtonBox = styled.div`
   margin-top: 0.8em;
 `;
 
-const SignUp = ({setIsLoading}) => {
+const SignUp = ({ setIsLoading }) => {
   // Setup variances
   const history = useNavigate();
   // Input data variances
@@ -82,7 +83,7 @@ const SignUp = ({setIsLoading}) => {
   };
   const handleSuccessModal = () => {
     history('/signin');
-  }
+  };
   const handleSignupSubmit = async () => {
     const userInformation = {
       email: email,
@@ -100,7 +101,7 @@ const SignUp = ({setIsLoading}) => {
       if (err.response.status === 409) {
         setIsUniqueEmail(false);
       } else if (err.response.status === 422) {
-        console.log('Insufficient parameters')
+        console.log('Insufficient parameters');
       }
     }
   };
@@ -210,7 +211,7 @@ const SignUp = ({setIsLoading}) => {
             </Link>
           </p>
         </ButtonBox>
-        {openSuccessModal ? <SignupModal handleSuccessModal={handleSuccessModal}/>: ''}
+        {openSuccessModal ? <SignupModal handleSuccessModal={handleSuccessModal} /> : ''}
       </SignUpContainer>
     </Container>
   );
