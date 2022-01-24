@@ -85,7 +85,7 @@ const SignIn = ({ handleResponseSuccess, visitedPage, setIsLoading }) => {
       await window.location.assign(
         `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=https://localhost:3000&response_type=code`
       );
-      handleResponseSuccess("fake_token"); // 나중에 진짜 액세스 토큰전달할 예정
+      handleResponseSuccess("fake_token"); // 일단 임시로 토큰 지정해서 소셜 로그인 시 로그인 상태로 만듬, 나중에 진짜 액세스 토큰전달할 예정
       setIsLoading(false);
     } catch (err) {
       console.log(err);
