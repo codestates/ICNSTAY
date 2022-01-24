@@ -2,7 +2,6 @@
 const {
 Model
 } = require('sequelize');
-const user = require('./user')
 module.exports = (sequelize, DataTypes) => {
   class accommodation extends Model {
     /**
