@@ -18,6 +18,7 @@ module.exports = {
         location: 'Soeul',
         description: 'It is hotel deluna',
         minPrice: '20000원',
+        maxPrice: '30000원',
         due: new Date(),
         createdAt: new Date(),
         updatedAt: new Date()
@@ -28,6 +29,7 @@ module.exports = {
         location: 'Seogwipo',
         description: 'It is hyri minbak',
         minPrice: '90000원',
+        maxPrice: '100000원',
         due: new Date(),
         createdAt: new Date(),
         updatedAt: new Date()
@@ -38,6 +40,7 @@ module.exports = {
         location: 'Busan',
         description: 'It is sinla hotel',
         minPrice: '10000원',
+        maxPrice: '10000원',
         due: new Date(),
         createdAt: new Date(),
         updatedAt: new Date()
@@ -48,6 +51,7 @@ module.exports = {
         location: 'Here',
         description: 'It is oasis',
         minPrice: '60000원',
+        maxPrice: '70000원',
         due: new Date(),
         createdAt: new Date(),
         updatedAt: new Date()
@@ -58,6 +62,7 @@ module.exports = {
         location: 'There',
         description: 'It is oken sauna',
         minPrice: '70000원',
+        maxPrice: '70000원',
         due: new Date(),
         createdAt: new Date(),
         updatedAt: new Date()
@@ -68,6 +73,7 @@ module.exports = {
         location: 'Jeju',
         description: 'It is fack hotel',
         minPrice: '0원', 
+        maxPrice: '1000원', 
         due: new Date(),
         createdAt: new Date(),
         updatedAt: new Date()
@@ -78,6 +84,7 @@ module.exports = {
         location: 'Ulsan',
         description: 'It is kenzip',
         minPrice: '50000원',
+        maxPrice: '55000원',
         due: new Date(),
         createdAt: new Date(),
         updatedAt: new Date()
@@ -88,6 +95,7 @@ module.exports = {
         location: 'Changwon',
         description: 'It is neorbunbang',
         minPrice: '0원',
+        maxPrice: '20000원',
         due: new Date(),
         createdAt: new Date(),
         updatedAt: new Date()
@@ -98,6 +106,7 @@ module.exports = {
         location: 'Incheon',
         description: 'It is ssanbang',
         minPrice: '0원',
+        maxPrice: '500원',
         due: new Date(),
         createdAt: new Date(),
         updatedAt: new Date()
