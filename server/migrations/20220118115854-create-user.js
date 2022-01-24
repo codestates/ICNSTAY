@@ -18,8 +18,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       mobile: {
-        type: Sequelize.STRING,
-        allowNull: true,
+        type: Sequelize.STRING
       },
       social: {
         type: Sequelize.STRING,

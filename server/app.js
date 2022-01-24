@@ -10,7 +10,6 @@ const router = require('./router');
 
 const clientUrl = process.env.CLIENT_URL || 'https://localhost:3000';
 
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
@@ -20,7 +19,6 @@ app.use(
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
   })
 );
-
 app.use(cookieParser());
 
 app.use('/', router);
