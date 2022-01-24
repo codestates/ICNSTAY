@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 // import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import Header from './components/Header';
@@ -97,22 +97,25 @@ function App() {
               />
             }
           ></Route>
-          <Route path="/signup" element={<SignUp setIsLoading={setIsLoading} />}></Route>
+         {/* 로그인 상태에서 "/signup" 페이지 이동시, "/"로 강제 이동 */}
+          <Route path="/signup" element={isLogIn ?  <Navigate to="/" /> : <SignUp setIsLoading={setIsLoading} />}></Route>
+        {/* 로그인한 상태에서만 이용가능한 페이지: userinfo, biddinglist */}
+        {/* 로그인 하지 않은 상태에서 위의 페이지들로 이동시, "/signin" 페이지로 강제 이동 */}
           <Route
             path="/userinfo"
             element={
+              isLogIn ? 
               <Mypage
                 setIsLogIn={setIsLogIn}
                 user={user}
                 setUser={setUser}
-                getUser={getUser}
                 setIsLoading={setIsLoading}
-              />
+              /> : <Navigate to="/signin" />
             }
           ></Route>
           <Route
             path="/biddinglist"
-            element={<BiddingList setIsLoading={setIsLoading} user={user} />}
+            element={isLogIn ? <BiddingList setIsLoading={setIsLoading} user={user} /> : <Navigate to="/signin" />}
           ></Route>
           <Route
             path="/accommodation/:id"
@@ -120,6 +123,8 @@ function App() {
           ></Route>
           <Route path="/signout" element={<Home setIsLoading={setIsLoading} />}></Route>
           <Route path="/preloader" element={<Preloader />}></Route>
+          {/* 잘못된 주소 입력시 "/"로 강제 이동 */}
+          <Route path="*" element={<Navigate to="/" />}></Route>
         </Routes>
       )}
     </BrowserRouter>
