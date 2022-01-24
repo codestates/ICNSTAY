@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { sha256 } from 'js-sha256';
 import axios from 'axios';
@@ -56,6 +56,7 @@ const User = styled.div`
 
 const EditBox = styled.div`
   width: 100%;
+
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -70,10 +71,19 @@ const BoxLabel = styled.div`
 const BoxInput = styled.div`
   /* margin-right: 1em; */
   width: 75%;
+  position: relative;
 `;
 
 const Info = styled.div`
   padding: 0.8em;
+`;
+
+const ErrorMessage = styled.div`
+  font-size: 12px;
+  color: #ff0000;
+  position: absolute;
+  bottom: -5px;
+  left: 40px;
 `;
 
 const Mypage = ({ setIsLogIn, user, setUser, setIsLoading }) => {
@@ -85,6 +95,7 @@ const Mypage = ({ setIsLogIn, user, setUser, setIsLoading }) => {
   const [mobile, setMobile] = useState(user.mobile);
   const [password, setPassword] = useState(null);
   const [passwordCheck, setPasswordCheck] = useState();
+  const [isReady, setIsReady] = useState(false);
 
   const goBack = () => setEdit(false);
 
@@ -152,12 +163,19 @@ const Mypage = ({ setIsLogIn, user, setUser, setIsLoading }) => {
       setIsLoading(false);
       if (response) {
         setIsLogIn(false);
+        localStorage.clear();
         navigate('/');
       }
     } catch (err) {
       console.log(err);
     }
   };
+
+  useEffect(() => {
+    if (isValidPassword && password && passwordCheck) {
+      setIsReady(true);
+    }
+  });
 
   return (
     <>
@@ -212,10 +230,15 @@ const Mypage = ({ setIsLogIn, user, setUser, setIsLoading }) => {
                         onChange={handleChangePasswordCheck}
                         className={isValidPassword ? '' : 'inValidInput'}
                       />
+                      {isValidPassword ? (
+                        ''
+                      ) : (
+                        <ErrorMessage>비밀번호가 일치하지 않습니다</ErrorMessage>
+                      )}
                     </BoxInput>
-                    {isValidPassword ? '' : <div>비밀번호가 일치하지 않습니다</div>}
                   </EditBox>
-                  <Button onClick={handleModal} style={{ marginTop: '1em' }}>
+
+                  <Button onClick={isReady ? handleModal : null} style={{ marginTop: '1.5em' }}>
                     Edit My Info
                   </Button>
                 </User>
