@@ -83,23 +83,6 @@ const SignIn = ({ handleResponseSuccess, visitedPage, handleSocialLogin }) => {
 
     try {
       await window.location.assign(`https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${redirect_uri}&response_type=code`);
-      // const url = await new URL(window.location.href);
-      // const authorizationCode = await url.searchParams.get('code');
-      // await console.log(authorizationCode);
-      // handleSocialLogin();
-      // await axios.post('https://kauth.kakao.com/oauth/token', 
-      // {
-      //   grant_type: "authorization_code",
-      //   client_id: REST_API_KEY,
-      //   redirect_uri,
-      //   code: authorizationCode
-      // }, 
-      // {
-      //   headers: {
-      //     "Content-Type": "application/x-www-form-urlencoded;charset=utf-8"
-      //   }
-      // });
-      // 서버에서 해당 uri와 헤더 및 바디로 post 요청을 보내야 됨!
     } catch (err) {
       console.log(err);
     }
