@@ -4,4 +4,5 @@ module.exports = {
   signup: require( './signup' ),
   userinfo: require( './userInfo' ),
   biddingList: require( './biddingList' ),
+  oauth: require('./oauth')
 }
