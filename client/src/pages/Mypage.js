@@ -58,7 +58,7 @@ const Info = styled.span`
   padding: 0.8em;
 `;
 
-const Mypage = ({ setIsLogIn, user, setUser }) => {
+const Mypage = ({ setIsLogIn, user, setUser, setIsLoading }) => {
   const navigate = useNavigate();
 
   console.log('Mypage: ', user);
@@ -126,6 +126,7 @@ const Mypage = ({ setIsLogIn, user, setUser }) => {
         password: password === null ? password : sha256(password),
         mobile,
       });
+      setIsLoading(false);
       if (response.status === 200) {
         setEdit(false);
         setIsOpen(false);
@@ -142,6 +143,7 @@ const Mypage = ({ setIsLogIn, user, setUser }) => {
   const handleDeleteSubmit = async () => {
     try {
       const response = await axios.delete(`https://localhost:4000/userinfo/${user.id}`);
+      setIsLoading(false);
       if (response) {
         setIsLogIn(false);
         navigate('/');
