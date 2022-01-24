@@ -39,7 +39,6 @@ const Input = styled.input`
   all: unset;
   border: 1px solid black;
   padding: 0.1em;
-
   .inValidInput {
     border: 1px solid red;
   }
@@ -132,6 +131,8 @@ const Mypage = ({ setIsLogIn, user, setUser }) => {
         setIsOpen(false);
         setUsername(username);
         setMobile(mobile);
+        const userInfo = { id: user.id, email: user.email, username, mobile };
+        setUser(userInfo);
       }
     } catch (err) {
       console.log(err);
