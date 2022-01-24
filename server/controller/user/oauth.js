@@ -16,29 +16,32 @@ module.exports = {
     const headers = {
       'Content-Type': 'application/x-www-form-urlencoded'
     }
-
-    const tokenReciever = await axios.post('https://kauth.kakao.com/oauth/token', body, headers)
-    const {access_token, refresh_token} = tokenReciever.data
-
-    res.cookie('refreshToken', refresh_token, { sameSite: 'None', secure: true, httpOnly: true })
-
-    const userInfoReciver = await axios.get("https://kapi.kakao.com/v2/user/me", {
-      body: {
-        property_keys: ['kakao_account.email']
-      },
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: `Bearer ${access_token}`
-      }
-    })
-    const { profile, email } = userInfoReciver.data.kakao_account;
-    const [userFinder, created] = await user.findOrCreate({
-      where: { username: profile.nickname, email },
-      defaults: { social: 'kakao' },
-      attributes: {exclude: ['password', 'createdAt', 'updatedAt']}
-    })
-    
-    res.status(200).json({access_token, userFinder});
+    try{
+      const tokenReciever = await axios.post('https://kauth.kakao.com/oauth/token', body, headers)
+      const {access_token, refresh_token} = tokenReciever.data
+  
+      res.cookie('refreshToken', refresh_token, { sameSite: 'None', secure: true, httpOnly: true })
+  
+      const userInfoReciver = await axios.get("https://kapi.kakao.com/v2/user/me", {
+        body: {
+          property_keys: ['kakao_account.email']
+        },
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Authorization: `Bearer ${access_token}`
+        }
+      })
+      const { profile, email } = userInfoReciver.data.kakao_account;
+      const [userFinder, created] = await user.findOrCreate({
+        where: { username: profile.nickname, email },
+        defaults: { social: 'kakao' },
+        attributes: {exclude: ['password', 'createdAt', 'updatedAt']}
+      })
+      
+      res.status(200).json({access_token, userFinder});
+    }catch (e) {
+      res.status(205).json({ message: "server error" })
+    }
   },
   signout: async (req, res) => {
     try{

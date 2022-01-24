@@ -6,16 +6,20 @@ const getRandomIdx = () => {
 
 module.exports = async (req, res) => {
   // res.status(200).json('get list');
-  const accommodationFinder = await accommodation.findAll();
-  if( accommodationFinder ){
-    const accInfo = accommodationFinder.map(acc => {
-      const { createdAt, updatedAt, ...accInfo } = acc.dataValues
-      accInfo.image = [ imageList[ getRandomIdx() ], imageList[ getRandomIdx() ], imageList[ getRandomIdx() ]]
-      return accInfo
-    })
-
-    res.status(200).json({ accInfo })
-  }else {
-    res.status(404).json({ message: 'Not found' })
+  try {
+    const accommodationFinder = await accommodation.findAll();
+    if( accommodationFinder ){
+      const accInfo = accommodationFinder.map(acc => {
+        const { createdAt, updatedAt, ...accInfo } = acc.dataValues
+        accInfo.image = [ imageList[ getRandomIdx() ], imageList[ getRandomIdx() ], imageList[ getRandomIdx() ]]
+        return accInfo
+      })
+  
+      res.status(200).json({ accInfo })
+    }else {
+      res.status(404).json({ message: 'accomodatin empty' })
+    }
+  } catch (e) {
+    res.status(404).json({ message: 'server error' })
   }
 }
