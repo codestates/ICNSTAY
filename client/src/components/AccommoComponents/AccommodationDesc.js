@@ -6,7 +6,7 @@ import { Modal } from '../Modal';
 import { Button } from '../../styles/Button';
 import { Input } from '../../styles/Input';
 import axios from 'axios';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const MainContainer = styled.div`
   /* padding: 1rem; */
@@ -61,12 +61,11 @@ const AccommodationDesc = () => {
   const [openModal, setOpenModal] = useState(false);
   const [isReady, setIsReady] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
+   
   // Get accommodation state information from redux
   const accommodationState = useSelector((state) => state.accommodationReducer);
   const { accommodationDetail } = accommodationState;
-  // Get signIn state from redux
-  const singInState = useSelector((state) => state.signinReducer);
-  const { isSignIn } = singInState.isSignIn;
+  
   // Event handlers
   const openCalendarModule = () => {
     setOpenModal(!openModal);

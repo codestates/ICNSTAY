@@ -12,7 +12,7 @@ import BiddingList from './pages/BiddingList';
 import GlobalStyle from './styles/GlobalStyle';
 import Preloader from './components/Preloader';
 import { useSelector, useDispatch } from 'react-redux';
-import { setIsSignIn, setIsLoading, setVisitedPage, setUser } from './actions';
+import { setVisitedPage, setUser } from './actions';
 
 axios.defaults.withCredentials = true;
 
@@ -21,8 +21,7 @@ function App() {
   // Get states from redux
   // const singInState = useSelector((state) => state.signinReducer);
   // const { isSignIn } = singInState;
-  const preloadState = useSelector((state) => state.preloadReducer);
-  const { isLoading } = preloadState;
+  const isLoading = false;
   const visitedPageState = useSelector((state) => state.visitedPageReducer);
   const { visitedPage } = visitedPageState;
   const userState = useSelector((state) => state.userReducer);
@@ -31,7 +30,8 @@ function App() {
   // console.log('user : ', userState);
   const dispatch = useDispatch();
   const [isSignIn, setIsSignIn] = useState(false);
-  console.log('유저정보', user);
+  console.log('유저정보', userState.user);
+
 
   const getUser = async () => {
     try {
@@ -48,11 +48,11 @@ function App() {
     }
   };
 
-  const isAuthenticated = async () => {
+  const isAuthenticated = () => {
     getUser();
   };
 
-  const handleResponseSuccess = async (accessToken) => {
+  const handleResponseSuccess = (accessToken) => {
     // if (accessToken.kakaoAccessToken) {
     //   const kakaoToken = accessToken.kakaoAccessToken;
     //   localStorage.setItem('token', kakaoToken);
@@ -67,6 +67,7 @@ function App() {
 
   const handleSignOut = async () => {
     // console.log(user.social);
+
     try {
       if (user.social === 'kakao') {
         console.log('소셜 로그아웃을 하셨습니다.');
@@ -87,9 +88,8 @@ function App() {
       } else {
         const signOutRequest = await axios.post('https://localhost:4000/signout');
         if (signOutRequest.status === 205) {
-          dispatch(setUser(null));
+          dispatch(setUser({social: null}));
           dispatch(setVisitedPage('/'));
-          dispatch(setIsSignIn(false));
           localStorage.clear();
         }
       }

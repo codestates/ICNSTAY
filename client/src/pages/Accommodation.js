@@ -6,7 +6,7 @@ import AccommodationDesc from '../components/AccommoComponents/AccommodationDesc
 import AccommodationImage from '../components/AccommoComponents/AccommodationImage';
 import AccommodationInfo from '../components/AccommoComponents/AccommodationInfo';
 import { useSelector, useDispatch } from 'react-redux';
-import { setAccommodationDetail, setIsLoading } from '../actions/index';
+import { setAccommodationDetail } from '../actions/index';
 
 const MainContainer = styled.div`
   display: flex;
@@ -49,7 +49,6 @@ const Accommodation = () => {
   useEffect(async () => {
     const response = await axios.get(`https://localhost:4000/accommodation/${id}`);
     dispatch(setAccommodationDetail(response.data));
-    dispatch(setIsLoading(false));
   },[]);
 
   return (

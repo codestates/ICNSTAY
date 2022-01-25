@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import Banner from '../components/Banner';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Card from '../components/Card';
 import { setUser } from '../actions';
 
@@ -25,10 +25,6 @@ const CardBox = styled.div`
 const Home = ({ handleResponseSuccess }) => {
   const [accommodationList, setAccomodationList] = useState([]);
   const dispatch = useDispatch();
-
-  // Get preload state from redux
-  const preloadState = useSelector((state) => state.preloadReducer);
-  const { isLoading } = preloadState;
 
   useEffect(() => {
     async function getData() {

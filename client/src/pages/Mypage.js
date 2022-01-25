@@ -9,7 +9,7 @@ import { Button } from '../styles/Button';
 import { Container } from '../styles/Container';
 import { Input } from '../styles/Input';
 import { useSelector, useDispatch } from 'react-redux';
-import { setIsSignIn, setUser } from '../actions';
+import { setUser } from '../actions';
 
 
 const SidebarContainer = styled.div`
@@ -166,7 +166,6 @@ const Mypage = () => {
     try {
       const response = await axios.delete(`https://localhost:4000/userinfo/${user.id}`);
       if (response) {
-        dispatch(setIsSignIn(false));
         localStorage.clear();
         navigate('/');
       }
