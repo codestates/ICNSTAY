@@ -30,9 +30,9 @@ const Message = styled.div`
   font-weight: 800;
 `;
 
-const BiddingList = () => {
-  const userState = useSelector(state => state.userReducer);
-  const { user } = userState;
+const BiddingList = ({ user }) => {
+  // const userState = useSelector(state => state.userReducer);
+  // const { user } = userState;
   const { id, username } = user;
   const [list, setList] = useState([]);
 

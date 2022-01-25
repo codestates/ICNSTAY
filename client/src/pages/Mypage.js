@@ -11,7 +11,6 @@ import { Input } from '../styles/Input';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUser } from '../actions';
 
-
 const SidebarContainer = styled.div`
   width: 15%;
 `;
@@ -89,9 +88,9 @@ const ErrorMessage = styled.div`
   left: 40px;
 `;
 
-const Mypage = () => {
-  const userState = useSelector(state => state.userReducer);
-  const { user } = userState;
+const Mypage = ({ user, setUser }) => {
+  // const userState = useSelector((state) => state.userReducer);
+  // const { user } = userState;
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
@@ -101,7 +100,6 @@ const Mypage = () => {
   const [password, setPassword] = useState(null);
   const [passwordCheck, setPasswordCheck] = useState();
   const [isReady, setIsReady] = useState(false);
-  
 
   const goBack = () => setEdit(false);
 
@@ -155,7 +153,7 @@ const Mypage = () => {
         setUsername(username);
         setMobile(mobile);
         const userInfo = { id: user.id, email: user.email, username, mobile };
-        dispatch(setUser(userInfo));
+        setUser(userInfo);
       }
     } catch (err) {
       console.log(err);
