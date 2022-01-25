@@ -52,21 +52,15 @@ const InfoContent = styled.div``;
 const Price = styled.div``;
 
 const AccommodationDesc = () => {
-  // Setup variances
   const history = useNavigate();
-  // Input data variances
   const [checkInDate, setCheckInDate] = useState(new Date());
   const [checkOutDate, setCheckOutDate] = useState(null);
   const [biddingPrice, setBiddingPrice] = useState();
   const [openModal, setOpenModal] = useState(false);
   const [isReady, setIsReady] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
-   
-  // Get accommodation state information from redux
   const accommodationState = useSelector((state) => state.accommodationReducer);
   const { accommodationDetail } = accommodationState;
-  
-  // Event handlers
   const openCalendarModule = () => {
     setOpenModal(!openModal);
   };
@@ -78,6 +72,7 @@ const AccommodationDesc = () => {
   };
   const handleCheckOutDate = (date) => {
     setCheckOutDate(date);
+    setOpenModal(!openModal);
   };
   const goSigninPage = () => {
     history('/signin');
@@ -90,7 +85,6 @@ const AccommodationDesc = () => {
       checkOutDate: checkOutDate.toISOString().slice(0, 10),
       biddingPrice: biddingPrice,
     };
-    // SignIn status checking part
     if (localStorage.getItem('isSignIn')) {
       try {
         const response = await axios.post(
@@ -137,7 +131,7 @@ const AccommodationDesc = () => {
         </HotelInfo>
         <HotelInfo>
           <InfoLabel>highest bidding</InfoLabel>
-          <InfoContent>??????????????</InfoContent>
+          <InfoContent>{accommodationDetail.information.maxPrice}</InfoContent>
         </HotelInfo>
       </HotelBox>
       <HotelBox>

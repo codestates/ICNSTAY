@@ -4,7 +4,8 @@ import axios from 'axios';
 import Sidebar from '../components/Sidebar';
 import List from '../components/List';
 import { Container } from '../styles/Container';
-import { useSelector } from 'react-redux';
+import Preloader from '../components/Preloader';
+
 
 const SidebarContainer = styled.div`
   width: 15%;
@@ -31,15 +32,14 @@ const Message = styled.div`
 `;
 
 const BiddingList = ({ user }) => {
-  // const userState = useSelector(state => state.userReducer);
-  // const { user } = userState;
+  const [isLoading, setIsLoading] = useState(true);
   const { id, username } = user;
   const [list, setList] = useState([]);
 
   const getBiddingList = async () => {
     try {
       const response = await axios.get(`https://localhost:4000/biddinglist/${id}`);
-      console.log(response.data);
+      setIsLoading(false);
       if (response.status === 200) {
         setList(response.data);
       }
@@ -51,6 +51,8 @@ const BiddingList = ({ user }) => {
   useEffect(() => getBiddingList(), []);
 
   return (
+    <>
+    {isLoading ? <Preloader /> :
     <Container>
       <SidebarContainer>
         <Sidebar />
@@ -68,6 +70,8 @@ const BiddingList = ({ user }) => {
         </ListBox>
       </ListContainer>
     </Container>
+    }
+    </>
   );
 };
 

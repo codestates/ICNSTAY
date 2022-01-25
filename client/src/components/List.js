@@ -28,7 +28,6 @@ const StyledLink = styled(Link)`
 `;
 
 const List = ({ list }) => {
-  console.log(list);
   return (
     <Table>
       <TableRow>

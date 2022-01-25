@@ -52,15 +52,12 @@ const ButtonBox = styled.div`
 `;
 
 const SignUp = () => {
-  // Setup variances
   const history = useNavigate();
-  // Input data variances
   const [email, setEmail] = useState();
   const [name, setName] = useState();
   const [password, setPassword] = useState();
   const [passwordCheck, setPasswordCheck] = useState();
   const [mobile, setMobile] = useState();
-  // Event handlers
   const handleChangeEmail = (event) => {
     setEmail(event.target.value);
     isValidEmailFormat(event.target.value) ? setIsValidEmail(true) : setIsValidEmail(false);

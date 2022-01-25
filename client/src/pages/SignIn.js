@@ -54,7 +54,6 @@ const SignIn = ({ handleResponseSuccess }) => {
   };
 
   const handleLoginButton = async () => {
-    // console.log('login button clicked');
     let regEmail =
       /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
     if (!regEmail.test(email)) {
@@ -65,7 +64,6 @@ const SignIn = ({ handleResponseSuccess }) => {
     if (!email || !password) {
       setErrorMessage('이메일과 비밀번호를 입력하세요');
     }
-    // console.log(email, password);
     try {
       const signInRequest = await axios.post('https://localhost:4000/signin', {
         email,

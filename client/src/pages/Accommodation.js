@@ -7,6 +7,7 @@ import AccommodationImage from '../components/AccommoComponents/AccommodationIma
 import AccommodationInfo from '../components/AccommoComponents/AccommodationInfo';
 import { useSelector, useDispatch } from 'react-redux';
 import { setAccommodationDetail } from '../actions/index';
+import Preloader from '../components/Preloader';
 
 const MainContainer = styled.div`
   display: flex;
@@ -39,19 +40,21 @@ const LowerContainer = styled.div`
 `;
 
 const Accommodation = () => {
-  // Get accommodation information from server
+  const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
-  // Get accommodation state information from redux
   const accommodationState = useSelector(state => state.accommodationReducer);
   const { accommodationDetail } = accommodationState;
   const dispatch = useDispatch();
 
   useEffect(async () => {
     const response = await axios.get(`https://localhost:4000/accommodation/${id}`);
+    setIsLoading(false);
     dispatch(setAccommodationDetail(response.data));
   },[]);
 
   return (
+    <>
+    {isLoading ? <Preloader /> :
     <MainContainer>
       <UpperContainer>
         <span className="image">
@@ -67,6 +70,8 @@ const Accommodation = () => {
         {accommodationDetail ? <AccommodationInfo /> : null}
       </LowerContainer>
     </MainContainer>
+          }
+    </>
   );
 };
 

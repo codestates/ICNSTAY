@@ -43,12 +43,10 @@ const Home = ({ handleResponseSuccess }) => {
       const authorizationCode = url.searchParams.get('code');
       try {
         if (authorizationCode === null) {
-          console.log('no authorizationCode');
         } else {
           const result = await axios.post('https://localhost:4000/oauth/signin', {
             authorizationCode,
           });
-          // console.log("액세스 토큰:", result.data.access_token)
           const kakaoAccessToken = result.data.access_token;
           console.log(result);
           const { id, email, social, username } = result.data.userFinder;
@@ -59,7 +57,6 @@ const Home = ({ handleResponseSuccess }) => {
         console.log(e);
       }
     }
-
     getKakaoInfo();
   }, [window.location.href]);
 

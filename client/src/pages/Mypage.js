@@ -8,8 +8,7 @@ import { Modal } from '../components/Modal';
 import { Button } from '../styles/Button';
 import { Container } from '../styles/Container';
 import { Input } from '../styles/Input';
-import { useSelector, useDispatch } from 'react-redux';
-import { setUser } from '../actions';
+import { useDispatch } from 'react-redux';
 
 const SidebarContainer = styled.div`
   width: 15%;
@@ -34,15 +33,6 @@ const IconContainer = styled.div`
   margin-bottom: 1em;
   font-weight: 500;
 `;
-
-// const Input = styled.input`
-//   all: unset;
-//   border: 1px solid black;
-//   padding: 0.1em;
-//   .inValidInput {
-//     border: 1px solid red;
-//   }
-// `;
 
 const User = styled.div`
   width: 450px;
@@ -89,8 +79,6 @@ const ErrorMessage = styled.div`
 `;
 
 const Mypage = ({ user, setUser }) => {
-  // const userState = useSelector((state) => state.userReducer);
-  // const { user } = userState;
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
@@ -123,7 +111,6 @@ const Mypage = ({ user, setUser }) => {
     isSamePassword(password, e.target.value) ? setIsValidPassword(true) : setIsValidPassword(false);
   };
 
-  // Validation check
   const isValidMobileFormat = (string) => {
     let format = new RegExp('^01([0|1|6|7|8|9])-([0-9]{4})-([0-9]{4})$');
     return format.test(string);

@@ -56,8 +56,6 @@ const CalendarModule = ({
   openCalendarModule,
 }) => {
 
-  console.log(checkInDate)
- //Wed Jan 19 2022 00:00:00 GMT+0900 (한국 표준시)
   return (
     <ModalBackground>
       <ModalContainer>
@@ -70,7 +68,7 @@ const CalendarModule = ({
         <CalendarContainer>
           <CalendarBox>
             <CalendarName>CheckIn</CalendarName>
-            <Calendar onChange={handleCheckInDate} value={checkInDate} />
+            <Calendar onChange={handleCheckInDate} value={checkInDate} minDate={new Date()} />
           </CalendarBox>
           <CalendarBox>
             <CalendarName>CheckOut</CalendarName>
