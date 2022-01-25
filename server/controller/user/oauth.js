@@ -2,6 +2,8 @@ const axios = require('axios');
 const qs = require('querystring');
 const { user } = require('../../models');
 const jwt = require('jsonwebtoken')
+const dotenv = require('dotenv');
+dotenv.config();
 
 module.exports = {
   signin: async (req, res) => {
@@ -20,6 +22,7 @@ module.exports = {
     try{
       const tokenReciever = await axios.post('https://kauth.kakao.com/oauth/token', body, headers)
       const {access_token, refresh_token} = tokenReciever.data
+      console.log(tokenReciever.data)
   
       res.cookie('refresh_token', refresh_token, { sameSite: 'None', secure: true, httpOnly: true })
   

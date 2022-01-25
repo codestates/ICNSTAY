@@ -46,6 +46,7 @@ const Home = ({ handleResponseSuccess }) => {
         });
         // console.log("액세스 토큰:", result.data.access_token)
         const kakaoAccessToken = result.data.access_token;
+        console.log(result)
         const { id, email, social, username } = result.data.userFinder;
         handleResponseSuccess(kakaoAccessToken);
         dispatch(setUser({ id, email, social, username }));
