@@ -4,8 +4,7 @@ import styled from 'styled-components';
 const Table = styled.div`
   display: table;
   width: 800px;
-  margin: 1rem;
-  border: 1px solid gray;
+  border: 1px solid ${(props) => props.theme.black};
 `;
 
 const TableRow = styled.div`
@@ -16,14 +15,13 @@ const TableColumn = styled.div`
   display: table-cell;
   width: 200px;
   padding: 0.5rem 1rem;
-  border-right: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
+  border-right: 1px solid ${(props) => props.theme.grey};
+  border-bottom: 1px solid ${(props) => props.theme.grey};
 `;
 
 const StyledLink = styled(Link)`
   &:hover {
     font-weight: 700;
-    color: pink;
   }
 `;
 
@@ -31,10 +29,10 @@ const List = ({ list }) => {
   return (
     <Table>
       <TableRow>
-        <TableColumn>호텔명</TableColumn>
-        <TableColumn>체크인</TableColumn>
-        <TableColumn>체크아웃</TableColumn>
-        <TableColumn>입찰가격</TableColumn>
+        <TableColumn style={{ fontWeight: '700' }}>호텔명</TableColumn>
+        <TableColumn style={{ fontWeight: '700' }}>체크인</TableColumn>
+        <TableColumn style={{ fontWeight: '700' }}>체크아웃</TableColumn>
+        <TableColumn style={{ fontWeight: '700' }}>입찰가격</TableColumn>
       </TableRow>
       {list.map(
         ({ accommodationId, checkInDate, checkOutDate, biddingPrice, accommodation }, index) => {

@@ -6,81 +6,75 @@ import styled from 'styled-components';
 import Sidebar from '../components/Sidebar';
 import { Modal } from '../components/Modal';
 import { Button } from '../styles/Button';
-import { Container } from '../styles/Container';
+import { Container, ErrorMessage, Header } from '../styles/Container';
 import { Input } from '../styles/Input';
-import { useDispatch } from 'react-redux';
+
+const MyPageContainer = styled.div`
+  width: 60%;
+`;
+
+const WelcomeBox = styled.div`
+  margin-top: 2em;
+  font-size: 2rem;
+`;
+
+const ContentContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
 
 const SidebarContainer = styled.div`
-  width: 15%;
+  width: 20%;
 `;
 
 const UserContainer = styled.div`
-  width: 85%;
-  height: 100%;
-`;
-
-const UserBox = styled.div`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-`;
-
-const IconContainer = styled.div`
-  cursor: pointer;
-  margin-bottom: 1em;
-  font-weight: 500;
+  width: 80%;
 `;
 
 const User = styled.div`
-  width: 450px;
-  height: 450px;
-  border: 1px solid black;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  /* padding: 1em;
-  margin: 1em; */
+  width: 300px;
+  font-size: 1.2rem;
+  margin: 0 auto;
 `;
 
-const EditBox = styled.div`
-  width: 100%;
-
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+const UserBox = styled.div`
+  margin-bottom: 1em;
 `;
 
-const BoxLabel = styled.div`
-  margin-left: 1em;
-  width: 25%;
-`;
-
-const BoxInput = styled.div`
-  /* margin-right: 1em; */
-  width: 75%;
+const UserTitle = styled.div`
+  font-weight: 700;
+  margin-bottom: 2em;
   position: relative;
 `;
 
-const Info = styled.div`
-  padding: 0.8em;
+const UserLabel = styled.div`
+  margin-bottom: 1.5em;
+  font-size: 0.9rem;
 `;
 
-const ErrorMessage = styled.div`
-  font-size: 12px;
-  color: #ff0000;
+const UserContent = styled.div`
+  border-bottom: 1px solid ${(props) => props.theme.grey};
+  padding-bottom: 0.4em;
+`;
+
+const GoBackContainer = styled.div`
+  cursor: pointer;
+  font-size: 0.9rem;
   position: absolute;
-  bottom: -5px;
-  left: 40px;
+  right: 0;
+  bottom: 1px;
+  color: ${(props) => props.theme.grey};
+  &:hover {
+    color: ${(props) => props.theme.black};
+  }
+`;
+
+const UserInput = styled.div`
+  position: relative;
 `;
 
 const Mypage = ({ user, setUser }) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [edit, setEdit] = useState(false);
   const [username, setUsername] = useState(user.username);
@@ -174,100 +168,125 @@ const Mypage = ({ user, setUser }) => {
   });
 
   return (
-    <>
-      <Container>
-        <SidebarContainer>
-          <Sidebar />
-        </SidebarContainer>
-        <UserContainer>
-          <UserBox>
+    <Container>
+      <MyPageContainer>
+        <Header style={{ marginBottom: '3em' }}>
+          MY PAGE
+          <WelcomeBox>{user.username}님 반가워요!</WelcomeBox>
+        </Header>
+        <ContentContainer>
+          <SidebarContainer>
+            <Sidebar />
+          </SidebarContainer>
+          <UserContainer>
             {edit ? (
-              <>
-                <IconContainer onClick={goBack}> 뒤로가기 </IconContainer>
-                <User>
-                  <EditBox>
-                    <BoxLabel>Username</BoxLabel>
-                    <BoxInput>
-                      <Input
-                        type="text"
-                        placeholder={username}
-                        maxLength="8"
-                        onChange={handleChangeName}
-                      />
-                    </BoxInput>
-                  </EditBox>
-                  <EditBox>
-                    <BoxLabel>Mobile</BoxLabel>
-                    <BoxInput>
-                      <Input
-                        type="text"
-                        placeholder={mobile}
-                        onChange={handleChangeMobile}
-                        maxLength="13"
-                        className={isValidMobile ? '' : 'inValidInput'}
-                      />
-                    </BoxInput>
-                  </EditBox>
-                  <EditBox>
-                    <BoxLabel>Password</BoxLabel>
-                    <BoxInput>
-                      <Input
-                        type="password"
-                        onChange={handleChangePassword}
-                        className={isValidPassword ? '' : 'inValidInput'}
-                      />
-                    </BoxInput>
-                  </EditBox>
-                  <EditBox>
-                    <BoxLabel>Password Check</BoxLabel>
-                    <BoxInput>
-                      <Input
-                        type="password"
-                        onChange={handleChangePasswordCheck}
-                        className={isValidPassword ? '' : 'inValidInput'}
-                      />
-                      {isValidPassword ? (
-                        ''
-                      ) : (
-                        <ErrorMessage>비밀번호가 일치하지 않습니다</ErrorMessage>
-                      )}
-                    </BoxInput>
-                  </EditBox>
-
-                  <Button onClick={isReady ? handleModal : null} style={{ marginTop: '1.5em' }}>
-                    Edit My Info
-                  </Button>
-                </User>
-              </>
+              <User>
+                <UserTitle>
+                  회원 정보 수정
+                  <GoBackContainer onClick={goBack}>수정 취소</GoBackContainer>
+                </UserTitle>
+                <UserBox>
+                  <UserLabel>이름</UserLabel>
+                  <UserInput>
+                    <Input
+                      type="text"
+                      placeholder={username}
+                      maxLength="8"
+                      onChange={handleChangeName}
+                      style={{ marginTop: '0' }}
+                    />
+                  </UserInput>
+                </UserBox>
+                <UserBox>
+                  <UserLabel>휴대전화</UserLabel>
+                  <UserInput>
+                    <Input
+                      type="text"
+                      placeholder={mobile}
+                      onChange={handleChangeMobile}
+                      maxLength="13"
+                      className={isValidMobile ? '' : 'inValidInput'}
+                      style={{ marginTop: '0' }}
+                    />
+                    {isValidMobile ? (
+                      ''
+                    ) : (
+                      <ErrorMessage>올바른 전화번호 형식이 아닙니다</ErrorMessage>
+                    )}
+                  </UserInput>
+                </UserBox>
+                <UserBox>
+                  <UserLabel>비밀번호</UserLabel>
+                  <UserInput>
+                    <Input
+                      type="password"
+                      placeholder="변경할 비밀번호"
+                      onChange={handleChangePassword}
+                      className={isValidPassword ? '' : 'inValidInput'}
+                      style={{ marginTop: '0' }}
+                    />
+                  </UserInput>
+                </UserBox>
+                <UserBox>
+                  <UserLabel>비밀번호 확인</UserLabel>
+                  <UserInput>
+                    <Input
+                      type="password"
+                      placeholder="변경할 비밀번호 확인"
+                      onChange={handleChangePasswordCheck}
+                      className={isValidPassword ? '' : 'inValidInput'}
+                      style={{ marginTop: '0' }}
+                    />
+                    {isValidPassword ? (
+                      ''
+                    ) : (
+                      <ErrorMessage>비밀번호가 일치하지 않습니다</ErrorMessage>
+                    )}
+                  </UserInput>
+                </UserBox>
+                <Button onClick={isReady ? handleModal : null} style={{ marginTop: '1.5em' }}>
+                  회원 정보 수정
+                </Button>
+              </User>
             ) : (
               <User>
-                <Info>EMAIL : {user.email}</Info>
-                <Info>USERNAME : {user.username}</Info>
-                <Info>MOBILE : {user.mobile}</Info>
-                <Button onClick={handleEdit}>Edit My Info</Button>
-                <Button onClick={handleModal}>Delete My Account</Button>
+                <UserTitle>회원 정보</UserTitle>
+                <UserBox>
+                  <UserLabel>이메일</UserLabel>
+                  <UserContent>{user.email}</UserContent>
+                </UserBox>
+                <UserBox>
+                  <UserLabel>이름</UserLabel>
+                  <UserContent>{user.username}</UserContent>
+                </UserBox>
+                <UserBox>
+                  <UserLabel>휴대전화</UserLabel>
+                  <UserContent>{user.mobile}</UserContent>
+                </UserBox>
+                <Button onClick={handleEdit}>회원 정보 수정</Button>
+                <Button onClick={handleModal}>회원 탈퇴</Button>
               </User>
             )}
-          </UserBox>
-        </UserContainer>
-      </Container>
-      {isOpen & edit ? (
-        <Modal
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
-          text={'이대로 수정 하시겠습니까?'}
-          handleYesButton={handleEditSubmit}
-        />
-      ) : null}
-      {isOpen && !edit ? (
-        <Modal
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
-          text={'정말 탈퇴하시겠습니까?'}
-          handleYesButton={handleDeleteSubmit}
-        />
-      ) : null}
-    </>
+          </UserContainer>
+        </ContentContainer>
+        {isOpen & edit ? (
+          <Modal
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            text={'이대로 수정 하시겠습니까?'}
+            handleYesButton={handleEditSubmit}
+          />
+        ) : null}
+        {isOpen && !edit ? (
+          <Modal
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            text={'정말 탈퇴하시겠습니까?'}
+            handleYesButton={handleDeleteSubmit}
+          />
+        ) : null}
+      </MyPageContainer>
+    </Container>
   );
 };
 

@@ -1,6 +1,10 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { ThemeProvider } from 'styled-components';
+import GlobalStyle from './styles/GlobalStyle';
+import Theme from './styles/Theme';
 import Header from './components/Header';
 import Home from './pages/Home';
 import Mypage from './pages/Mypage';
@@ -8,20 +12,15 @@ import SignUp from './pages/SignUp';
 import SignIn from './pages/SignIn';
 import Accommodation from './pages/Accommodation';
 import BiddingList from './pages/BiddingList';
-import GlobalStyle from './styles/GlobalStyle';
 import Preloader from './components/Preloader';
-import { useSelector, useDispatch } from 'react-redux';
-import { setVisitedPage, setUser } from './actions';
 
 axios.defaults.withCredentials = true;
 
 function App() {
-  const [isLoading, setIsLoading] = useState(false);
   const visitedPageState = useSelector((state) => state.visitedPageReducer);
   const { visitedPage } = visitedPageState;
   const [isSignIn, setIsSignIn] = useState(false);
   const [user, setUser] = useState(() => JSON.parse(localStorage.getItem('user')) || null);
-  const dispatch = useDispatch();
 
   const getUser = async () => {
     try {
@@ -44,7 +43,7 @@ function App() {
 
   const handleResponseSuccess = (accessToken) => {
     isAuthenticated();
-    localStorage.setItem('isSignIn', true);
+    // localStorage.setItem('isSignIn', true);
     localStorage.setItem('token', accessToken);
   };
 
@@ -73,11 +72,10 @@ function App() {
     }
   };
 
-  useEffect(() => {
-  }, [visitedPage]);
+  useEffect(() => {}, [visitedPage]);
 
   useEffect(() => {
-    if (localStorage.getItem('token') && localStorage.getItem('isSignIn')) {
+    if (localStorage.getItem('token')) {
       setIsSignIn(true);
       setUser(user);
     } else {
@@ -88,34 +86,36 @@ function App() {
   useEffect(() => user && localStorage.setItem('user', JSON.stringify(user)), [user]);
 
   return (
-    <BrowserRouter>
+    <ThemeProvider theme={Theme}>
       <GlobalStyle />
-      <Header handleSignOut={handleSignOut} />
-      <Routes>
-        <Route
-          exact
-          path="/"
-          element={<Home handleResponseSuccess={handleResponseSuccess} />}
-        ></Route>
-        <Route
-          path="/signin"
-          element={<SignIn handleResponseSuccess={handleResponseSuccess} />}
-        ></Route>
-        <Route path="/signup" element={isSignIn ? <Navigate to="/" /> : <SignUp />}></Route>
-        <Route
-          path="/userinfo"
-          element={user ? <Mypage user={user} setUser={setUser} /> : <Navigate to="/signin" />}
-        ></Route>
-        <Route
-          path="/biddinglist"
-          element={user ? <BiddingList user={user} /> : <Navigate to="/signin" />}
-        ></Route>
-        <Route path="/accommodation/:id" element={<Accommodation />}></Route>
-        <Route path="/signout" element={<Navigate to="/" />}></Route>
-        <Route path="/preloader" element={<Preloader />}></Route>
-        <Route path="*" element={<Navigate to="/" />}></Route>
-      </Routes>
-    </BrowserRouter>
+      <BrowserRouter>
+        <Header handleSignOut={handleSignOut} />
+        <Routes>
+          <Route
+            exact
+            path="/"
+            element={<Home handleResponseSuccess={handleResponseSuccess} />}
+          ></Route>
+          <Route
+            path="/signin"
+            element={<SignIn handleResponseSuccess={handleResponseSuccess} />}
+          ></Route>
+          <Route path="/signup" element={isSignIn ? <Navigate to="/" /> : <SignUp />}></Route>
+          <Route
+            path="/userinfo"
+            element={user ? <Mypage user={user} setUser={setUser} /> : <Navigate to="/signin" />}
+          ></Route>
+          <Route
+            path="/biddinglist"
+            element={user ? <BiddingList user={user} /> : <Navigate to="/signin" />}
+          ></Route>
+          <Route path="/accommodation/:id" element={<Accommodation />}></Route>
+          <Route path="/signout" element={<Navigate to="/" />}></Route>
+          <Route path="/preloader" element={<Preloader />}></Route>
+          <Route path="*" element={<Navigate to="/" />}></Route>
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 

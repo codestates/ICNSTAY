@@ -4,18 +4,21 @@ import logo from '../data/logo.png';
 import { useEffect, useState } from 'react';
 
 const HeaderContainer = styled.header`
-  height: 50px;
+  height: 76px;
   width: 100%;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid ${(props) => props.theme.grey};
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  z-index: 1;
+  /* z-index: 1; */
 `;
 
-const Logo = styled.img`
-  src: ${(props) => props.src};
-  width: 125px;
-  height: 100%;
+const Logo = styled.div`
+  background-image: url(${(props) => props.src});
+  background-size: cover;
+  text-align: center;
+  width: 180px;
+  height: 70px;
   cursor: pointer;
 `;
 
@@ -24,8 +27,8 @@ const ButtonContainer = styled.div``;
 const Button = styled.button`
   all: unset;
   height: 100%;
-  padding: 0 10px;
-  margin-right: 10px;
+  margin-right: 1em;
+  font-weight: 700;
   cursor: pointer;
 `;
 
@@ -37,7 +40,7 @@ const Header = ({ handleSignOut }) => {
   const [isLogIn, setIsLogIn] = useState(false);
 
   useEffect(() => {
-    if (localStorage.getItem('isSignIn')) {
+    if (localStorage.getItem('token')) {
       setIsLogIn(true);
     } else {
       setIsLogIn(false);

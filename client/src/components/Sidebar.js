@@ -2,21 +2,18 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 const ItemContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
+  text-align: left;
 `;
+const ItemHeader = styled.div``;
 
 const Item = styled.button`
   all: unset;
   width: 100%;
-  text-align: center;
+  /* text-align: center; */
   padding-bottom: 0.8em;
   margin-bottom: 0.8em;
   cursor: pointer;
+  border: 1px solid #fff;
   &:hover {
     border-bottom: 1px solid black;
   }

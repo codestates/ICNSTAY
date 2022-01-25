@@ -8,19 +8,29 @@ import { setUser } from '../actions';
 import Preloader from '../components/Preloader';
 
 const BannerContainer = styled.div`
-  text-align: center;
-  /* border: 1px solid white; */
-  background-color: #f3f4f6;
+  height: 850px;
+  @media ${({ theme }) => theme.device.mobile} {
+    height: 600px;
+  }
 `;
 
 const CardContainer = styled.div`
   padding: 5% 10%;
+  @media ${({ theme }) => theme.device.mobile} {
+    padding: 5%;
+  }
 `;
 
 const CardBox = styled.div`
   display: grid;
   grid-gap: 1px;
   grid-template-columns: repeat(3, 1fr);
+  @media ${({ theme }) => theme.device.laptop} {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media ${({ theme }) => theme.device.mobile} {
+    grid-template-columns: repeat(1, 1fr);
+  }
 `;
 
 const Home = ({ handleResponseSuccess }) => {
@@ -55,6 +65,8 @@ const Home = ({ handleResponseSuccess }) => {
         }
       } catch (e) {
         console.log(e);
+      } finally {
+        setIsLoading(false);
       }
     }
     getKakaoInfo();

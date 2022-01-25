@@ -4,51 +4,37 @@ import { sha256 } from 'js-sha256';
 import axios from 'axios';
 import styled from 'styled-components';
 import { SignupModal } from '../components/Modal';
-import { Container } from '../styles/Container';
+import { Container, ErrorMessage, Header } from '../styles/Container';
 import { Input } from '../styles/Input';
 import { Button } from '../styles/Button';
 
 const SignUpContainer = styled.div`
-  width: 500px;
-  height: 550px;
-  border: 1px solid black;
-  text-align: center;
-  padding: 1em;
-  margin: 1em;
-`;
-
-const SignUpHeader = styled.div`
-  font-size: 18px;
-  margin-bottom: 1em;
-  font-weight: 500;
+  width: 350px;
+  @media ${({ theme }) => theme.device.mobile} {
+    width: 300px;
+  }
 `;
 
 const SignUpBox = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  padding: 0.4em 0;
 `;
 
 const BoxLabel = styled.div`
-  width: 15%;
+  font-size: 0.8rem;
 `;
 
 const BoxInput = styled.div`
-  width: 85%;
   position: relative;
 `;
 
-const ErrorMessage = styled.div`
-  font-size: 12px;
-  color: #ff0000;
-  position: absolute;
-  bottom: -5px;
-  left: 40px;
+const ButtonBox = styled.div`
+  margin-top: 0.4em;
 `;
 
-const ButtonBox = styled.div`
-  margin-top: 0.8em;
+const ButtonText = styled.div`
+  text-align: center;
+  font-size: 0.8rem;
+  margin: 0.4em 0;
 `;
 
 const SignUp = () => {
@@ -58,6 +44,7 @@ const SignUp = () => {
   const [password, setPassword] = useState();
   const [passwordCheck, setPasswordCheck] = useState();
   const [mobile, setMobile] = useState();
+
   const handleChangeEmail = (event) => {
     setEmail(event.target.value);
     isValidEmailFormat(event.target.value) ? setIsValidEmail(true) : setIsValidEmail(false);
@@ -137,20 +124,25 @@ const SignUp = () => {
   return (
     <Container>
       <SignUpContainer>
-        <SignUpHeader>REGISTRATION</SignUpHeader>
+        <Header>JOIN</Header>
         <SignUpBox>
-          <BoxLabel>Email</BoxLabel>
+          <BoxLabel>이메일</BoxLabel>
           <BoxInput>
-            <Input type="text" placeholder="Enter Email" onChange={handleChangeEmail} required />
+            <Input
+              type="text"
+              placeholder="이메일을 입력해 주세요"
+              onChange={handleChangeEmail}
+              required
+            />
             {isValidEmail ? '' : <ErrorMessage>올바른 이메일 형식이 아닙니다</ErrorMessage>}
           </BoxInput>
         </SignUpBox>
         <SignUpBox>
-          <BoxLabel>Name</BoxLabel>
+          <BoxLabel>이름</BoxLabel>
           <BoxInput>
             <Input
               type="text"
-              placeholder="이름을 8자 이내로 입력해주세요"
+              placeholder="8자 이내로 입력해 주세요"
               onChange={handleChangeName}
               maxLength="8"
               required
@@ -158,22 +150,22 @@ const SignUp = () => {
           </BoxInput>
         </SignUpBox>
         <SignUpBox>
-          <BoxLabel>Password</BoxLabel>
+          <BoxLabel>비밀번호</BoxLabel>
           <BoxInput>
             <Input
               type="password"
-              placeholder="Enter Password"
+              placeholder="비밀번호를 입력하세요"
               onChange={handleChangePassword}
               required
             />
           </BoxInput>
         </SignUpBox>
         <SignUpBox>
-          <BoxLabel>Password Check</BoxLabel>
+          <BoxLabel>비밀번호 확인</BoxLabel>
           <BoxInput>
             <Input
               type="password"
-              placeholder="Enter Email"
+              placeholder="비밀번호를 확인해 주세요"
               onChange={handleChangePasswordCheck}
               className={isValidPassword ? '' : 'inValidInput'}
               required
@@ -182,30 +174,26 @@ const SignUp = () => {
           </BoxInput>
         </SignUpBox>
         <SignUpBox>
-          <BoxLabel>Mobile</BoxLabel>
+          <BoxLabel>휴대전화</BoxLabel>
           <BoxInput>
-            {' '}
             <Input
               type="text"
-              placeholder="010-0000-0000"
+              placeholder="010-0000-0000 형식으로 입력해 주세요"
               onChange={handleChangeMobile}
               maxLength="13"
             />
             {isValidMobile ? '' : <ErrorMessage>올바른 전화번호 형식이 아닙니다</ErrorMessage>}
           </BoxInput>
         </SignUpBox>
-
         <ButtonBox>
           <Button onClick={() => handleSignupSubmit()} disabled={isReady}>
-            {isReady ? '모든 항목을 입력해주세요' : 'Submit'}
+            {isReady ? '모든 항목을 입력해주세요' : '회원가입'}
           </Button>
           {isUniqueEmail ? '' : <div>이미 등록된 Email입니다.</div>}
-          <p>
-            Already have an account?
-            <Link to="/signin">
-              <Button>SIGN IN</Button>
-            </Link>
-          </p>
+          <ButtonText>이미 계정이 있으신가요?</ButtonText>
+          <Link to="/signin">
+            <Button>로 그 인</Button>
+          </Link>
         </ButtonBox>
         {openSuccessModal ? <SignupModal handleSuccessModal={handleSuccessModal} /> : ''}
       </SignUpContainer>

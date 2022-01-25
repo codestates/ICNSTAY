@@ -9,37 +9,31 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 
 const MainContainer = styled.div`
-  /* padding: 1rem; */
   > div {
     &:first-child {
       margin-bottom: 1.5em;
     }
-    &:last-child {
-      /* text-align: center; */
-    }
   }
 `;
 
-const HotelBox = styled.div`
-  /* border: 1px solid red; */
-`;
+const HotelBox = styled.div``;
 
 const HotelName = styled.div`
   font-size: 1.8em;
   font-weight: 500;
   padding-bottom: 0.5em;
-  border-bottom: 3px solid #000;
+  border-bottom: 3px solid ${(props) => props.theme.black};
 `;
 
 const HotelInfo = styled.div`
-  border-bottom: 1px solid #c4c4c4;
+  border-bottom: 1px solid ${(props) => props.theme.grey};
   display: flex;
   align-items: center;
   padding: 0.5em 0em;
 `;
 
 const InfoLabel = styled.div`
-  color: #c4c4c4;
+  color: ${(props) => props.theme.grey};
   font-weight: 500;
   font-size: 0.8em;
   padding: 0.5em 0;
@@ -138,7 +132,7 @@ const AccommodationDesc = () => {
         <Price>{biddingPrice ? `My Bidding Price : ${biddingPrice}원` : 'TRY BIDS!'}</Price>
         <Input
           type="number"
-          placeholder="원"
+          placeholder="입찰 가격을 입력해 주세요"
           onChange={handleChangeBiddingPrice}
           style={{ textAlign: 'right', marginLeft: 0, width: '100%' }}
         />

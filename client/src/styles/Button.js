@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 
 export const Button = styled.button`
-  width: 80%;
+  width: 100%;
   background-color: ${(props) => (props.kakao ? '#FEE500' : '#fff')};
   cursor: pointer;
   padding: 0.8em;
-  margin: 0.8em;
+  margin: 0.8em 0em;
   border: 1px solid ${(props) => (props.kakao ? '#FEE500' : '#000')};
   text-align: center;
   &:hover {
