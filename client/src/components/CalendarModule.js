@@ -55,6 +55,9 @@ const CalendarModule = ({
   checkOutDate,
   openCalendarModule,
 }) => {
+
+  console.log(checkInDate)
+ //Wed Jan 19 2022 00:00:00 GMT+0900 (한국 표준시)
   return (
     <ModalBackground>
       <ModalContainer>

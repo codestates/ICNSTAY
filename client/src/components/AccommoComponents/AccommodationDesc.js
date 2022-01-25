@@ -55,8 +55,8 @@ const AccommodationDesc = () => {
   // Setup variances
   const history = useNavigate();
   // Input data variances
-  const [checkInDate, setCheckInDate] = useState('');
-  const [checkOutDate, setCheckOutDate] = useState('');
+  const [checkInDate, setCheckInDate] = useState(new Date());
+  const [checkOutDate, setCheckOutDate] = useState(null);
   const [biddingPrice, setBiddingPrice] = useState();
   const [openModal, setOpenModal] = useState(false);
   const [isReady, setIsReady] = useState(true);

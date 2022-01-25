@@ -19,7 +19,7 @@ function App() {
   // Get states from redux
   // const singInState = useSelector((state) => state.signinReducer);
   // const { isSignIn } = singInState;
-  const isLoading = false;
+  const [isLoading, setIsLoading] = useState(false);
   const visitedPageState = useSelector((state) => state.visitedPageReducer);
   const { visitedPage } = visitedPageState;
   // const userState = useSelector((state) => state.userReducer);
