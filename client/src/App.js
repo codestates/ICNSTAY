@@ -42,7 +42,11 @@ function App() {
   };
 
   const handleResponseSuccess = (accessToken) => {
-    isAuthenticated();
+    if (!accessToken.kakaoAccessToken) {
+      isAuthenticated();
+    } else {
+      accessToken = accessToken.kakaoAccessToken;
+    }
     setIsLogIn(true);
     localStorage.setItem('token', accessToken);
     // setToken('signInToken', accessToken);
@@ -84,17 +88,15 @@ function App() {
           <Route
             exact
             path="/"
-            element={<Home setVisitedPage={setVisitedPage} setIsLoading={setIsLoading} />}
+            element={<Home setVisitedPage={setVisitedPage} handleResponseSuccess={handleResponseSuccess} setUser={setUser} />}
           ></Route>
           <Route
-            exact
             path="/signin"
             element={
               <SignIn
                 handleResponseSuccess={handleResponseSuccess}
                 visitedPage={visitedPage}
                 setIsLoading={setIsLoading}
-                setIsLogIn={setIsLogIn}
               />
             }
           ></Route>
