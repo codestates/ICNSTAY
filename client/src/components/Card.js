@@ -58,7 +58,7 @@ const Card = ({ src, name, location, id, setVisitedPage }) => {
   };
 
   return (
-    <CardContainer>
+    <CardContainer onClick={handleCardClick}>
       <CardImg src={src} />
       <CardInfo>
         <CardName>{name}</CardName>

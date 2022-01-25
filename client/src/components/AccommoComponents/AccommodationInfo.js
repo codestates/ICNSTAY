@@ -1,15 +1,19 @@
 import styled from 'styled-components';
 
-const MainContainer = styled.div`
+const InfoContainer = styled.div`
   padding: 1rem;
+  /* text-align: center; */
+`;
+
+const Desc = styled.div`
+  font-size: 1.5em;
 `;
 
 const AccommodationInfo = ({ source }) => {
   return (
-    <MainContainer>
-      <h1>Information Section</h1>
-        <div>{source.description}</div>
-    </MainContainer>
+    <InfoContainer>
+      <Desc>{source.description}</Desc>
+    </InfoContainer>
   );
 };
 
