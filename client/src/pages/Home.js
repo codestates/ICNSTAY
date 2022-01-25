@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Card from '../components/Card';
 import axios from 'axios';
 import Banner from '../components/Banner';
+import { useSelector, useDispatch } from 'react-redux';
 
 const BannerContainer = styled.div`
   text-align: center;
@@ -16,8 +17,13 @@ const CardBox = styled.div`
   grid-template-columns: repeat(3, 1fr)
 `;
 
-const Home = ({ setVisitedPage }) => {
+const Home = () => {
   const [accommodationList, setAccomodationList] = useState([]);
+  const dispatch = useDispatch();
+
+  // Get preload state from redux
+  const preloadState = useSelector(state => state.preloadReducer);
+  const { isLoading } = preloadState;
 
   useEffect(async () => {
     const getAccommodationList = await axios.get('https://localhost:4000/accommodation');
@@ -48,7 +54,6 @@ const Home = ({ setVisitedPage }) => {
             location={el.location} 
             key= {idx} 
             id={el.id} 
-            setVisitedPage={setVisitedPage}
             />
         })}
       </CardBox>

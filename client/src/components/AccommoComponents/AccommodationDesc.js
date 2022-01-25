@@ -6,6 +6,8 @@ import { Input } from '../../styles/Input';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Modal } from '../Modal';
+import { useSelector, useDispatch } from 'react-redux';
+
 
 const MainContainer = styled.div`
   padding: 1rem;
@@ -14,7 +16,7 @@ const MainContainer = styled.div`
   }
 `;
 
-const AccommodationDesc = ({ source, isLogIn }) => {
+const AccommodationDesc = () => {
   // Setup variances
   const history = useNavigate();
   // Input data variances
@@ -24,6 +26,12 @@ const AccommodationDesc = ({ source, isLogIn }) => {
   const [openModal, setOpenModal] = useState(false);
   const [isReady, setIsReady] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
+  // Get accommodation state information from redux
+  const accommodationState = useSelector(state => state.accommodationReducer);
+  const { accommodationDetail } = accommodationState;
+  // Get signIn state from redux
+  const singInState = useSelector(state => state.signinReducer);
+  const { isSignIn } = singInState.isSignIn;
   // Event handlers
   const openCalendarModule = () => {
     setOpenModal(!openModal);
@@ -42,16 +50,16 @@ const AccommodationDesc = ({ source, isLogIn }) => {
   }
   const handlePlacingBid = async () => {
     const bidInformation = {
-      id: source.id,
-      name: source.name,
+      id: accommodationDetail.information.id,
+      name: accommodationDetail.information.name,
       checkInDate: checkInDate.toISOString().slice(0, 10),
       checkOutDate: checkOutDate.toISOString().slice(0, 10),
       biddingPrice: biddingPrice
     };
     // SignIn status checking part
-    if (isLogIn) {
+    if (isSignIn) {
       try {
-        const response = await axios.post(`https://localhost:4000/accommodation/${source.id}`, bidInformation);
+        const response = await axios.post(`https://localhost:4000/accommodation/${accommodationDetail.information.id}`, bidInformation);
         if (response.status === 201) {
           history('/biddinglist');
         };
@@ -78,10 +86,10 @@ const AccommodationDesc = ({ source, isLogIn }) => {
   return (
     <MainContainer>
       <section className='desc'>
-       <h1>{source.name}</h1>
-       <div>Location : {source.location} </div>
-       <div>Bidding ends at : {source.due.slice(0, 10)}</div>
-       <div>Minimum Price : {`${source.minPrice.slice(0, -4)},${source.minPrice.slice(-4)}`}</div>
+       <h1>{accommodationDetail.information.name}</h1>
+       <div>Location : {accommodationDetail.information.location} </div>
+       <div>Bidding ends at : {accommodationDetail.information.due.slice(0, 10)}</div>
+       <div>Minimum Price : {`${accommodationDetail.information.minPrice.slice(0, -4)},${accommodationDetail.information.minPrice.slice(-4)}`}</div>
        <div>Highest Bidding : ????????????????????????????????????????</div>
       </section>
       <section>

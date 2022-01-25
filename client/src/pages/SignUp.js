@@ -51,7 +51,7 @@ const ButtonBox = styled.div`
   margin-top: 0.8em;
 `;
 
-const SignUp = ({ setIsLoading }) => {
+const SignUp = () => {
   // Setup variances
   const history = useNavigate();
   // Input data variances
@@ -93,7 +93,6 @@ const SignUp = ({ setIsLoading }) => {
     };
     try {
       const response = await axios.post('https://localhost:4000/signup', userInformation);
-      setIsLoading(false);
       if (response.status === 201) {
         setOpenSuccessModal(true);
       }

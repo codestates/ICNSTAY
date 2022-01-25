@@ -8,6 +8,7 @@ import { Button } from '../styles/Button';
 import { Input } from '../styles/Input';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment } from '@fortawesome/free-solid-svg-icons';
+import { useSelector } from 'react-redux';
 
 import logo from '../data/logo.png';
 
@@ -35,7 +36,7 @@ const ErrorMessageBox = styled.div`
 
 axios.defaults.withCredentials = true;
 
-const SignIn = ({ handleResponseSuccess, visitedPage, setIsLoading }) => {
+const SignIn = ({ handleResponseSuccess }) => {
   const navigate = useNavigate();
   const [loginInfo, setLoginInfo] = useState({
     email: '',
@@ -44,6 +45,9 @@ const SignIn = ({ handleResponseSuccess, visitedPage, setIsLoading }) => {
   const [errorMessage, setErrorMessage] = useState('');
 
   const { email, password } = loginInfo;
+
+  const visitedPageState = useSelector(state => state.visitedPageReducer);
+  const { visitedPage } = visitedPageState;
 
   const handleInputValue = (key) => (e) => {
     setLoginInfo({ ...loginInfo, [key]: e.target.value });
@@ -67,7 +71,6 @@ const SignIn = ({ handleResponseSuccess, visitedPage, setIsLoading }) => {
         email,
         password: sha256(password),
       });
-      setIsLoading(false);
       if (signInRequest) {
         const accessToken = signInRequest.data.accessToken;
         handleResponseSuccess(accessToken);
@@ -85,7 +88,6 @@ const SignIn = ({ handleResponseSuccess, visitedPage, setIsLoading }) => {
       await window.location.assign(
         `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=https://localhost:3000&response_type=code`
       );
-      setIsLoading(false);
     } catch (err) {
       console.log(err);
     }
