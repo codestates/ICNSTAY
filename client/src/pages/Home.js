@@ -41,9 +41,9 @@ const Home = ({ setVisitedPage, setUser, handleResponseSuccess }) => {
         const result = await axios.post('https://localhost:4000/oauth/signin', { authorizationCode });
         // console.log("액세스 토큰:", result.data.access_token)
         const accessToken = { kakaoAccessToken: result.data.access_token };
-        const { id, email, username } = result.data.userFinder;
+        const { id, email, username, social } = result.data.userFinder;
         handleResponseSuccess(accessToken);
-        setUser({ id, email, username });
+        setUser({ id, email, username, social });
       }
     };
     getKakaoInfo();

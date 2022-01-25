@@ -53,6 +53,26 @@ function App() {
   };
 
   const handleSignOut = async () => {
+    console.log(user.social)
+    if (user.social) {
+      console.log("소셜 로그아웃을 하셨습니다.");
+      // const url = 'https://kapi.kakao.com/v1/user/logout';
+      const accessToken = localStorage.getItem('token');
+      console.log('로컬스토리지에서 가져온 액세스 토큰 :', accessToken)
+
+      const headers = { 
+        accessToken,
+        'Content-Type': 'application/json'
+      }
+      const result = await axios.post('https://localhost:4000/oauth/signout', {},{ headers });
+      console.log("social logout data ",result.status);
+      if (result.status === 205){
+        setIsLogIn(false);
+        setUser(null);
+        localStorage.clear();
+      }
+      return
+    }
     const signOutRequest = await axios.post('https://localhost:4000/signout');
     if (signOutRequest.status === 205) {
       setUser(null);

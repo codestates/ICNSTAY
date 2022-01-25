@@ -45,14 +45,20 @@ module.exports = {
   },
   signout: async (req, res) => {
     try{
-      await axios.post('https://kapi.kakao.com/v1/user/logout', {
+      console.log(req.headers.accesstoken);
+      const result = await axios.post('https://kapi.kakao.com/v1/user/logout', { }, {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          Authorization: `Bearer ${req.headers.access_token}`
+          Authorization: `Bearer ${req.headers.accesstoken}`
         }
       });
-      res.status(205).json({ message: 'successfully signed out' })
+      // console.log(result)
+      const { id } = result.data
+      res.clearCookie('refreshToken')
+      res.status(205).json({ id, message: 'successfully sign out' }) //클라이언트에서 응답 못받음?
+      console.log('to here')
     }catch (err) {
+      console.log(err);
       res.status(500).json({ message: 'server error' })
     }
   }
