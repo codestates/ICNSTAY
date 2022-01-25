@@ -20,24 +20,34 @@ const CardBox = styled.div`
   grid-template-columns: repeat(3, 1fr);
 `;
 
-const Home = ({ setVisitedPage }) => {
+const Home = ({ setVisitedPage, setUser, handleResponseSuccess }) => {
   const [accommodationList, setAccomodationList] = useState([]);
 
-  useEffect(async () => {
+  useEffect(() => {
+    async function getData () {
     const getAccommodationList = await axios.get('https://localhost:4000/accommodation');
     setAccomodationList(getAccommodationList.data.accInfo);
-  }, []);
+    };
+    getData();
+  }, []) 
 
-  useEffect(async () => {
-    const url = new URL(window.location.href);
-    const authorizationCode = url.searchParams.get('code');
-    if (authorizationCode === null) {
-      console.log('no authorizationCode');
-    } else {
-      console.log(authorizationCode);
-      await axios.post('https://localhost:4000/oauth', { authorizationCode });
-    }
-  }, [window.location.href]);
+  useEffect(() => {
+    async function getKakaoInfo() {
+      const url = new URL(window.location.href);
+      const authorizationCode = url.searchParams.get('code');
+      if (authorizationCode === null) {
+        console.log("no authorizationCode");
+      } else {
+        const result = await axios.post('https://localhost:4000/oauth/signin', { authorizationCode });
+        // console.log("액세스 토큰:", result.data.access_token)
+        const accessToken = { kakaoAccessToken: result.data.access_token };
+        const { id, email, username } = result.data.userFinder;
+        handleResponseSuccess(accessToken);
+        setUser({ id, email, username });
+      }
+    };
+    getKakaoInfo();
+  }, [window.location.href])
 
   return (
     <div>
