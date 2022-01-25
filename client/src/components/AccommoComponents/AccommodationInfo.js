@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
 
 const InfoContainer = styled.div`
   padding: 1rem;
@@ -9,11 +10,17 @@ const Desc = styled.div`
   font-size: 1.5em;
 `;
 
-const AccommodationInfo = ({ source }) => {
+const AccommodationInfo = () => {
+
+  // Get accommodation state information from redux
+  const accommodationState = useSelector(state => state.accommodationReducer);
+  const { accommodationDetail } = accommodationState;
+
   return (
-    <InfoContainer>
-      <Desc>{source.description}</Desc>
-    </InfoContainer>
+    <MainContainer>
+      <h1>Information Section</h1>
+        <div>{accommodationDetail.information.description}</div>
+    </MainContainer>
   );
 };
 

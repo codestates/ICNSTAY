@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import Banner from '../components/Banner';
+import { useSelector, useDispatch } from 'react-redux';
 import Card from '../components/Card';
 
 const BannerContainer = styled.div`
@@ -20,8 +21,13 @@ const CardBox = styled.div`
   grid-template-columns: repeat(3, 1fr);
 `;
 
-const Home = ({ setVisitedPage, setUser, handleResponseSuccess }) => {
+const Home = ({handleResponseSuccess}) => {
   const [accommodationList, setAccomodationList] = useState([]);
+  const dispatch = useDispatch();
+
+  // Get preload state from redux
+  const preloadState = useSelector(state => state.preloadReducer);
+  const { isLoading } = preloadState;
 
   useEffect(() => {
     async function getData () {
@@ -54,22 +60,17 @@ const Home = ({ setVisitedPage, setUser, handleResponseSuccess }) => {
       <BannerContainer>
         <Banner />
       </BannerContainer>
-      <CardContainer>
-        <CardBox>
-          {accommodationList.map((el, idx) => {
-            return (
-              <Card
-                src={el.image[0]}
-                name={el.name}
-                location={el.location}
-                key={idx}
-                id={el.id}
-                setVisitedPage={setVisitedPage}
-              />
-            );
-          })}
-        </CardBox>
-      </CardContainer>
+      <CardBox>
+        {accommodationList.map((el, idx) => {
+          return <Card 
+            src={el.image[0]} 
+            name={el.name} 
+            location={el.location} 
+            key= {idx} 
+            id={el.id} 
+            />
+        })}
+      </CardBox>
     </div>
   );
 };

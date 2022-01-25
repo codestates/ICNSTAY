@@ -6,6 +6,11 @@ import CalendarModule from '../CalendarModule';
 import { Modal } from '../Modal';
 import { Button } from '../../styles/Button';
 import { Input } from '../../styles/Input';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { Modal } from '../Modal';
+import { useSelector, useDispatch } from 'react-redux';
+
 
 const MainContainer = styled.div`
   /* padding: 1rem; */
@@ -60,6 +65,12 @@ const AccommodationDesc = ({ source, isLogIn }) => {
   const [openModal, setOpenModal] = useState(false);
   const [isReady, setIsReady] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
+  // Get accommodation state information from redux
+  const accommodationState = useSelector(state => state.accommodationReducer);
+  const { accommodationDetail } = accommodationState;
+  // Get signIn state from redux
+  const singInState = useSelector(state => state.signinReducer);
+  const { isSignIn } = singInState.isSignIn;
   // Event handlers
   const openCalendarModule = () => {
     setOpenModal(!openModal);
@@ -78,14 +89,14 @@ const AccommodationDesc = ({ source, isLogIn }) => {
   };
   const handlePlacingBid = async () => {
     const bidInformation = {
-      id: source.id,
-      name: source.name,
+      id: accommodationDetail.information.id,
+      name: accommodationDetail.information.name,
       checkInDate: checkInDate.toISOString().slice(0, 10),
       checkOutDate: checkOutDate.toISOString().slice(0, 10),
       biddingPrice: biddingPrice,
     };
     // SignIn status checking part
-    if (isLogIn) {
+    if (isSignIn) {
       try {
         const response = await axios.post(
           `https://localhost:4000/accommodation/${source.id}`,

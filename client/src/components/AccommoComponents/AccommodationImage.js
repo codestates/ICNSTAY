@@ -1,7 +1,10 @@
 import styled from 'styled-components';
-import { useState, useRef } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleLeft, faAngleRight, faCircle } from '@fortawesome/free-solid-svg-icons';
+import React, { useEffect, useState, useRef, forwardRef } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAngleLeft, faAngleRight, faCircle } from "@fortawesome/free-solid-svg-icons";
+import { useSelector, useDispatch } from 'react-redux';
+
+
 
 const MainContainer = styled.div`
   /* padding: 2rem 5rem 2rem 0rem; */
@@ -41,22 +44,26 @@ const DotIconBox = styled.div`
   }
 `;
 
-const AccommodationImage = ({ source }) => {
+const AccommodationImage = () => {
+  // Get accommodation state information from redux
+  const accommodationState = useSelector(state => state.accommodationReducer);
+  const { accommodationDetail } = accommodationState;
+
   const index = useRef(0);
-  const [currentImage, setCurrentImage] = useState(source.image[0]);
+  const [currentImage, setCurrentImage] = useState(accommodationDetail.information.image[0]);
 
   const moveLeft = () => {
-    index.current--;
-    setCurrentImage(source.image[index.current]);
+    index.current --;
+    setCurrentImage(accommodationDetail.information.image[index.current]);
   };
   const moveRight = () => {
-    index.current++;
-    setCurrentImage(source.image[index.current]);
+    index.current ++;
+    setCurrentImage(accommodationDetail.information.image[index.current]);
   };
   const changeImage = (event) => {
     index.current = event;
-    setCurrentImage(source.image[event]);
-  };
+    setCurrentImage(accommodationDetail.information.image[event]);
+  }
 
   return (
     <MainContainer>

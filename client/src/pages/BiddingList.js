@@ -4,6 +4,7 @@ import axios from 'axios';
 import Sidebar from '../components/Sidebar';
 import List from '../components/List';
 import { Container } from '../styles/Container';
+import { useSelector } from 'react-redux';
 
 const SidebarContainer = styled.div`
   width: 15%;
@@ -29,7 +30,9 @@ const Message = styled.div`
   font-weight: 800;
 `;
 
-const BiddingList = ({ user }) => {
+const BiddingList = () => {
+  const userState = useSelector(state => state.userReducer);
+  const { user } = userState;
   const { id, username } = user;
   const [list, setList] = useState([]);
 
