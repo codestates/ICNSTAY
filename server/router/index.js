@@ -8,7 +8,7 @@ router.post( '/signout', user.signout );
 router.get( '/userinfo', user.userinfo.get );
 router.put( '/userinfo/:id', user.userinfo.put );
 router.delete( '/userinfo/:id', user.userinfo.delete );
-router.get( '/biddinglist', user.biddingList );
+router.get( '/biddinglist/:id', user.biddingList );
 router.post( '/oauth/signin', user.oauth.signin );
 router.post( '/oauth/signout', user.oauth.signout );
 

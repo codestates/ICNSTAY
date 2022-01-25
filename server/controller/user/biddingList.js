@@ -2,7 +2,6 @@ const { user, accommodation, user_accommodation } = require('../../models');
 
 module.exports = async (req, res) => {
   const { id } = req.params;
-  // console.log(id);
   try{
     const finder = await user_accommodation.findAll({
       where: { userId: id },
@@ -18,6 +17,7 @@ module.exports = async (req, res) => {
     const list = finder.map(list => list.dataValues);
     res.status(200).json(list)
   }catch(err) {
+    console.log('err');
     res.status(404).json({ message: 'list not exist' });
   }
 }
