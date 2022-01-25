@@ -1,10 +1,12 @@
-import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
 import styled from 'styled-components';
 import AccommodationDesc from '../components/AccommoComponents/AccommodationDesc';
 import AccommodationImage from '../components/AccommoComponents/AccommodationImage';
 import AccommodationInfo from '../components/AccommoComponents/AccommodationInfo';
+import { useSelector, useDispatch } from 'react-redux';
+import { setAccommodationDetail, setIsLoading } from '../actions/index';
 
 const MainContainer = styled.div`
   display: flex;
@@ -12,15 +14,17 @@ const MainContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-content: center;
+  padding-top: 1.5em;
 `;
 
 const UpperContainer = styled.div`
+  padding-bottom: 1.5em;
   border-bottom: 1px solid;
+  padding-top: 2em;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  margin-bottom: 0.5rem;
-  align-items: center;
+  /* align-items: center; */
   > .desc {
     flex-shrink: 0;
     width: 300px;
@@ -34,25 +38,34 @@ const LowerContainer = styled.div`
   justify-content: center;
 `;
 
-const Accommodation = ({ isLogIn, setIsLoading }) => {
+const Accommodation = () => {
   // Get accommodation information from server
   const { id } = useParams();
-  const [accommodationDetail, setAccommodationDetail] = useState();
+  // Get accommodation state information from redux
+  const accommodationState = useSelector(state => state.accommodationReducer);
+  const { accommodationDetail } = accommodationState;
+  const dispatch = useDispatch();
 
-  useEffect( async () => {
+  useEffect(async () => {
     const response = await axios.get(`https://localhost:4000/accommodation/${id}`);
-    setAccommodationDetail(response.data);
-    setIsLoading(false);
+    dispatch(setAccommodationDetail(response.data));
+    dispatch(setIsLoading(false));
   },[]);
 
   return (
     <MainContainer>
       <UpperContainer>
-        <span className='image'>{accommodationDetail ? <AccommodationImage source={accommodationDetail} /> : null}</span>
-        <span className='desc'>{accommodationDetail ? <AccommodationDesc source={accommodationDetail} isLogIn={isLogIn} /> : null}</span>
+        <span className="image">
+          {accommodationDetail ? <AccommodationImage /> : null}
+        </span>
+        <span className="desc">
+          {accommodationDetail ? (
+            <AccommodationDesc />
+          ) : null}
+        </span>
       </UpperContainer>
       <LowerContainer>
-        {accommodationDetail ? <AccommodationInfo source={accommodationDetail}/> : null}
+        {accommodationDetail ? <AccommodationInfo /> : null}
       </LowerContainer>
     </MainContainer>
   );

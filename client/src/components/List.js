@@ -48,7 +48,7 @@ const List = ({ list }) => {
               </TableColumn>
               <TableColumn>{checkInDate}</TableColumn>
               <TableColumn>{checkOutDate}</TableColumn>
-              <TableColumn>{biddingPrice}원</TableColumn>
+              <TableColumn>{biddingPrice}</TableColumn>
             </TableRow>
           );
         }

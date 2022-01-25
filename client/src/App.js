@@ -11,24 +11,37 @@ import Accommodation from './pages/Accommodation';
 import BiddingList from './pages/BiddingList';
 import GlobalStyle from './styles/GlobalStyle';
 import Preloader from './components/Preloader';
+import { useSelector, useDispatch } from 'react-redux';
+import { setIsSignIn, setIsLoading, setVisitedPage, setUser } from './actions'
+
+
+axios.defaults.withCredentials = true;
 
 function App() {
-  const [isLogIn, setIsLogIn] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [user, setUser] = useState(() => JSON.parse(localStorage.getItem('user')) || null);
-  const [visitedPage, setVisitedPage] = useState('/'); // 방문한 페이지 저장하는 스택
   // const [token, setToken, removeToken] = useCookies(['signInToken']);
+  // Get states from redux
+  const singInState = useSelector(state => state.signinReducer);
+  const { isSignIn } = singInState;
+  const preloadState = useSelector(state => state.preloadReducer);
+  const { isLoading } = preloadState;
+  const visitedPageState = useSelector(state => state.visitedPageReducer);
+  const { visitedPage } = visitedPageState;
+  const userState = useSelector(state => state.userReducer);
+  const { user } = userState;
+  // const [user, setUser] = useState(() => JSON.parse(localStorage.getItem('user')) || null)
+  console.log('user : ',userState)
+  const dispatch = useDispatch();
 
   const getUser = async () => {
     try {
       const res = await axios.get('https://localhost:4000/userinfo');
-      setIsLoading(false);
       const userInfo = res.data;
       if (userInfo) {
         const { id, email, mobile, username } = userInfo;
-        setUser({ id, email, mobile, username });
+        dispatch(setUser({ id, email, mobile, username }));
       } else {
-        setUser(null);
+        dispatch(setUser(null));
+
       }
     } catch (e) {
       console.log(e);
@@ -40,17 +53,42 @@ function App() {
   };
 
   const handleResponseSuccess = (accessToken) => {
-    isAuthenticated();
-    setIsLogIn(true);
+    if (!accessToken.kakaoAccessToken) {
+      isAuthenticated();
+    } else {
+      accessToken = accessToken.kakaoAccessToken;
+      dispatch(setIsSignIn(true))
+    }
     localStorage.setItem('token', accessToken);
     // setToken('signInToken', accessToken);
   };
 
   const handleSignOut = async () => {
+    console.log(user.social)
+    if (user.social) {
+      console.log("소셜 로그아웃을 하셨습니다.");
+      // const url = 'https://kapi.kakao.com/v1/user/logout';
+      const accessToken = localStorage.getItem('token');
+      console.log('로컬스토리지에서 가져온 액세스 토큰 :', accessToken)
+
+      const headers = { 
+        accessToken,
+        'Content-Type': 'application/json'
+      }
+      const result = await axios.post('https://localhost:4000/oauth/signout', {},{ headers });
+      console.log("social logout data ",result.status);
+      if (result.status === 205){
+        setIsLogIn(false);
+        setUser(null);
+        localStorage.clear();
+      }
+      return
+    }
     const signOutRequest = await axios.post('https://localhost:4000/signout');
     if (signOutRequest.status === 205) {
-      setUser(null);
-      setIsLogIn(false);
+      dispatch(setUser(null));
+      dispatch(setVisitedPage('/'));
+      dispatch(setIsSignIn(false));
       localStorage.clear();
       // removeToken('signInToken');
     }
@@ -62,19 +100,18 @@ function App() {
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
-      setIsLogIn(true);
-      setUser(user);
+      dispatch(setIsSignIn(true));
+      dispatch(setUser(user));
     } else {
-      setIsLogIn(false);
+      dispatch(setIsSignIn(false));
     }
   }, []);
 
-  useEffect(() => user && localStorage.setItem('user', JSON.stringify(user)), [user]);
-  console.log('App.js:', user);
+  // useEffect(() => user && localStorage.setItem('user', JSON.stringify(user)), [user]);
   return (
     <BrowserRouter>
       <GlobalStyle />
-      <Header isLogIn={isLogIn} handleSignOut={handleSignOut} />
+      <Header handleSignOut={handleSignOut} />
       {isLoading ? (
         <Preloader />
       ) : (
@@ -82,23 +119,20 @@ function App() {
           <Route
             exact
             path="/"
-            element={<Home setVisitedPage={setVisitedPage} setIsLoading={setIsLoading} />}
+            element={<Home handleResponseSuccess={handleResponseSuccess}/>}
           ></Route>
           <Route
-            exact
             path="/signin"
             element={
               <SignIn
                 handleResponseSuccess={handleResponseSuccess}
-                visitedPage={visitedPage}
-                setIsLoading={setIsLoading}
               />
             }
           ></Route>
           {/* 로그인 상태에서 "/signup" 페이지 이동시, "/"로 강제 이동 */}
           <Route
             path="/signup"
-            element={isLogIn ? <Navigate to="/" /> : <SignUp setIsLoading={setIsLoading} />}
+            element={isSignIn ? <Navigate to="/" /> : <SignUp />}
           ></Route>
           {/* 로그인한 상태에서만 이용가능한 페이지: userinfo, biddinglist */}
           {/* 로그인 하지 않은 상태에서 위의 페이지들로 이동시, "/signin" 페이지로 강제 이동 */}
@@ -108,12 +142,7 @@ function App() {
               !user ? (
                 <Navigate to="/signin" />
               ) : (
-                <Mypage
-                  setIsLogIn={setIsLogIn}
-                  user={user}
-                  setUser={setUser}
-                  setIsLoading={setIsLoading}
-                />
+                <Mypage />
               )
             }
           ></Route>
@@ -123,13 +152,13 @@ function App() {
               !user ? (
                 <Navigate to="/signin" />
               ) : (
-                <BiddingList setIsLoading={setIsLoading} user={user} />
+                <BiddingList />
               )
             }
           ></Route>
           <Route
             path="/accommodation/:id"
-            element={<Accommodation isLogIn={isLogIn} setIsLoading={setIsLoading} />}
+            element={<Accommodation />}
           ></Route>
           <Route path="/signout" element={<Navigate to="/" />}></Route>
           <Route path="/preloader" element={<Preloader />}></Route>

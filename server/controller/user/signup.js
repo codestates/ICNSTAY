@@ -12,18 +12,21 @@ module.exports = async (req, res) => {
     }
     const { username, email, password } = req.body;
     const social = null;
-    const [ userInfo, created ] = await user.findOrCreate({
-      where: { username, email, social },
-      defaults: { password, mobile }
-    });
-  
-    if ( created ) {
-      res.status(201).json({ message: 'sign-up ok' });
-    }else {
-      res.status(409).json({ message: 'email exist' });
+    try{
+      const [ userInfo, created ] = await user.findOrCreate({
+        where: { username, email, social },
+        defaults: { password, mobile }
+      });
+    
+      if ( created ) {
+        res.status(201).json({ message: 'sign-up ok' });
+      }else {
+        res.status(409).json({ message: 'email exist' });
+      }
+    }catch(e) {
+      res.status(401).json({ message: 'server error' })
     }
   }else {
     res.status(422).json({ message: 'insufficient parameters supplied' });
-    return;
   }
 }

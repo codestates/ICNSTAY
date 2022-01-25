@@ -1,18 +1,59 @@
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import styled from 'styled-components';
 import CalendarModule from '../CalendarModule';
-import { useState, useEffect } from 'react';
+import { Modal } from '../Modal';
 import { Button } from '../../styles/Button';
 import { Input } from '../../styles/Input';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Modal } from '../Modal';
+import { useSelector, useDispatch } from 'react-redux';
+
 
 const MainContainer = styled.div`
-  padding: 1rem;
-  > .desc {
-    margin-bottom: 4rem;
+  /* padding: 1rem; */
+  > div {
+    &:first-child {
+      margin-bottom: 1.5em;
+    }
+    &:last-child {
+      /* text-align: center; */
+    }
   }
 `;
+
+const HotelBox = styled.div`
+  /* border: 1px solid red; */
+`;
+
+const HotelName = styled.div`
+  font-size: 1.8em;
+  font-weight: 500;
+  padding-bottom: 0.5em;
+  border-bottom: 3px solid #000;
+`;
+
+const HotelInfo = styled.div`
+  border-bottom: 1px solid #c4c4c4;
+  display: flex;
+  align-items: center;
+  padding: 0.5em 0em;
+`;
+
+const InfoLabel = styled.div`
+  color: #c4c4c4;
+  font-weight: 500;
+  font-size: 0.8em;
+  padding: 0.5em 0;
+  margin-right: 0.5em;
+  width: 35%;
+`;
+
+const InfoContent = styled.div``;
+
+const Price = styled.div``;
 
 const AccommodationDesc = ({ source, isLogIn }) => {
   // Setup variances
@@ -24,6 +65,12 @@ const AccommodationDesc = ({ source, isLogIn }) => {
   const [openModal, setOpenModal] = useState(false);
   const [isReady, setIsReady] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
+  // Get accommodation state information from redux
+  const accommodationState = useSelector(state => state.accommodationReducer);
+  const { accommodationDetail } = accommodationState;
+  // Get signIn state from redux
+  const singInState = useSelector(state => state.signinReducer);
+  const { isSignIn } = singInState.isSignIn;
   // Event handlers
   const openCalendarModule = () => {
     setOpenModal(!openModal);
@@ -33,95 +80,118 @@ const AccommodationDesc = ({ source, isLogIn }) => {
   };
   const handleCheckInDate = (date) => {
     setCheckInDate(date);
-  }
+  };
   const handleCheckOutDate = (date) => {
     setCheckOutDate(date);
-  }
+  };
   const goSigninPage = () => {
     history('/signin');
-  }
+  };
   const handlePlacingBid = async () => {
     const bidInformation = {
-      id: source.id,
-      name: source.name,
+      id: accommodationDetail.information.id,
+      name: accommodationDetail.information.name,
       checkInDate: checkInDate.toISOString().slice(0, 10),
       checkOutDate: checkOutDate.toISOString().slice(0, 10),
-      biddingPrice: biddingPrice
+      biddingPrice: biddingPrice,
     };
     // SignIn status checking part
-    if (isLogIn) {
+    if (isSignIn) {
       try {
-        const response = await axios.post(`https://localhost:4000/accommodation/${source.id}`, bidInformation);
+        const response = await axios.post(
+          `https://localhost:4000/accommodation/${source.id}`,
+          bidInformation
+        );
         if (response.status === 201) {
           history('/biddinglist');
-        };
+        }
       } catch (err) {
         if (err.response.status === 422) {
-          console.log('Insufficient parameters')
-        } 
-      };
+          console.log('Insufficient parameters');
+        }
+      }
     } else {
       setIsOpen(true);
-    };
+    }
   };
   // Button readiness check
   useEffect(() => {
-    if (
-      checkInDate &&
-      checkOutDate &&
-      biddingPrice
-    ) {
+    if (checkInDate && checkOutDate && biddingPrice) {
       setIsReady(false);
     }
   });
 
   return (
     <MainContainer>
-      <section className='desc'>
-       <h1>{source.name}</h1>
-       <div>Location : {source.location} </div>
-       <div>Bidding ends at : {source.due.slice(0, 10)}</div>
-       <div>Minimum Price : {`${source.minPrice.slice(0, -4)},${source.minPrice.slice(-4)}`}</div>
-       <div>Highest Bidding : ????????????????????????????????????????</div>
-      </section>
-      <section>
-      <div>
-        {biddingPrice ? <div>My Bidding Price : {biddingPrice}</div> : null}
+      <HotelBox>
+        <HotelName>{source.name}</HotelName>
+        <HotelInfo>
+          <InfoLabel>location</InfoLabel>
+          <InfoContent>{source.location}</InfoContent>
+        </HotelInfo>
+        <HotelInfo>
+          <InfoLabel>bidding ends at</InfoLabel>
+          <InfoContent>{source.due.slice(0, 10)}</InfoContent>
+        </HotelInfo>
+        <HotelInfo>
+          <InfoLabel>minimum price</InfoLabel>
+          <InfoContent>{`${source.minPrice.slice(0, -4)}${source.minPrice.slice(-4)}`}</InfoContent>
+        </HotelInfo>
+        <HotelInfo>
+          <InfoLabel>highest bidding</InfoLabel>
+          <InfoContent>??????????????</InfoContent>
+        </HotelInfo>
+      </HotelBox>
+      <HotelBox>
+        <Price>{biddingPrice ? `My Bidding Price : ${biddingPrice}원` : 'TRY BIDS!'}</Price>
         <Input
           type="number"
           placeholder="원"
           onChange={handleChangeBiddingPrice}
+          style={{ textAlign: 'right', marginLeft: 0, width: '100%' }}
         />
-      </div>
-      <div>
-        <Button onClick={openCalendarModule}>
-          {checkOutDate ?
-            `Check-in : ${checkInDate.getFullYear()}년 - ${checkInDate.getMonth() + 1}월 - ${checkInDate.getDate()}일`
-            : 'Check-in/ Check-out'}
+
+        <Button onClick={openCalendarModule} style={{ marginLeft: 0, width: '100%' }}>
+          {checkOutDate
+            ? `Check-in : ${checkInDate.getFullYear()}-${
+                checkInDate.getMonth() + 1
+              }-${checkInDate.getDate()}`
+            : 'Check-in / Check-out'}
           <br></br>
-          {checkOutDate ?
-            `Check-out : ${checkOutDate.getFullYear()}년 - ${checkOutDate.getMonth() + 1}월 - ${checkOutDate.getDate()}일`
+          {checkOutDate
+            ? `Check-out : ${checkOutDate.getFullYear()}-${
+                checkOutDate.getMonth() + 1
+              }-${checkOutDate.getDate()}`
             : ''}
         </Button>
-      </div>
-      {openModal ?
-        <CalendarModule
-          handleCheckInDate={handleCheckInDate}
-          handleCheckOutDate={handleCheckOutDate}
-          checkInDate={checkInDate}
-          checkOutDate={checkOutDate}
-          openCalendarModule={openCalendarModule} />
-        : ''
-      }
-      <Button onClick={() => handlePlacingBid()} disabled={isReady}>Place a bid</Button>
-      {isOpen ? 
-        <Modal 
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        text={'You need to Signin'}
-        handleYesButton={goSigninPage} /> 
-        : null}
-      </section>
+
+        {openModal ? (
+          <CalendarModule
+            handleCheckInDate={handleCheckInDate}
+            handleCheckOutDate={handleCheckOutDate}
+            checkInDate={checkInDate}
+            checkOutDate={checkOutDate}
+            openCalendarModule={openCalendarModule}
+          />
+        ) : (
+          ''
+        )}
+        <Button
+          onClick={() => handlePlacingBid()}
+          disabled={isReady}
+          style={{ marginLeft: 0, width: '100%' }}
+        >
+          Place a bid
+        </Button>
+        {isOpen ? (
+          <Modal
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            text={'You need to Signin'}
+            handleYesButton={goSigninPage}
+          />
+        ) : null}
+      </HotelBox>
     </MainContainer>
   );
 };

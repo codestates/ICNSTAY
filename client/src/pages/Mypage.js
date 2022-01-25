@@ -8,6 +8,9 @@ import { Modal } from '../components/Modal';
 import { Button } from '../styles/Button';
 import { Container } from '../styles/Container';
 import { Input } from '../styles/Input';
+import { useSelector, useDispatch } from 'react-redux';
+import { setIsSignIn, setUser } from '../actions';
+
 
 const SidebarContainer = styled.div`
   width: 15%;
@@ -86,9 +89,11 @@ const ErrorMessage = styled.div`
   left: 40px;
 `;
 
-const Mypage = ({ setIsLogIn, user, setUser, setIsLoading }) => {
+const Mypage = () => {
+  const userState = useSelector(state => state.userReducer);
+  const { user } = userState;
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [edit, setEdit] = useState(false);
   const [username, setUsername] = useState(user.username);
@@ -96,6 +101,7 @@ const Mypage = ({ setIsLogIn, user, setUser, setIsLoading }) => {
   const [password, setPassword] = useState(null);
   const [passwordCheck, setPasswordCheck] = useState();
   const [isReady, setIsReady] = useState(false);
+  
 
   const goBack = () => setEdit(false);
 
@@ -143,14 +149,13 @@ const Mypage = ({ setIsLogIn, user, setUser, setIsLoading }) => {
         password: password === null ? password : sha256(password),
         mobile,
       });
-      setIsLoading(false);
       if (response.status === 200) {
         setEdit(false);
         setIsOpen(false);
         setUsername(username);
         setMobile(mobile);
         const userInfo = { id: user.id, email: user.email, username, mobile };
-        setUser(userInfo);
+        dispatch(setUser(userInfo));
       }
     } catch (err) {
       console.log(err);
@@ -160,9 +165,8 @@ const Mypage = ({ setIsLogIn, user, setUser, setIsLoading }) => {
   const handleDeleteSubmit = async () => {
     try {
       const response = await axios.delete(`https://localhost:4000/userinfo/${user.id}`);
-      setIsLoading(false);
       if (response) {
-        setIsLogIn(false);
+        dispatch(setIsSignIn(false));
         localStorage.clear();
         navigate('/');
       }
@@ -172,8 +176,16 @@ const Mypage = ({ setIsLogIn, user, setUser, setIsLoading }) => {
   };
 
   useEffect(() => {
-    if (isValidPassword && password && passwordCheck) {
-      setIsReady(true);
+    if (!password) {
+      setIsReady(false);
+      if (username || mobile) {
+        setIsReady(true);
+      }
+    } else {
+      setIsReady(false);
+      if (passwordCheck && isValidPassword) {
+        setIsReady(true);
+      }
     }
   });
 

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-
+import { useSelector, useDispatch } from 'react-redux';
 import logo from '../data/logo.png';
 
 const HeaderContainer = styled.header`
@@ -33,15 +33,18 @@ const StyledLink = styled(Link)`
   all: unset;
 `;
 
-const Header = ({ isLogIn, handleSignOut }) => {
-  console.log('현재 로그인 상태:', isLogIn);
+const Header = ({ handleSignOut }) => {
+  // Get signIn state from redux
+  const singInState = useSelector(state => state.signinReducer);
+  const { isSignIn } = singInState;
+
   return (
     <HeaderContainer>
       <StyledLink to="/">
         <Logo src={logo} />
       </StyledLink>
       <ButtonContainer>
-        {isLogIn ? (
+        {isSignIn ? (
           <>
             <StyledLink to="/userinfo">
               <Button>MY PAGE</Button>
