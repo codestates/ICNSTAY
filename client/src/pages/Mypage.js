@@ -176,11 +176,16 @@ const Mypage = () => {
   };
 
   useEffect(() => {
-    if (username || mobile) {
-      setIsReady(true);
-    }
-    if (isValidPassword && password && passwordCheck) {
-      setIsReady(true);
+    if (!password) {
+      setIsReady(false);
+      if (username || mobile) {
+        setIsReady(true);
+      }
+    } else {
+      setIsReady(false);
+      if (passwordCheck && isValidPassword) {
+        setIsReady(true);
+      }
     }
   });
 

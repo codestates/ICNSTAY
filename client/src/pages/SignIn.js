@@ -83,7 +83,7 @@ const SignIn = ({ handleResponseSuccess }) => {
   };
 
   const handleSocialLoginButton = async () => {
-    const REST_API_KEY = '8c7f2d24ac16c0f2a4d3dc987439ddbb'; //나중에 환경변수로 등록할 것!
+    const REST_API_KEY = 'd6163d5e1b2a45b49c84bf4c0c355753'; //나중에 환경변수로 등록할 것!
     try {
       await window.location.assign(
         `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=https://localhost:3000&response_type=code`

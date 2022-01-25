@@ -1,8 +1,13 @@
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 
-const MainContainer = styled.div`
+const InfoContainer = styled.div`
   padding: 1rem;
+  /* text-align: center; */
+`;
+
+const Desc = styled.div`
+  font-size: 1.5em;
 `;
 
 const AccommodationInfo = () => {

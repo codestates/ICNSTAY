@@ -17,8 +17,8 @@ module.exports = {
         name: 'hotel deluna',
         location: 'Soeul',
         description: 'It is hotel deluna',
-        minPrice: '20000원',
-        maxPrice: '30000원',
+        minPrice: '20,000원',
+        maxPrice: '30,000원',
         due: new Date(),
         createdAt: new Date(),
         updatedAt: new Date()
@@ -28,8 +28,8 @@ module.exports = {
         name: 'hyri minbak',
         location: 'Seogwipo',
         description: 'It is hyri minbak',
-        minPrice: '90000원',
-        maxPrice: '100000원',
+        minPrice: '90,000원',
+        maxPrice: '100,000원',
         due: new Date(),
         createdAt: new Date(),
         updatedAt: new Date()
@@ -39,8 +39,8 @@ module.exports = {
         name: 'sinla hotel',
         location: 'Busan',
         description: 'It is sinla hotel',
-        minPrice: '10000원',
-        maxPrice: '10000원',
+        minPrice: '10,000원',
+        maxPrice: '10,000원',
         due: new Date(),
         createdAt: new Date(),
         updatedAt: new Date()
@@ -50,8 +50,8 @@ module.exports = {
         name: 'oasis',
         location: 'Here',
         description: 'It is oasis',
-        minPrice: '60000원',
-        maxPrice: '70000원',
+        minPrice: '60,000원',
+        maxPrice: '70,000원',
         due: new Date(),
         createdAt: new Date(),
         updatedAt: new Date()
@@ -61,8 +61,8 @@ module.exports = {
         name: 'oken sauna',
         location: 'There',
         description: 'It is oken sauna',
-        minPrice: '70000원',
-        maxPrice: '70000원',
+        minPrice: '70,000원',
+        maxPrice: '70,000원',
         due: new Date(),
         createdAt: new Date(),
         updatedAt: new Date()
@@ -73,7 +73,7 @@ module.exports = {
         location: 'Jeju',
         description: 'It is fack hotel',
         minPrice: '0원', 
-        maxPrice: '1000원', 
+        maxPrice: '1,000원', 
         due: new Date(),
         createdAt: new Date(),
         updatedAt: new Date()
@@ -83,8 +83,8 @@ module.exports = {
         name: 'kenzip',
         location: 'Ulsan',
         description: 'It is kenzip',
-        minPrice: '50000원',
-        maxPrice: '55000원',
+        minPrice: '50,000원',
+        maxPrice: '55,000원',
         due: new Date(),
         createdAt: new Date(),
         updatedAt: new Date()
@@ -95,7 +95,7 @@ module.exports = {
         location: 'Changwon',
         description: 'It is neorbunbang',
         minPrice: '0원',
-        maxPrice: '20000원',
+        maxPrice: '20,000원',
         due: new Date(),
         createdAt: new Date(),
         updatedAt: new Date()

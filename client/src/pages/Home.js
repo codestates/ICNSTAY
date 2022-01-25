@@ -1,23 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import Card from '../components/Card';
 import axios from 'axios';
+import styled from 'styled-components';
 import Banner from '../components/Banner';
 import { useSelector, useDispatch } from 'react-redux';
+import Card from '../components/Card';
 
 const BannerContainer = styled.div`
   text-align: center;
-  border: 1px solid white;
-  background-color: #F3F4F6;
+  /* border: 1px solid white; */
+  background-color: #f3f4f6;
+`;
+
+const CardContainer = styled.div`
+  padding: 5% 10%;
 `;
 
 const CardBox = styled.div`
   display: grid;
   grid-gap: 1px;
-  grid-template-columns: repeat(3, 1fr)
+  grid-template-columns: repeat(3, 1fr);
 `;
 
-const Home = () => {
+const Home = ({handleResponseSuccess}) => {
   const [accommodationList, setAccomodationList] = useState([]);
   const dispatch = useDispatch();
 
@@ -25,20 +29,30 @@ const Home = () => {
   const preloadState = useSelector(state => state.preloadReducer);
   const { isLoading } = preloadState;
 
-  useEffect(async () => {
+  useEffect(() => {
+    async function getData () {
     const getAccommodationList = await axios.get('https://localhost:4000/accommodation');
     setAccomodationList(getAccommodationList.data.accInfo);
-  }, [])
+    };
+    getData();
+  }, []) 
 
-  useEffect(async () => {
-    const url = new URL(window.location.href);
-    const authorizationCode = url.searchParams.get('code');
-    if (authorizationCode === null) {
-      console.log("no authorizationCode");
-    } else {
-      console.log(authorizationCode)
-      await axios.post('https://localhost:4000/oauth', { authorizationCode });
-    }
+  useEffect(() => {
+    async function getKakaoInfo() {
+      const url = new URL(window.location.href);
+      const authorizationCode = url.searchParams.get('code');
+      if (authorizationCode === null) {
+        console.log("no authorizationCode");
+      } else {
+        const result = await axios.post('https://localhost:4000/oauth/signin', { authorizationCode });
+        // console.log("액세스 토큰:", result.data.access_token)
+        const accessToken = { kakaoAccessToken: result.data.access_token };
+        const { id, email, username, social } = result.data.userFinder;
+        handleResponseSuccess(accessToken);
+        setUser({ id, email, username, social });
+      }
+    };
+    getKakaoInfo();
   }, [window.location.href])
 
   return (
@@ -58,7 +72,7 @@ const Home = () => {
         })}
       </CardBox>
     </div>
-    );
+  );
 };
 
 export default Home;

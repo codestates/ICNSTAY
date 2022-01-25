@@ -15,6 +15,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setIsSignIn, setIsLoading, setVisitedPage, setUser } from './actions'
 
 
+axios.defaults.withCredentials = true;
+
 function App() {
   // const [token, setToken, removeToken] = useCookies(['signInToken']);
   // Get states from redux
@@ -51,13 +53,37 @@ function App() {
   };
 
   const handleResponseSuccess = (accessToken) => {
-    isAuthenticated();
-    dispatch(setIsSignIn(true));
+    if (!accessToken.kakaoAccessToken) {
+      isAuthenticated();
+    } else {
+      accessToken = accessToken.kakaoAccessToken;
+      dispatch(setIsSignIn(true))
+    }
     localStorage.setItem('token', accessToken);
     // setToken('signInToken', accessToken);
   };
 
   const handleSignOut = async () => {
+    console.log(user.social)
+    if (user.social) {
+      console.log("소셜 로그아웃을 하셨습니다.");
+      // const url = 'https://kapi.kakao.com/v1/user/logout';
+      const accessToken = localStorage.getItem('token');
+      console.log('로컬스토리지에서 가져온 액세스 토큰 :', accessToken)
+
+      const headers = { 
+        accessToken,
+        'Content-Type': 'application/json'
+      }
+      const result = await axios.post('https://localhost:4000/oauth/signout', {},{ headers });
+      console.log("social logout data ",result.status);
+      if (result.status === 205){
+        setIsLogIn(false);
+        setUser(null);
+        localStorage.clear();
+      }
+      return
+    }
     const signOutRequest = await axios.post('https://localhost:4000/signout');
     if (signOutRequest.status === 205) {
       dispatch(setUser(null));
@@ -93,10 +119,9 @@ function App() {
           <Route
             exact
             path="/"
-            element={<Home />}
+            element={<Home handleResponseSuccess={handleResponseSuccess}/>}
           ></Route>
           <Route
-            exact
             path="/signin"
             element={
               <SignIn
