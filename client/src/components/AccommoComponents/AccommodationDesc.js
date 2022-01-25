@@ -8,7 +8,6 @@ import { Input } from '../../styles/Input';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 
-
 const MainContainer = styled.div`
   /* padding: 1rem; */
   > div {
@@ -63,10 +62,10 @@ const AccommodationDesc = () => {
   const [isReady, setIsReady] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   // Get accommodation state information from redux
-  const accommodationState = useSelector(state => state.accommodationReducer);
+  const accommodationState = useSelector((state) => state.accommodationReducer);
   const { accommodationDetail } = accommodationState;
   // Get signIn state from redux
-  const singInState = useSelector(state => state.signinReducer);
+  const singInState = useSelector((state) => state.signinReducer);
   const { isSignIn } = singInState.isSignIn;
   // Event handlers
   const openCalendarModule = () => {
@@ -93,7 +92,7 @@ const AccommodationDesc = () => {
       biddingPrice: biddingPrice,
     };
     // SignIn status checking part
-    if (isSignIn) {
+    if (localStorage.getItem('isSignIn')) {
       try {
         const response = await axios.post(
           `https://localhost:4000/accommodation/${accommodationDetail.information.id}`,
@@ -132,7 +131,10 @@ const AccommodationDesc = () => {
         </HotelInfo>
         <HotelInfo>
           <InfoLabel>minimum price</InfoLabel>
-          <InfoContent>{`${accommodationDetail.information.minPrice.slice(0, -4)}${accommodationDetail.information.minPrice.slice(-4)}`}</InfoContent>
+          <InfoContent>{`${accommodationDetail.information.minPrice.slice(
+            0,
+            -4
+          )}${accommodationDetail.information.minPrice.slice(-4)}`}</InfoContent>
         </HotelInfo>
         <HotelInfo>
           <InfoLabel>highest bidding</InfoLabel>

@@ -12,36 +12,36 @@ import BiddingList from './pages/BiddingList';
 import GlobalStyle from './styles/GlobalStyle';
 import Preloader from './components/Preloader';
 import { useSelector, useDispatch } from 'react-redux';
-import { setIsSignIn, setIsLoading, setVisitedPage, setUser } from './actions'
-
+import { setIsSignIn, setIsLoading, setVisitedPage, setUser } from './actions';
 
 axios.defaults.withCredentials = true;
 
 function App() {
   // const [token, setToken, removeToken] = useCookies(['signInToken']);
   // Get states from redux
-  const singInState = useSelector(state => state.signinReducer);
-  const { isSignIn } = singInState;
-  const preloadState = useSelector(state => state.preloadReducer);
+  // const singInState = useSelector((state) => state.signinReducer);
+  // const { isSignIn } = singInState;
+  const preloadState = useSelector((state) => state.preloadReducer);
   const { isLoading } = preloadState;
-  const visitedPageState = useSelector(state => state.visitedPageReducer);
+  const visitedPageState = useSelector((state) => state.visitedPageReducer);
   const { visitedPage } = visitedPageState;
-  const userState = useSelector(state => state.userReducer);
+  const userState = useSelector((state) => state.userReducer);
   const { user } = userState;
   // const [user, setUser] = useState(() => JSON.parse(localStorage.getItem('user')) || null)
-  console.log('user : ',userState)
+  // console.log('user : ', userState);
   const dispatch = useDispatch();
+  const [isSignIn, setIsSignIn] = useState(false);
+  console.log('유저정보', user);
 
   const getUser = async () => {
     try {
       const res = await axios.get('https://localhost:4000/userinfo');
       const userInfo = res.data;
       if (userInfo) {
-        const { id, email, mobile, username } = userInfo;
-        dispatch(setUser({ id, email, mobile, username }));
+        const { id, email, mobile, username, social } = userInfo;
+        dispatch(setUser({ id, email, mobile, username, social }));
       } else {
         dispatch(setUser(null));
-
       }
     } catch (e) {
       console.log(e);
@@ -52,58 +52,62 @@ function App() {
     getUser();
   };
 
-  const handleResponseSuccess = (accessToken) => {
-    if (!accessToken.kakaoAccessToken) {
-      isAuthenticated();
-    } else {
-      accessToken = accessToken.kakaoAccessToken;
-      dispatch(setIsSignIn(true))
-    }
+  const handleResponseSuccess = async (accessToken) => {
+    // if (accessToken.kakaoAccessToken) {
+    //   const kakaoToken = accessToken.kakaoAccessToken;
+    //   localStorage.setItem('token', kakaoToken);
+    // } else {
+    //   localStorage.setItem('token', accessToken);
+    // }
+
+    isAuthenticated();
+    localStorage.setItem('isSignIn', true);
     localStorage.setItem('token', accessToken);
-    // setToken('signInToken', accessToken);
   };
 
   const handleSignOut = async () => {
-    console.log(user.social)
-    if (user.social) {
-      console.log("소셜 로그아웃을 하셨습니다.");
-      // const url = 'https://kapi.kakao.com/v1/user/logout';
-      const accessToken = localStorage.getItem('token');
-      console.log('로컬스토리지에서 가져온 액세스 토큰 :', accessToken)
+    // console.log(user.social);
+    try {
+      if (user.social === 'kakao') {
+        console.log('소셜 로그아웃을 하셨습니다.');
+        // const url = 'https://kapi.kakao.com/v1/user/logout';
+        const accessToken = localStorage.getItem('token');
+        console.log('로컬스토리지에서 가져온 액세스 토큰 :', accessToken);
 
-      const headers = { 
-        accessToken,
-        'Content-Type': 'application/json'
+        const headers = {
+          accessToken,
+          'Content-Type': 'application/json',
+        };
+        const result = await axios.post('https://localhost:4000/oauth/signout', {}, { headers });
+        console.log('social logout data ', result.status);
+        if (result.status === 205) {
+          dispatch(setUser(null));
+          localStorage.clear();
+        }
+      } else {
+        const signOutRequest = await axios.post('https://localhost:4000/signout');
+        if (signOutRequest.status === 205) {
+          dispatch(setUser(null));
+          dispatch(setVisitedPage('/'));
+          dispatch(setIsSignIn(false));
+          localStorage.clear();
+        }
       }
-      const result = await axios.post('https://localhost:4000/oauth/signout', {},{ headers });
-      console.log("social logout data ",result.status);
-      if (result.status === 205){
-        dispatch(setIsSignIn(false))
-        dispatch(setUser(null));
-        localStorage.clear();
-      }
-      return
-    }
-    const signOutRequest = await axios.post('https://localhost:4000/signout');
-    if (signOutRequest.status === 205) {
-      dispatch(setUser(null));
-      dispatch(setVisitedPage('/'));
-      dispatch(setIsSignIn(false));
-      localStorage.clear();
-      // removeToken('signInToken');
+    } catch (e) {
+      console.log(e);
     }
   };
 
   useEffect(() => {
-    console.log('최근 방문한 페이지:', visitedPage);
+    // console.log('최근 방문한 페이지:', visitedPage);
   }, [visitedPage]);
 
   useEffect(() => {
-    if (localStorage.getItem('token')) {
-      dispatch(setIsSignIn(true));
+    if (localStorage.getItem('token') && localStorage.getItem('isSignIn')) {
+      setIsSignIn(true);
       dispatch(setUser(user));
     } else {
-      dispatch(setIsSignIn(false));
+      setIsSignIn(false);
     }
   }, []);
 
@@ -119,47 +123,22 @@ function App() {
           <Route
             exact
             path="/"
-            element={<Home handleResponseSuccess={handleResponseSuccess}/>}
+            element={<Home handleResponseSuccess={handleResponseSuccess} />}
           ></Route>
           <Route
             path="/signin"
-            element={
-              <SignIn
-                handleResponseSuccess={handleResponseSuccess}
-              />
-            }
+            element={<SignIn handleResponseSuccess={handleResponseSuccess} />}
           ></Route>
           {/* 로그인 상태에서 "/signup" 페이지 이동시, "/"로 강제 이동 */}
-          <Route
-            path="/signup"
-            element={isSignIn ? <Navigate to="/" /> : <SignUp />}
-          ></Route>
+          <Route path="/signup" element={isSignIn ? <Navigate to="/" /> : <SignUp />}></Route>
           {/* 로그인한 상태에서만 이용가능한 페이지: userinfo, biddinglist */}
           {/* 로그인 하지 않은 상태에서 위의 페이지들로 이동시, "/signin" 페이지로 강제 이동 */}
-          <Route
-            path="/userinfo"
-            element={
-              !user ? (
-                <Navigate to="/signin" />
-              ) : (
-                <Mypage />
-              )
-            }
-          ></Route>
+          <Route path="/userinfo" element={!user ? <Navigate to="/signin" /> : <Mypage />}></Route>
           <Route
             path="/biddinglist"
-            element={
-              !user ? (
-                <Navigate to="/signin" />
-              ) : (
-                <BiddingList />
-              )
-            }
+            element={!user ? <Navigate to="/signin" /> : <BiddingList />}
           ></Route>
-          <Route
-            path="/accommodation/:id"
-            element={<Accommodation />}
-          ></Route>
+          <Route path="/accommodation/:id" element={<Accommodation />}></Route>
           <Route path="/signout" element={<Navigate to="/" />}></Route>
           <Route path="/preloader" element={<Preloader />}></Route>
           {/* 잘못된 주소 입력시 "/"로 강제 이동 */}

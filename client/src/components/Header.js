@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import logo from '../data/logo.png';
+import { useEffect, useState } from 'react';
 
 const HeaderContainer = styled.header`
   height: 50px;
@@ -35,16 +36,24 @@ const StyledLink = styled(Link)`
 
 const Header = ({ handleSignOut }) => {
   // Get signIn state from redux
-  const singInState = useSelector(state => state.signinReducer);
-  const { isSignIn } = singInState;
+  // const singInState = useSelector((state) => state.signinReducer);
+  // const { isSignIn } = singInState;
+  const [isLogIn, setIsLogIn] = useState(false);
 
+  useEffect(() => {
+    if (localStorage.getItem('isSignIn')) {
+      setIsLogIn(true);
+    } else {
+      setIsLogIn(false);
+    }
+  });
   return (
     <HeaderContainer>
       <StyledLink to="/">
         <Logo src={logo} />
       </StyledLink>
       <ButtonContainer>
-        {isSignIn ? (
+        {isLogIn ? (
           <>
             <StyledLink to="/userinfo">
               <Button>MY PAGE</Button>
