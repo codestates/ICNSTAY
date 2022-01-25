@@ -19,7 +19,7 @@ function App() {
   // Get states from redux
   // const singInState = useSelector((state) => state.signinReducer);
   // const { isSignIn } = singInState;
-  const isLoading = false;
+
   const visitedPageState = useSelector((state) => state.visitedPageReducer);
   const { visitedPage } = visitedPageState;
   // const userState = useSelector((state) => state.userReducer);
@@ -103,38 +103,34 @@ function App() {
     <BrowserRouter>
       <GlobalStyle />
       <Header handleSignOut={handleSignOut} />
-      {isLoading ? (
-        <Preloader />
-      ) : (
-        <Routes>
-          <Route
-            exact
-            path="/"
-            element={<Home handleResponseSuccess={handleResponseSuccess} />}
-          ></Route>
-          <Route
-            path="/signin"
-            element={<SignIn handleResponseSuccess={handleResponseSuccess} />}
-          ></Route>
-          {/* 로그인 상태에서 "/signup" 페이지 이동시, "/"로 강제 이동 */}
-          <Route path="/signup" element={isSignIn ? <Navigate to="/" /> : <SignUp />}></Route>
-          {/* 로그인한 상태에서만 이용가능한 페이지: userinfo, biddinglist */}
-          {/* 로그인 하지 않은 상태에서 위의 페이지들로 이동시, "/signin" 페이지로 강제 이동 */}
-          <Route
-            path="/userinfo"
-            element={user ? <Mypage user={user} setUser={setUser} /> : <Navigate to="/signin" />}
-          ></Route>
-          <Route
-            path="/biddinglist"
-            element={user ? <BiddingList user={user} /> : <Navigate to="/signin" />}
-          ></Route>
-          <Route path="/accommodation/:id" element={<Accommodation />}></Route>
-          <Route path="/signout" element={<Navigate to="/" />}></Route>
-          <Route path="/preloader" element={<Preloader />}></Route>
-          {/* 잘못된 주소 입력시 "/"로 강제 이동 */}
-          <Route path="*" element={<Navigate to="/" />}></Route>
-        </Routes>
-      )}
+      <Routes>
+        <Route
+          exact
+          path="/"
+          element={<Home handleResponseSuccess={handleResponseSuccess} />}
+        ></Route>
+        <Route
+          path="/signin"
+          element={<SignIn handleResponseSuccess={handleResponseSuccess} />}
+        ></Route>
+        {/* 로그인 상태에서 "/signup" 페이지 이동시, "/"로 강제 이동 */}
+        <Route path="/signup" element={isSignIn ? <Navigate to="/" /> : <SignUp />}></Route>
+        {/* 로그인한 상태에서만 이용가능한 페이지: userinfo, biddinglist */}
+        {/* 로그인 하지 않은 상태에서 위의 페이지들로 이동시, "/signin" 페이지로 강제 이동 */}
+        <Route
+          path="/userinfo"
+          element={user ? <Mypage user={user} setUser={setUser} /> : <Navigate to="/signin" />}
+        ></Route>
+        <Route
+          path="/biddinglist"
+          element={user ? <BiddingList user={user} /> : <Navigate to="/signin" />}
+        ></Route>
+        <Route path="/accommodation/:id" element={<Accommodation />}></Route>
+        <Route path="/signout" element={<Navigate to="/" />}></Route>
+        <Route path="/preloader" element={<Preloader />}></Route>
+        {/* 잘못된 주소 입력시 "/"로 강제 이동 */}
+        <Route path="*" element={<Navigate to="/" />}></Route>
+      </Routes>
     </BrowserRouter>
   );
 }
