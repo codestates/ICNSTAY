@@ -17,10 +17,10 @@ const AccommodationInfo = () => {
   const { accommodationDetail } = accommodationState;
 
   return (
-    <MainContainer>
+    <InfoContainer>
       <h1>Information Section</h1>
         <div>{accommodationDetail.information.description}</div>
-    </MainContainer>
+    </InfoContainer>
   );
 };
 

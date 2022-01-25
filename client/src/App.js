@@ -78,8 +78,8 @@ function App() {
       const result = await axios.post('https://localhost:4000/oauth/signout', {},{ headers });
       console.log("social logout data ",result.status);
       if (result.status === 205){
-        setIsLogIn(false);
-        setUser(null);
+        dispatch(setIsSignIn(false))
+        dispatch(setUser(null));
         localStorage.clear();
       }
       return

@@ -77,7 +77,7 @@ const AccommodationImage = () => {
         </ArrowIcon>
         <CardImg src={currentImage}></CardImg>
         <ArrowIcon>
-          {index.current === source.image.length - 1 ? (
+          {index.current === accommodationDetail.information.image.length - 1 ? (
             <FontAwesomeIcon icon={faAngleRight} size="3x" className="gray" />
           ) : (
             <FontAwesomeIcon icon={faAngleRight} size="3x" onClick={moveRight} />
@@ -85,7 +85,7 @@ const AccommodationImage = () => {
         </ArrowIcon>
       </Wrapper>
       <DotIconBox>
-        {source.image.map((item, idx) => (
+        {accommodationDetail.information.image.map((item, idx) => (
           <span key={idx}>
             <FontAwesomeIcon
               icon={faCircle}

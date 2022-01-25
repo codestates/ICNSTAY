@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Banner from '../components/Banner';
 import { useSelector, useDispatch } from 'react-redux';
 import Card from '../components/Card';
+import { setUser } from '../actions'
 
 const BannerContainer = styled.div`
   text-align: center;
@@ -49,7 +50,7 @@ const Home = ({handleResponseSuccess}) => {
         const accessToken = { kakaoAccessToken: result.data.access_token };
         const { id, email, username, social } = result.data.userFinder;
         handleResponseSuccess(accessToken);
-        setUser({ id, email, username, social });
+        dispatch(setUser({ id, email, username, social }));
       }
     };
     getKakaoInfo();

@@ -1,14 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import styled from 'styled-components';
 import CalendarModule from '../CalendarModule';
 import { Modal } from '../Modal';
 import { Button } from '../../styles/Button';
 import { Input } from '../../styles/Input';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { Modal } from '../Modal';
 import { useSelector, useDispatch } from 'react-redux';
 
 
@@ -55,7 +52,7 @@ const InfoContent = styled.div``;
 
 const Price = styled.div``;
 
-const AccommodationDesc = ({ source, isLogIn }) => {
+const AccommodationDesc = () => {
   // Setup variances
   const history = useNavigate();
   // Input data variances
@@ -99,7 +96,7 @@ const AccommodationDesc = ({ source, isLogIn }) => {
     if (isSignIn) {
       try {
         const response = await axios.post(
-          `https://localhost:4000/accommodation/${source.id}`,
+          `https://localhost:4000/accommodation/${accommodationDetail.information.id}`,
           bidInformation
         );
         if (response.status === 201) {
@@ -124,18 +121,18 @@ const AccommodationDesc = ({ source, isLogIn }) => {
   return (
     <MainContainer>
       <HotelBox>
-        <HotelName>{source.name}</HotelName>
+        <HotelName>{accommodationDetail.information.name}</HotelName>
         <HotelInfo>
           <InfoLabel>location</InfoLabel>
-          <InfoContent>{source.location}</InfoContent>
+          <InfoContent>{accommodationDetail.information.location}</InfoContent>
         </HotelInfo>
         <HotelInfo>
           <InfoLabel>bidding ends at</InfoLabel>
-          <InfoContent>{source.due.slice(0, 10)}</InfoContent>
+          <InfoContent>{accommodationDetail.information.due.slice(0, 10)}</InfoContent>
         </HotelInfo>
         <HotelInfo>
           <InfoLabel>minimum price</InfoLabel>
-          <InfoContent>{`${source.minPrice.slice(0, -4)}${source.minPrice.slice(-4)}`}</InfoContent>
+          <InfoContent>{`${accommodationDetail.information.minPrice.slice(0, -4)}${accommodationDetail.information.minPrice.slice(-4)}`}</InfoContent>
         </HotelInfo>
         <HotelInfo>
           <InfoLabel>highest bidding</InfoLabel>
