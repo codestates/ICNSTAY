@@ -7,7 +7,13 @@ const InfoContainer = styled.div`
 `;
 
 const Desc = styled.div`
-  font-size: 1.5em;
+  font-size: 1.5rem;
+  @media ${({ theme }) => theme.device.tablet} {
+    font-size: 1.2rem;
+  }
+  @media ${({ theme }) => theme.device.mobile} {
+    font-size: 1rem;
+  }
 `;
 
 const AccommodationInfo = () => {

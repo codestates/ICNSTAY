@@ -16,25 +16,46 @@ const MyPageContainer = styled.div`
 const WelcomeBox = styled.div`
   margin-top: 2em;
   font-size: 2rem;
+  @media ${({ theme }) => theme.device.mobile} {
+    font-size: 1rem;
+  }
 `;
 
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: row;
+  margin-top: 3em;
+  @media ${({ theme }) => theme.device.tablet} {
+    flex-direction: column;
+    margin-top: 1em;
+  }
 `;
 
 const SidebarContainer = styled.div`
   width: 20%;
+  @media ${({ theme }) => theme.device.tablet} {
+    width: 100%;
+  }
 `;
 
 const UserContainer = styled.div`
   width: 80%;
+  @media ${({ theme }) => theme.device.tablet} {
+    width: 100%;
+  }
 `;
 
 const User = styled.div`
   width: 300px;
   font-size: 1.2rem;
   margin: 0 auto;
+  @media ${({ theme }) => theme.device.tablet} {
+    width: auto;
+    margin-top: 3em;
+  }
+  @media ${({ theme }) => theme.device.mobile} {
+    font-size: 1rem;
+  }
 `;
 
 const UserBox = styled.div`
@@ -66,6 +87,9 @@ const GoBackContainer = styled.div`
   color: ${(props) => props.theme.grey};
   &:hover {
     color: ${(props) => props.theme.black};
+  }
+  @media ${({ theme }) => theme.device.mobile} {
+    font-size: 0.7rem;
   }
 `;
 
@@ -170,7 +194,7 @@ const Mypage = ({ user, setUser }) => {
   return (
     <Container>
       <MyPageContainer>
-        <Header style={{ marginBottom: '3em' }}>
+        <Header>
           MY PAGE
           <WelcomeBox>{user.username}님 반가워요!</WelcomeBox>
         </Header>

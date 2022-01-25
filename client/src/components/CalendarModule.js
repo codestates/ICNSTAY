@@ -14,38 +14,66 @@ const ModalBackground = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1;
 `;
 
 const ModalContainer = styled.div`
-  width: 50%;
+  width: 700px;
   background-color: #fff;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   padding: 0.8em;
+  @media ${({ theme }) => theme.device.tablet} {
+    width: 80%;
+    height: 80%;
+  }
+  @media ${({ theme }) => theme.device.mobile} {
+    height: 85%;
+  }
 `;
 
 const ModalContent = styled.div`
-  font-size: 1.7em;
+  font-size: 1.5rem;
   > span {
     padding-left: 0.5em;
     cursor: pointer;
+  }
+  @media ${({ theme }) => theme.device.tablet} {
+    font-size: 1rem;
   }
 `;
 
 const CalendarContainer = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
   align-items: center;
-  padding: 0.8em 0em;
+  padding: 0.8em;
+  @media ${({ theme }) => theme.device.tablet} {
+    padding: 0;
+    flex-direction: column;
+  }
 `;
 
 const CalendarBox = styled.div`
   width: 45%;
+  @media ${({ theme }) => theme.device.tablet} {
+    width: 80%;
+  }
+`;
+const CalendarContent = styled.div`
+  @media ${({ theme }) => theme.device.tablet} {
+    width: 100%;
+  }
 `;
 
 const CalendarName = styled.div`
   padding: 0.8em 0em;
-  font-size: 1em;
+  font-size: 1rem;
+  @media ${({ theme }) => theme.device.tablet} {
+    font-size: 0.8rem;
+  }
 `;
 
 const CalendarModule = ({
@@ -55,7 +83,6 @@ const CalendarModule = ({
   checkOutDate,
   openCalendarModule,
 }) => {
-
   return (
     <ModalBackground>
       <ModalContainer>
@@ -66,13 +93,17 @@ const CalendarModule = ({
           </span>
         </ModalContent>
         <CalendarContainer>
-          <CalendarBox>
+          <CalendarBox style={{ marginBottom: '10px' }}>
             <CalendarName>CheckIn</CalendarName>
-            <Calendar onChange={handleCheckInDate} value={checkInDate} minDate={new Date()} />
+            <CalendarContent>
+              <Calendar onChange={handleCheckInDate} value={checkInDate} minDate={new Date()} />
+            </CalendarContent>
           </CalendarBox>
           <CalendarBox>
             <CalendarName>CheckOut</CalendarName>
-            <Calendar onChange={handleCheckOutDate} value={checkOutDate} minDate={checkInDate} />
+            <CalendarContent>
+              <Calendar onChange={handleCheckOutDate} value={checkOutDate} minDate={checkInDate} />
+            </CalendarContent>
           </CalendarBox>
         </CalendarContainer>
       </ModalContainer>

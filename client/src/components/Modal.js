@@ -1,15 +1,6 @@
 import styled from 'styled-components';
 import { Button } from '../styles/Button';
 
-const ModalButton = styled.button`
-  all: unset;
-  padding: 0.8em;
-  cursor: pointer;
-  color: pink;
-  border: 1px pink;
-  margin-left: 5px;
-`;
-
 const ModalBackground = styled.div`
   position: fixed;
   left: 0;
@@ -20,19 +11,21 @@ const ModalBackground = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1;
 `;
 
 const ModalContainer = styled.div`
-  width: 50%;
-  background-color: white;
-  border-radius: 5px;
+  width: 60%;
+  background-color: #fff;
   text-align: center;
+  padding: 2em;
+  @media ${({ theme }) => theme.device.mobile} {
+    width: 300px;
+    padding: 2em;
+  }
 `;
 
 const ModalContent = styled.div`
-  padding: 0.8em;
-  font-weight: bold;
+  padding-bottom: 2em;
 `;
 
 const ButtonContainer = styled.div`
@@ -52,10 +45,16 @@ const Modal = ({ isOpen, setIsOpen, text, handleYesButton }) => {
           <ModalContainer>
             <ModalContent>{text}</ModalContent>
             <ButtonContainer>
-              <Button type={'YES'} onClick={handleYesButton}>
-                YES
+              <Button
+                type={'YES'}
+                onClick={handleYesButton}
+                style={{ width: '70%', marginRight: '2em' }}
+              >
+                네
               </Button>
-              <Button onClick={handleModal}>NO</Button>
+              <Button onClick={handleModal} style={{ width: '70%' }}>
+                아니요
+              </Button>
             </ButtonContainer>
           </ModalContainer>
         </ModalBackground>
@@ -66,17 +65,13 @@ const Modal = ({ isOpen, setIsOpen, text, handleYesButton }) => {
 
 const SignupModal = ({ handleSuccessModal }) => {
   return (
-    <>
-        <ModalBackground>
-          <ModalContainer>
-            <ModalContent>Thank you for Registration!</ModalContent>
-            <ModalButton onClick={handleSuccessModal}>
-              Go to Sign-In
-            </ModalButton>
-          </ModalContainer>
-        </ModalBackground>
-    </>
+    <ModalBackground>
+      <ModalContainer>
+        <ModalContent>회원가입에 성공하였습니다</ModalContent>
+        <Button onClick={handleSuccessModal}>로그인을 해주세요</Button>
+      </ModalContainer>
+    </ModalBackground>
   );
 };
 
-export {Modal, SignupModal};
+export { Modal, SignupModal };

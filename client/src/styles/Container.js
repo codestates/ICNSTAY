@@ -16,8 +16,8 @@ export const Header = styled.div`
   width: 100%;
   letter-spacing: 0.4em;
   font-size: 1.2rem;
-  margin-bottom: 1em;
-  padding-bottom: 2em;
+  margin-bottom: 1.5em;
+  padding-bottom: 3em;
   font-weight: 700;
   text-align: center;
   border-bottom: 2px solid ${(props) => props.theme.black};

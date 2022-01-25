@@ -13,29 +13,50 @@ const MyPageContainer = styled.div`
 const WelcomeBox = styled.div`
   margin-top: 2em;
   font-size: 2rem;
+  @media ${({ theme }) => theme.device.mobile} {
+    font-size: 1rem;
+  }
 `;
 
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: row;
+  margin-top: 3em;
+  @media ${({ theme }) => theme.device.tablet} {
+    flex-direction: column;
+    margin-top: 1em;
+  }
 `;
 
 const SidebarContainer = styled.div`
   width: 20%;
+  @media ${({ theme }) => theme.device.tablet} {
+    width: 100%;
+  }
 `;
 
 const ListContainer = styled.div`
   margin-left: 3em;
+  @media ${({ theme }) => theme.device.tablet} {
+    margin-left: 0;
+  }
 `;
 
 const ListBox = styled.div`
   margin: 0 auto;
+  @media ${({ theme }) => theme.device.tablet} {
+    margin: 0;
+  }
 `;
 
 const ListTitle = styled.div`
   font-weight: 700;
   margin-bottom: 2em;
   font-size: 1.2rem;
+  @media ${({ theme }) => theme.device.tablet} {
+    font-size: 1rem;
+    margin-top: 1em;
+  }
 `;
 
 const BiddingList = ({ user }) => {
@@ -64,7 +85,7 @@ const BiddingList = ({ user }) => {
       ) : (
         <Container>
           <MyPageContainer>
-            <Header style={{ marginBottom: '3em' }}>
+            <Header>
               MY PAGE
               <WelcomeBox>{username}님 반가워요!</WelcomeBox>
             </Header>

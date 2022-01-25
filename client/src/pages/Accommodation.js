@@ -25,10 +25,22 @@ const UpperContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  /* align-items: center; */
-  > .desc {
-    flex-shrink: 0;
+  @media ${({ theme }) => theme.device.tablet} {
+    justify-content: center;
+  }
+`;
+
+const UpperImg = styled.div`
+  @media ${({ theme }) => theme.device.tablet} {
     width: 300px;
+  }
+`;
+
+const UpperDesc = styled.div`
+  flex-shrink: 0;
+  width: 300px;
+  @media ${({ theme }) => theme.device.tablet} {
+    margin-top: 1.5em;
   }
 `;
 
@@ -42,7 +54,7 @@ const LowerContainer = styled.div`
 const Accommodation = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
-  const accommodationState = useSelector(state => state.accommodationReducer);
+  const accommodationState = useSelector((state) => state.accommodationReducer);
   const { accommodationDetail } = accommodationState;
   const dispatch = useDispatch();
 
@@ -50,27 +62,21 @@ const Accommodation = () => {
     const response = await axios.get(`https://localhost:4000/accommodation/${id}`);
     setIsLoading(false);
     dispatch(setAccommodationDetail(response.data));
-  },[]);
+  }, []);
 
   return (
     <>
-    {isLoading ? <Preloader /> :
-    <MainContainer>
-      <UpperContainer>
-        <span className="image">
-          {accommodationDetail ? <AccommodationImage /> : null}
-        </span>
-        <span className="desc">
-          {accommodationDetail ? (
-            <AccommodationDesc />
-          ) : null}
-        </span>
-      </UpperContainer>
-      <LowerContainer>
-        {accommodationDetail ? <AccommodationInfo /> : null}
-      </LowerContainer>
-    </MainContainer>
-          }
+      {isLoading ? (
+        <Preloader />
+      ) : (
+        <MainContainer>
+          <UpperContainer>
+            <UpperImg>{accommodationDetail ? <AccommodationImage /> : null}</UpperImg>
+            <UpperDesc>{accommodationDetail ? <AccommodationDesc /> : null}</UpperDesc>
+          </UpperContainer>
+          <LowerContainer>{accommodationDetail ? <AccommodationInfo /> : null}</LowerContainer>
+        </MainContainer>
+      )}
     </>
   );
 };

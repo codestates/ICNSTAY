@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
 import styled from 'styled-components';
 import CalendarModule from '../CalendarModule';
 import { Modal } from '../Modal';
 import { Button } from '../../styles/Button';
 import { Input } from '../../styles/Input';
-import axios from 'axios';
-import { useSelector } from 'react-redux';
 
 const MainContainer = styled.div`
   > div {
@@ -79,7 +79,7 @@ const AccommodationDesc = () => {
       checkOutDate: checkOutDate.toISOString().slice(0, 10),
       biddingPrice: biddingPrice,
     };
-    if (localStorage.getItem('isSignIn')) {
+    if (localStorage.getItem('token')) {
       try {
         const response = await axios.post(
           `https://localhost:4000/accommodation/${accommodationDetail.information.id}`,
@@ -150,7 +150,6 @@ const AccommodationDesc = () => {
               }-${checkOutDate.getDate()}`
             : ''}
         </Button>
-
         {openModal ? (
           <CalendarModule
             handleCheckInDate={handleCheckInDate}
@@ -163,7 +162,7 @@ const AccommodationDesc = () => {
           ''
         )}
         <Button
-          onClick={() => handlePlacingBid()}
+          onClick={handlePlacingBid}
           disabled={isReady}
           style={{ marginLeft: 0, width: '100%' }}
         >
@@ -173,7 +172,7 @@ const AccommodationDesc = () => {
           <Modal
             isOpen={isOpen}
             setIsOpen={setIsOpen}
-            text={'You need to Signin'}
+            text={'로그인을 먼저 해주세요'}
             handleYesButton={goSigninPage}
           />
         ) : null}

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const Table = styled.div`
   display: table;
-  width: 800px;
+  width: 80%;
   border: 1px solid ${(props) => props.theme.black};
 `;
 
