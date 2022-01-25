@@ -11,15 +11,13 @@ const Desc = styled.div`
 `;
 
 const AccommodationInfo = () => {
-
   // Get accommodation state information from redux
-  const accommodationState = useSelector(state => state.accommodationReducer);
+  const accommodationState = useSelector((state) => state.accommodationReducer);
   const { accommodationDetail } = accommodationState;
 
   return (
     <InfoContainer>
-      <h1>Information Section</h1>
-        <div>{accommodationDetail.information.description}</div>
+      <Desc>{accommodationDetail.information.description}</Desc>
     </InfoContainer>
   );
 };

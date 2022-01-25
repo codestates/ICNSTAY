@@ -46,7 +46,7 @@ const Home = ({ handleResponseSuccess }) => {
         });
         // console.log("액세스 토큰:", result.data.access_token)
         const kakaoAccessToken = result.data.access_token;
-        console.log(result)
+        console.log(result);
         const { id, email, social, username } = result.data.userFinder;
         handleResponseSuccess(kakaoAccessToken);
         dispatch(setUser({ id, email, social, username }));
@@ -56,18 +56,20 @@ const Home = ({ handleResponseSuccess }) => {
   }, [window.location.href]);
 
   return (
-    <div>
+    <>
       <BannerContainer>
         <Banner />
       </BannerContainer>
-      <CardBox>
-        {accommodationList.map((el, idx) => {
-          return (
-            <Card src={el.image[0]} name={el.name} location={el.location} key={idx} id={el.id} />
-          );
-        })}
-      </CardBox>
-    </div>
+      <CardContainer>
+        <CardBox>
+          {accommodationList.map((el, idx) => {
+            return (
+              <Card src={el.image[0]} name={el.name} location={el.location} key={idx} id={el.id} />
+            );
+          })}
+        </CardBox>
+      </CardContainer>
+    </>
   );
 };
 
