@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import Card from '../components/Card';
 import axios from 'axios';
+import styled from 'styled-components';
 import Banner from '../components/Banner';
+import Card from '../components/Card';
 
 const BannerContainer = styled.div`
   text-align: center;
-  border: 1px solid white;
-  background-color: #F3F4F6;
+  /* border: 1px solid white; */
+  background-color: #f3f4f6;
+`;
+
+const CardContainer = styled.div`
+  padding: 5% 10%;
 `;
 
 const CardBox = styled.div`
   display: grid;
   grid-gap: 1px;
-  grid-template-columns: repeat(3, 1fr)
+  grid-template-columns: repeat(3, 1fr);
 `;
 
 const Home = ({ setVisitedPage, setUser, handleResponseSuccess }) => {
@@ -45,27 +49,29 @@ const Home = ({ setVisitedPage, setUser, handleResponseSuccess }) => {
     getKakaoInfo();
   }, [window.location.href])
 
-
-
   return (
     <div>
       <BannerContainer>
         <Banner />
       </BannerContainer>
-      <CardBox>
-        {accommodationList.map((el, idx) => {
-          return <Card 
-            src={el.image[0]} 
-            name={el.name} 
-            location={el.location} 
-            key= {idx} 
-            id={el.id} 
-            setVisitedPage={setVisitedPage}
-            />
-        })}
-      </CardBox>
+      <CardContainer>
+        <CardBox>
+          {accommodationList.map((el, idx) => {
+            return (
+              <Card
+                src={el.image[0]}
+                name={el.name}
+                location={el.location}
+                key={idx}
+                id={el.id}
+                setVisitedPage={setVisitedPage}
+              />
+            );
+          })}
+        </CardBox>
+      </CardContainer>
     </div>
-    );
+  );
 };
 
 export default Home;
