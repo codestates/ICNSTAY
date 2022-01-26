@@ -6,7 +6,7 @@ module.exports = async (req, res) => {
   const { email, password } = req.body;
     // non-social signin case
   try {
-    console.log(email, password);
+    // console.log(email, password);
     const userFinder = await user.findOne({
       where: { email, password },
       attributes: { exclude : ['password', 'createdAt', 'updatedAt'] }
