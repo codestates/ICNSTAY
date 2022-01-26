@@ -8,6 +8,7 @@ const InfoContainer = styled.div`
 
 const Desc = styled.div`
   font-size: 1.5rem;
+  margin-bottom: 100px;
   @media ${({ theme }) => theme.device.tablet} {
     font-size: 1.2rem;
   }

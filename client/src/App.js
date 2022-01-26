@@ -13,6 +13,7 @@ import SignIn from './pages/SignIn';
 import Accommodation from './pages/Accommodation';
 import BiddingList from './pages/BiddingList';
 import Preloader from './components/Preloader';
+import Footer from './components/Footer';
 
 axios.defaults.withCredentials = true;
 
@@ -114,6 +115,7 @@ function App() {
           <Route path="/preloader" element={<Preloader />}></Route>
           <Route path="*" element={<Navigate to="/" />}></Route>
         </Routes>
+        <Footer />
       </BrowserRouter>
     </ThemeProvider>
   );
