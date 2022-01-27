@@ -37,9 +37,6 @@ const StyledLink = styled(Link)`
 `;
 
 const Header = ({ handleSignOut, isSignIn }) => {
-  useEffect(() => {
-    window.location.replace('/');
-  }, [isSignIn]);
   return (
     <HeaderContainer>
       <StyledLink to="/">
