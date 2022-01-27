@@ -36,23 +36,14 @@ const StyledLink = styled(Link)`
   all: unset;
 `;
 
-const Header = ({ handleSignOut }) => {
-  const [isLogIn, setIsLogIn] = useState(false);
-
-  useEffect(() => {
-    if (localStorage.getItem('token')) {
-      setIsLogIn(true);
-    } else {
-      setIsLogIn(false);
-    }
-  });
+const Header = ({ handleSignOut, isSignIn }) => {
   return (
     <HeaderContainer>
       <StyledLink to="/">
         <Logo src={logo} />
       </StyledLink>
       <ButtonContainer>
-        {isLogIn ? (
+        {isSignIn ? (
           <>
             <StyledLink to="/userinfo">
               <Button>MY PAGE</Button>

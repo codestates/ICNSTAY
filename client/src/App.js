@@ -24,10 +24,10 @@ function App() {
   const [user, setUser] = useState(() => JSON.parse(localStorage.getItem('user')) || null);
 
   const getUser = async () => {
-    const accessToken = localStorage.getItem('token')
+    const accessToken = localStorage.getItem('token');
     try {
       const res = await axios.get(`${process.env.REACT_APP_API_URL}/userinfo`, {
-        headers: {accessToken}
+        headers: { accessToken },
       });
 
       const userInfo = res.data;
@@ -49,7 +49,6 @@ function App() {
   const handleResponseSuccess = (accessToken) => {
     localStorage.setItem('token', accessToken);
     isAuthenticated();
-    // localStorage.setItem('isSignIn', true);
   };
 
   const handleSignOut = async () => {
@@ -60,7 +59,11 @@ function App() {
           accessToken,
           'Content-Type': 'application/json',
         };
-        const result = await axios.post(`${process.env.REACT_APP_API_URL}/oauth/signout`, {}, { headers });
+        const result = await axios.post(
+          `${process.env.REACT_APP_API_URL}/oauth/signout`,
+          {},
+          { headers }
+        );
         if (result.status === 205) {
           setUser(null);
           localStorage.clear();
@@ -94,12 +97,12 @@ function App() {
     <ThemeProvider theme={Theme}>
       <GlobalStyle />
       <BrowserRouter>
-        <Header handleSignOut={handleSignOut} />
+        <Header handleSignOut={handleSignOut} isSignIn={isSignIn} />
         <Routes>
           <Route
             exact
             path="/"
-            element={<Home handleResponseSuccess={handleResponseSuccess} setUser={setUser}/>}
+            element={<Home handleResponseSuccess={handleResponseSuccess} setUser={setUser} />}
           ></Route>
           <Route
             path="/signin"
