@@ -38,21 +38,14 @@ const CardLocation = styled.div`
   font-size: 0.6em;
 `;
 
-const FILL_ME_IN = 'FILL_ME_IN';
-
 const Card = ({ src, name, location, id }) => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const handleCardClick = async () => {
+  const handleCardClick = () => {
     navigate(`/accommodation/${id}`);
-    try {
-      const requestAccomodationInfo = await axios.get(`https://localhost:4000/accommodation/${id}`);
-      const redirectPath =  window.location.href.slice(22);
-      dispatch(setVisitedPage(redirectPath))
-    } catch(err) {
-      console.log(err);
-    }
+    const redirectPath =  window.location.href.slice(22);
+    dispatch(setVisitedPage(redirectPath))
   };
 
   return (
