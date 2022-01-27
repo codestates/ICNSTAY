@@ -86,8 +86,10 @@ function App() {
     if (localStorage.getItem('token')) {
       setIsSignIn(true);
       setUser(user);
+      window.location.replace('/');
     } else {
       setIsSignIn(false);
+      window.location.replace('/');
     }
   }, []);
 
