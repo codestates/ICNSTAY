@@ -8,7 +8,6 @@ module.exports = async (req, res) => {
   if ( checkOutDate && checkOutDate && biddingPrice ) {
     try{
       const userid = req.headers.userid;
-      console.log(userid)
       await user_accommodation.create({
         userId: userid,
         accommodationId,
