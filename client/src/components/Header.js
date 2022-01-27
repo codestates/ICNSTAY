@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import logo from '../data/logo.png';
-import { useEffect } from 'react';
 
 const HeaderContainer = styled.header`
   height: 76px;
@@ -37,6 +36,7 @@ const StyledLink = styled(Link)`
 `;
 
 const Header = ({ handleSignOut, isSignIn }) => {
+
   return (
     <HeaderContainer>
       <StyledLink to="/">

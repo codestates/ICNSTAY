@@ -49,6 +49,7 @@ function App() {
   const handleResponseSuccess = (accessToken) => {
     localStorage.setItem('token', accessToken);
     isAuthenticated();
+    setIsSignIn(true);
   };
 
   const handleSignOut = async () => {
@@ -67,12 +68,14 @@ function App() {
         if (result.status === 205) {
           setUser(null);
           localStorage.clear();
+          setIsSignIn(false);
         }
       } else {
         const signOutRequest = await axios.post(`${process.env.REACT_APP_API_URL}/signout`);
         if (signOutRequest.status === 205) {
           setUser(null);
           localStorage.clear();
+          setIsSignIn(false);
         }
       }
     } catch (e) {
@@ -86,10 +89,8 @@ function App() {
     if (localStorage.getItem('token')) {
       setIsSignIn(true);
       setUser(user);
-      window.location.replace('/');
     } else {
       setIsSignIn(false);
-      window.location.replace('/');
     }
   }, []);
 
@@ -113,7 +114,7 @@ function App() {
           <Route path="/signup" element={isSignIn ? <Navigate to="/" /> : <SignUp />}></Route>
           <Route
             path="/userinfo"
-            element={user ? <Mypage user={user} setUser={setUser} /> : <Navigate to="/signin" />}
+            element={user ? <Mypage user={user} setUser={setUser} setIsSignIn={setIsSignIn} /> : <Navigate to="/signin" />}
           ></Route>
           <Route
             path="/biddinglist"

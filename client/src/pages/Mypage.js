@@ -7,6 +7,7 @@ import { Modal } from '../components/Modal';
 import { Button } from '../styles/Button';
 import { Container, ErrorMessage, Header } from '../styles/Container';
 import { Input } from '../styles/Input';
+import { useNavigate } from 'react-router-dom';
 
 const MyPageContainer = styled.div`
   width: 60%;
@@ -96,7 +97,8 @@ const UserInput = styled.div`
   position: relative;
 `;
 
-const Mypage = ({ user, setUser }) => {
+const Mypage = ({ user, setUser, setIsSignIn }) => {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [edit, setEdit] = useState(false);
   const [username, setUsername] = useState(user.username);
@@ -167,8 +169,9 @@ const Mypage = ({ user, setUser }) => {
     try {
       const response = await axios.delete(`${process.env.REACT_APP_API_URL}/userinfo/${user.id}`);
       if (response) {
+        setIsSignIn(false);
         localStorage.clear();
-        window.location.replace('/');
+        navigate('/');
       }
     } catch (err) {
       console.log(err);
