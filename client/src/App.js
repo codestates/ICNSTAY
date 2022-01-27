@@ -25,7 +25,8 @@ function App() {
 
   const getUser = async () => {
     try {
-      const res = await axios.get('https://localhost:4000/userinfo');
+      const accessToken = localStorage.getItem('token');
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/userinfo`, {accessToken});
       const userInfo = res.data;
       if (userInfo) {
         const { id, email, mobile, username, social } = userInfo;
@@ -56,13 +57,13 @@ function App() {
           accessToken,
           'Content-Type': 'application/json',
         };
-        const result = await axios.post('https://localhost:4000/oauth/signout', {}, { headers });
+        const result = await axios.post(`${process.env.REACT_APP_API_URL}/oauth/signout`, {}, { headers });
         if (result.status === 205) {
           setUser(null);
           localStorage.clear();
         }
       } else {
-        const signOutRequest = await axios.post('https://localhost:4000/signout');
+        const signOutRequest = await axios.post(`${process.env.REACT_APP_API_URL}/signout`);
         if (signOutRequest.status === 205) {
           setUser(null);
           localStorage.clear();
@@ -122,3 +123,4 @@ function App() {
 }
 
 export default App;
+
