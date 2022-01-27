@@ -26,18 +26,8 @@ function App() {
   const getUser = async () => {
     const accessToken = localStorage.getItem('token')
     try {
-<<<<<<< Updated upstream
       const accessToken = localStorage.getItem('token');
       const res = await axios.get(`${process.env.REACT_APP_API_URL}/userinfo`, {accessToken});
-=======
-<<<<<<< Updated upstream
-      const res = await axios.get('https://localhost:4000/userinfo');
-=======
-      const res = await axios.get(`${process.env.REACT_APP_API_URL}/userinfo`, {
-        headers: {accessToken}
-      });
->>>>>>> Stashed changes
->>>>>>> Stashed changes
       const userInfo = res.data;
       if (userInfo) {
         const { id, email, mobile, username, social } = userInfo;
