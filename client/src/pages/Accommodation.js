@@ -59,7 +59,7 @@ const Accommodation = () => {
   const dispatch = useDispatch();
 
   useEffect(async () => {
-    const response = await axios.get(`https://localhost:4000/accommodation/${id}`);
+    const response = await axios.get(`${process.env.REACT_APP_API_URL}/accommodation/${id}`);
     setIsLoading(false);
     dispatch(setAccommodationDetail(response.data));
   }, []);

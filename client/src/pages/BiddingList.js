@@ -66,7 +66,7 @@ const BiddingList = ({ user }) => {
 
   const getBiddingList = async () => {
     try {
-      const response = await axios.get(`https://localhost:4000/biddinglist/${id}`);
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/biddinglist/${id}`);
       setIsLoading(false);
       if (response.status === 200) {
         setList(response.data);

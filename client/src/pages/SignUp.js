@@ -76,7 +76,7 @@ const SignUp = () => {
       mobile: mobile,
     };
     try {
-      const response = await axios.post('https://localhost:4000/signup', userInformation);
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/signup`, userInformation);
       if (response.status === 201) {
         setOpenSuccessModal(true);
       }

@@ -40,7 +40,7 @@ const Home = ({ handleResponseSuccess }) => {
 
   useEffect(() => {
     async function getData() {
-      const getAccommodationList = await axios.get('https://localhost:4000/accommodation');
+      const getAccommodationList = await axios.get(`${process.env.REACT_APP_API_URL}/accommodation`);
       setAccomodationList(getAccommodationList.data.accInfo);
       setIsLoading(false);
     }
@@ -54,7 +54,7 @@ const Home = ({ handleResponseSuccess }) => {
       try {
         if (authorizationCode === null) {
         } else {
-          const result = await axios.post('https://localhost:4000/oauth/signin', {
+          const result = await axios.post(`${process.env.REACT_APP_API_URL}/oauth/signin`, {
             authorizationCode,
           });
           const kakaoAccessToken = result.data.access_token;

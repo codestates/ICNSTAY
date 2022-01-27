@@ -63,7 +63,7 @@ const SignIn = ({ handleResponseSuccess }) => {
 
   const handleLoginButton = async () => {
     try {
-      const signInRequest = await axios.post('https://localhost:4000/signin', {
+      const signInRequest = await axios.post(`${process.env.REACT_APP_API_URL}/signin`, {
         email,
         password: sha256(password),
       });
@@ -81,9 +81,10 @@ const SignIn = ({ handleResponseSuccess }) => {
 
   const handleSocialLoginButton = async () => {
     const REST_API_KEY = process.env.REACT_APP_KAKAO_CLIENT_ID; //나중에 환경변수로 등록할 것!
+    const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI
     try {
       await window.location.assign(
-        `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=https://localhost:3000&response_type=code`
+        `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`
       );
     } catch (err) {
       console.log(err);
