@@ -55,7 +55,6 @@ const Home = ({ handleResponseSuccess, setUser }) => {
             authorizationCode,
           });
           const kakaoAccessToken = result.data.access_token;
-          console.log(result);
           const { id, email, social, username } = result.data.userFinder;
           handleResponseSuccess(kakaoAccessToken);
           setUser({ id, email, social, username });
