@@ -24,7 +24,15 @@ module.exports = {
       const {access_token, refresh_token} = tokenReciever.data
       console.log(tokenReciever.data)
   
+<<<<<<< Updated upstream
       res.cookie('refresh_token', refresh_token, { sameSite: 'None', secure: false, httpOnly: false })
+=======
+<<<<<<< Updated upstream
+      res.cookie('refresh_token', refresh_token, { sameSite: 'None', secure: true, httpOnly: true })
+=======
+      // res.cookie('refresh_token', refresh_token, { sameSite: 'None', secure: false, httpOnly: false })
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
   
       const userInfoReciver = await axios.get("https://kapi.kakao.com/v2/user/me", {
         body: {
@@ -45,12 +53,20 @@ module.exports = {
       const refreshToken = jwt.sign(userInfo, process.env.REFRESH_SECRET, {
         expiresIn: '6h'
       })
+<<<<<<< Updated upstream
       res.cookie('refreshToken', refreshToken, {
         sameSite: 'None',
         secure: false,
         httpOnly: false,
         domain: 'icnstay.shop'
       })
+=======
+      // res.cookie('refreshToken', refreshToken, {
+      //   sameSite: 'None',
+      //   secure: false,
+      //   httpOnly: false,
+      // })
+>>>>>>> Stashed changes
       res.status(200).json({access_token, userFinder});
     }catch (e) {
       res.status(205).json({ message: "server error" })
@@ -67,7 +83,7 @@ module.exports = {
       });
       // console.log(result)
       const { id } = result.data
-      res.clearCookie('refreshToken')
+      // res.clearCookie('refreshToken')
       res.status(205).json({ id, message: 'successfully sign out' }) //클라이언트에서 응답 못받음?
       console.log('to here')
     }catch (err) {

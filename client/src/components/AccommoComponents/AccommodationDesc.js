@@ -81,10 +81,25 @@ const AccommodationDesc = () => {
     };
     if (localStorage.getItem('token')) {
       try {
+<<<<<<< Updated upstream
         const accessToken = localStorage.getItem('token');
         const response = await axios.post(
           `${process.env.REACT_APP_API_URL}/accommodation/${accommodationDetail.information.id}`,
           bidInformation, {accessToken}
+=======
+<<<<<<< Updated upstream
+        const response = await axios.post(
+          `https://localhost:4000/accommodation/${accommodationDetail.information.id}`,
+          bidInformation
+=======
+        const { id } = JSON.parse(localStorage.getItem('user'));
+        const response = await axios.post(
+          `${process.env.REACT_APP_API_URL}/accommodation/${accommodationDetail.information.id}`,
+          bidInformation, {
+            headers: { userid : id}
+          }
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
         );
         if (response.status === 201) {
           history('/biddinglist');

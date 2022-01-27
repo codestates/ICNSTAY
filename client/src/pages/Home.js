@@ -2,9 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import Banner from '../components/Banner';
-import { useDispatch } from 'react-redux';
 import Card from '../components/Card';
-import { setUser } from '../actions';
 import Preloader from '../components/Preloader';
 
 const BannerContainer = styled.div`
@@ -33,10 +31,9 @@ const CardBox = styled.div`
   }
 `;
 
-const Home = ({ handleResponseSuccess }) => {
+const Home = ({ handleResponseSuccess, setUser }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [accommodationList, setAccomodationList] = useState([]);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     async function getData() {
@@ -61,7 +58,7 @@ const Home = ({ handleResponseSuccess }) => {
           console.log(result);
           const { id, email, social, username } = result.data.userFinder;
           handleResponseSuccess(kakaoAccessToken);
-          dispatch(setUser({ id, email, social, username }));
+          setUser({ id, email, social, username });
         }
       } catch (e) {
         console.log(e);

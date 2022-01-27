@@ -23,6 +23,7 @@ module.exports = async (req, res) => {
         expiresIn: '7h',
       });
   
+<<<<<<< Updated upstream
       const cookieOption = {
         sameSite: 'None',
         secure: false,
@@ -30,6 +31,15 @@ module.exports = async (req, res) => {
         domain: 'icnstay.shop'
       };
       res.cookie('refreshToken', refreshToken, cookieOption);
+=======
+      // const cookieOption = {
+      //   sameSite: 'None',
+      //   secure: false,
+      //   httpOnly: false,
+      //   domain: 'icnstay.shop'
+      // };
+      // res.cookie('refreshToken', refreshToken, cookieOption);
+>>>>>>> Stashed changes
       res.status(200).json({ accessToken, messeage: 'ok' });
     }
   } catch (e) {

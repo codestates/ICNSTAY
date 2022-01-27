@@ -3,9 +3,22 @@ const { user } = require('../../models');
 
 module.exports = {
   get: async ( req, res ) => {
+<<<<<<< Updated upstream
     if ( req.headers.accessToken ) {
       try {
         const tokenDecoder = jwt.verify(req.headers.accessToken, process.env.ACCESS_SECRET)
+=======
+<<<<<<< Updated upstream
+    if ( req.cookies.refreshToken ) {
+      try {
+        const tokenDecoder = jwt.verify(req.cookies.refreshToken, process.env.REFRESH_SECRET)
+=======
+    console.log(req.headers);
+    if ( req.headers.accesstoken ) {
+      try {
+        const tokenDecoder = jwt.verify(req.headers.accesstoken, process.env.ACCESS_SECRET)
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
         const { iat, exp, ...userInfo} = tokenDecoder;
         if ( !userInfo ) {
           res.status(404).json({ message: 'email not exist', data: null })

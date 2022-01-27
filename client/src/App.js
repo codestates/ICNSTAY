@@ -24,9 +24,20 @@ function App() {
   const [user, setUser] = useState(() => JSON.parse(localStorage.getItem('user')) || null);
 
   const getUser = async () => {
+    const accessToken = localStorage.getItem('token')
     try {
+<<<<<<< Updated upstream
       const accessToken = localStorage.getItem('token');
       const res = await axios.get(`${process.env.REACT_APP_API_URL}/userinfo`, {accessToken});
+=======
+<<<<<<< Updated upstream
+      const res = await axios.get('https://localhost:4000/userinfo');
+=======
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/userinfo`, {
+        headers: {accessToken}
+      });
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
       const userInfo = res.data;
       if (userInfo) {
         const { id, email, mobile, username, social } = userInfo;
@@ -44,9 +55,9 @@ function App() {
   };
 
   const handleResponseSuccess = (accessToken) => {
+    localStorage.setItem('token', accessToken);
     isAuthenticated();
     // localStorage.setItem('isSignIn', true);
-    localStorage.setItem('token', accessToken);
   };
 
   const handleSignOut = async () => {
@@ -96,7 +107,7 @@ function App() {
           <Route
             exact
             path="/"
-            element={<Home handleResponseSuccess={handleResponseSuccess} />}
+            element={<Home handleResponseSuccess={handleResponseSuccess} setUser={setUser}/>}
           ></Route>
           <Route
             path="/signin"
