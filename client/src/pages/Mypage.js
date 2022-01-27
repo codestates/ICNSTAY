@@ -147,7 +147,7 @@ const Mypage = ({ user, setUser }) => {
 
   const handleEditSubmit = async () => {
     try {
-      const response = await axios.put(`https://localhost:4000/userinfo/${user.id}`, {
+      const response = await axios.put(`${process.env.REACT_APP_API_URL}/userinfo/${user.id}`, {
         username,
         password: password === null ? password : sha256(password),
         mobile,
@@ -167,7 +167,7 @@ const Mypage = ({ user, setUser }) => {
 
   const handleDeleteSubmit = async () => {
     try {
-      const response = await axios.delete(`https://localhost:4000/userinfo/${user.id}`);
+      const response = await axios.delete(`${process.env.REACT_APP_API_URL}/userinfo/${user.id}`);
       if (response) {
         localStorage.clear();
         navigate('/');
