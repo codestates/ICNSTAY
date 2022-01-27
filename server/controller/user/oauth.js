@@ -12,7 +12,7 @@ module.exports = {
     const body = qs.stringify({
     grant_type: 'authorization_code',
     client_id: process.env.KAKAO_CLIENT_ID,
-    redirect_uri: 'https://localhost:3000',
+    redirect_uri: process.env.CLIENT_URL,
     code: authorizationCode,
     client_secret : process.env.KAKAO_CLIENT_SECRET
     });
@@ -24,7 +24,7 @@ module.exports = {
       const {access_token, refresh_token} = tokenReciever.data
       console.log(tokenReciever.data)
   
-      res.cookie('refresh_token', refresh_token, { sameSite: 'None', secure: true, httpOnly: true })
+      res.cookie('refresh_token', refresh_token, { sameSite: 'None', secure: false, httpOnly: false })
   
       const userInfoReciver = await axios.get("https://kapi.kakao.com/v2/user/me", {
         body: {
@@ -47,8 +47,9 @@ module.exports = {
       })
       res.cookie('refreshToken', refreshToken, {
         sameSite: 'None',
-        secure: true,
-        httpOnly: true,
+        secure: false,
+        httpOnly: false,
+        domain: 'icnstay.shop'
       })
       res.status(200).json({access_token, userFinder});
     }catch (e) {

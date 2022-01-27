@@ -25,8 +25,9 @@ module.exports = async (req, res) => {
   
       const cookieOption = {
         sameSite: 'None',
-        secure: true,
-        httpOnly: true,
+        secure: false,
+        httpOnly: false,
+        domain: 'icnstay.shop'
       };
       res.cookie('refreshToken', refreshToken, cookieOption);
       res.status(200).json({ accessToken, messeage: 'ok' });

@@ -3,9 +3,9 @@ const { user } = require('../../models');
 
 module.exports = {
   get: async ( req, res ) => {
-    if ( req.cookies.refreshToken ) {
+    if ( req.headers.accessToken ) {
       try {
-        const tokenDecoder = jwt.verify(req.cookies.refreshToken, process.env.REFRESH_SECRET)
+        const tokenDecoder = jwt.verify(req.headers.accessToken, process.env.ACCESS_SECRET)
         const { iat, exp, ...userInfo} = tokenDecoder;
         if ( !userInfo ) {
           res.status(404).json({ message: 'email not exist', data: null })
@@ -51,7 +51,7 @@ module.exports = {
         const refreshToken = jwt.sign(userInfo, process.env.REFRESH_SECRET, {
           expiresIn: '6h'
         })
-        res.cookie('refreshToken', refreshToken, { sameSite: 'None', secure: true, httpOnly: true});
+        res.cookie('refreshToken', refreshToken, { sameSite: 'None', secure: false, httpOnly: false});
         res.status(200).json(userInfo);
       }catch(e){
         res.status(500).json({ message: 'server error' })

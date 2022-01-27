@@ -7,7 +7,7 @@ module.exports = async (req, res) => {
   const { checkInDate, checkOutDate, biddingPrice } = req.body;
   if ( checkOutDate && checkOutDate && biddingPrice ) {
     try{
-      const { id } = jwt.verify( req.cookies.refreshToken, process.env.REFRESH_SECRET );
+      const { id } = jwt.verify( req.headers.accessToken, process.env.ACCESS_SECRET );
       await user_accommodation.create({
         userId: id,
         accommodationId,
