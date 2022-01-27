@@ -7,16 +7,8 @@ module.exports = async (req, res) => {
   const { checkInDate, checkOutDate, biddingPrice } = req.body;
   if ( checkOutDate && checkOutDate && biddingPrice ) {
     try{
-<<<<<<< Updated upstream
-      const { id } = jwt.verify( req.headers.accessToken, process.env.ACCESS_SECRET );
-=======
-<<<<<<< Updated upstream
-      const { id } = jwt.verify( req.cookies.refreshToken, process.env.REFRESH_SECRET );
-=======
       const userid = req.headers.userid;
       console.log(userid)
->>>>>>> Stashed changes
->>>>>>> Stashed changes
       await user_accommodation.create({
         userId: userid,
         accommodationId,
