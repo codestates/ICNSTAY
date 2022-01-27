@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { sha256 } from 'js-sha256';
 import axios from 'axios';
 import styled from 'styled-components';
@@ -98,7 +97,6 @@ const UserInput = styled.div`
 `;
 
 const Mypage = ({ user, setUser }) => {
-  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [edit, setEdit] = useState(false);
   const [username, setUsername] = useState(user.username);
@@ -170,7 +168,7 @@ const Mypage = ({ user, setUser }) => {
       const response = await axios.delete(`${process.env.REACT_APP_API_URL}/userinfo/${user.id}`);
       if (response) {
         localStorage.clear();
-        navigate('/');
+        window.location.replace('/');
       }
     } catch (err) {
       console.log(err);
